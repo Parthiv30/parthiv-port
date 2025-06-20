@@ -7,11 +7,13 @@ import {
   useTransform,
   AnimatePresence,
 } from "framer-motion";
+import { TypeAnimation } from "react-type-animation";
 import Particles from "react-tsparticles";
 import { loadSlim } from "tsparticles-slim";
 import convo from "./assets/convo.jpg";
 import convo2 from "./assets/convo2.jpg";
 import convo3 from "./assets/convo3.jpg";
+// import best from "./assets/best.jpg";
 import convo4 from "./assets/convo4.jpg";
 import medal from "./assets/medal.jpg";
 import travel from "./assets/travel.jpg";
@@ -21,10 +23,13 @@ import village from "./assets/village.jpg";
 import learnverselogo from "./assets/learnverselogo.jpg";
 import Lottie from "lottie-react";
 import animationData from "./assets/animation.json";
+import SAP1 from "./assets/certi/SAP2.png";
+import SAP6 from "./assets/certi/SAP6.png";
+import SAP11 from "./assets/certi/SAP11.png";
 
 import { BsTelephoneOutboundFill } from "react-icons/bs";
 
-
+import { FaExternalLinkAlt } from "react-icons/fa";
 // Import icons
 import {
   SiReact,
@@ -64,6 +69,8 @@ import {
   FaPaperPlane,
   FaCode,
   FaLaptopCode,
+  FaExpand,
+  FaTimes,
 } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 
@@ -100,6 +107,60 @@ const useAnimationVariants = () => {
   };
 };
 
+// Loader Component
+const Loader = () => (
+  <motion.div
+    initial={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    transition={{ duration: 0.5 }}
+    className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900"
+  >
+    <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-purple-500"></div>
+  </motion.div>
+);
+
+const Intro = ({ onComplete }) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+      className="fixed inset-0 z-40 flex items-center justify-center bg-slate-900"
+    >
+      <div className="text-center px-4">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-4">
+          Hey, I am Parthiv.
+        </h1>
+        <TypeAnimation
+          sequence={[
+            500, // Wait 1 second before starting
+            "Full-Stack Developer",
+            500, // Pause for 1.5 seconds
+            "",
+            500, // Erase
+            "Gold Medalist",
+            500,
+            "",
+            500,
+            "Certified SAP Developer",
+            500,
+            "",
+            500,
+            () => {
+              setTimeout(onComplete, 1000); // Wait 1 second before transitioning
+            },
+          ]}
+          wrapper="h2"
+          cursor={true}
+          repeat={0}
+          className="text-2xl sm:text-3xl md:text-4xl font-semibold text-purple-300"
+        />
+      </div>
+    </motion.div>
+  );
+};
+
 const Portfolio = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -107,6 +168,12 @@ const Portfolio = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [currentMedalIndex, setCurrentMedalIndex] = useState(0);
   const [isDarkMode, setIsDarkMode] = useState(true);
+  const [selectedCertificate, setSelectedCertificate] = useState(null);
+  const [isImageExpanded, setIsImageExpanded] = useState(false);
+  const [expandedCertificate, setExpandedCertificate] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isIntro, setIsIntro] = useState(false);
+  const [isContentVisible, setIsContentVisible] = useState(false);
 
   const { scrollY } = useScroll();
   const heroY = useTransform(scrollY, [0, 500], [0, -100]);
@@ -259,28 +326,6 @@ const Portfolio = () => {
     },
   ];
 
-  // Certificates data
-  const certificates = [
-    {
-      title: "Communicate Effectively",
-      issuer: "Google",
-      image: "/placeholder.svg?height=200&width=300",
-      icon: <SiGoogle size={24} color="#4285F4" />,
-    },
-    {
-      title: "Emotional Intelligence",
-      issuer: "Accenture",
-      image: "/placeholder.svg?height=200&width=300",
-      icon: <FaAward size={24} color="#A100FF" />,
-    },
-    {
-      title: "Git & GitHub",
-      issuer: "Coursera",
-      image: "/placeholder.svg?height=200&width=300",
-      icon: <SiCoursera size={24} color="#0056D3" />,
-    },
-  ];
-
   // Projects data
   const featuredProjects = [
     {
@@ -319,6 +364,55 @@ const Portfolio = () => {
     },
   ];
 
+  // Comprehensive certifications data
+  const certifications = [
+    // SAP Certifications
+    {
+      id: 1,
+      title: "SAP Certified Associate – Back-End Developer – ABAP Cloud",
+      issuer: "SAP",
+      category: "SAP Certifications",
+      image: SAP1,
+      url: "https://www.credly.com/badges/dcf5d3dc-0a23-47ef-9470-ef85e0ffa55a/linked_in?t=swtg7q",
+      icon: <SiSap size={24} color="#0FAAFF" />,
+      date: "2025",
+      score: "84%",
+      description:
+        "Comprehensive certification covering ABAP Cloud development, RESTful services, and modern SAP development practices.",
+      skills: [
+        "ABAP Cloud",
+        "RESTful Services",
+        "SAP BTP",
+        "Core Data Services",
+      ],
+    },
+    {
+      id: 6,
+      title: "SAP Technology Consultant Hands-on Project",
+      issuer: "Coursera",
+      category: "SAP Certifications",
+      image: SAP6,
+      url: "https://www.coursera.org/account/accomplishments/records/KEAHX12H1LS0",
+      icon: <SiCoursera size={24} color="#0056D3" />,
+      date: "2025",
+      description:
+        "Capstone project applying real-world SAP knowledge in a business context.",
+      skills: ["SAP Practice", "Client Demo", "Project Simulation"],
+    },
+    {
+      id: 11,
+      title: "Introduction to Agile Development and Scrum",
+      issuer: "Coursera",
+      category: "Software Development & Engineering",
+      image: SAP11,
+      url: "https://www.credly.com/badges/eea3c732-cc90-472d-972b-1dae4acec258/linked_in_profile",
+      icon: <SiCoursera size={24} color="#0056D3" />,
+      date: "2025",
+      description:
+        "Covers Agile methodologies, Scrum ceremonies, and team roles.",
+      skills: ["Agile", "Scrum", "Teamwork"],
+    },
+  ];
   // Auto-cycle images
   useEffect(() => {
     const interval = setInterval(() => {
@@ -362,9 +456,34 @@ const Portfolio = () => {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    const loadingTimer = setTimeout(() => {
+      setIsLoading(false);
+      setIsIntro(true);
+    }, 2000);
+    return () => clearTimeout(loadingTimer);
+  }, []);
+
+  useEffect(() => {
+    if (isLoading || isIntro) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [isLoading, isIntro]);
+
+  const handleIntroComplete = () => {
+    setIsIntro(false);
+    setIsContentVisible(true);
+  };
+
   const navItems = ["Home", "About", "Projects", "Contact"];
 
   return (
+    <>
+    {isLoading && <Loader />}
+      {isIntro && <Intro onComplete={handleIntroComplete} />}
+      {isContentVisible && (
     <div
       className={`min-h-screen ${
         isDarkMode ? "bg-slate-900 text-white" : "bg-gray-50 text-gray-900"
@@ -435,7 +554,7 @@ const Portfolio = () => {
                 className="ml-4 px-6 py-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full text-sm font-medium hover:from-purple-600 hover:to-pink-600 transition-all duration-200 text-white"
                 style={{ fontFamily: "'Poppins', sans-serif" }}
               >
-               Let's Connect
+                Let's Connect
               </motion.button>
             </div>
 
@@ -557,13 +676,29 @@ const Portfolio = () => {
             className="text-4xl sm:text-5xl lg:text-7xl font-bold leading-tight mb-8"
             style={{ fontFamily: "'Playfair Display', serif" }}
           >
-            Top-ranked developer turning{" "}
-            <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
-              academic excellence{" "}
+            <span
+              className={`${isDarkMode ? "text-white" : "text-gray-900"}`}
+              style={{
+                textShadow:
+                  "0 0 20px rgba(255, 255, 255,0.5), 0 0 40px rgba(255, 255, 255, 0.3), 0 0 60px rgba(255, 255, 255, 0.2)",
+              }}
+            >
+              Passionate Developer: Transforming{" "}
             </span>
-            into{" "}
             <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
-              software excellence
+              Academic Excellence{" "}
+            </span>
+            <span
+              className={`${isDarkMode ? "text-white" : "text-gray-900"}`}
+              style={{
+                textShadow:
+                  "0 0 20px rgba(255, 255, 255,0.5), 0 0 40px rgba(255, 255, 255, 0.3), 0 0 60px rgba(255, 255, 255, 0.2)",
+              }}
+            >
+              into{" "}
+            </span>
+            <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
+              Software Mastery
             </span>
           </motion.h1>
 
@@ -571,7 +706,7 @@ const Portfolio = () => {
           <motion.div
             {...variants.fadeInUp}
             transition={{ delay: 0.6 }}
-            className="flex items-center justify-center space-x-4 mb-12 font-outfit"
+            className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 mb-12 font-outfit"
           >
             <span
               className={`text-xl sm:text-2xl ${
@@ -587,11 +722,11 @@ const Portfolio = () => {
             >
               Parthiv Shingala
             </span>
-            <div className="w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
+            <div className="flex-shrink-0 min-w-0 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
               <img
-                src="/placeholder.svg?height=40&width=40"
+                src={best}
                 alt="Parthiv Shingala"
-                className="w-10 h-10 rounded-full object-cover"
+                className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full object-cover"
                 onError={(e) => {
                   e.target.style.display = "none";
                   e.target.nextSibling.style.display = "block";
@@ -600,7 +735,7 @@ const Portfolio = () => {
               <span className="text-white font-bold text-lg hidden">PS</span>
             </div>
             <span
-              className={`text-xl  sm:text-2xl ${
+              className={`text-xl sm:text-2xl ${
                 isDarkMode ? "text-gray-400" : "text-gray-500"
               }`}
             >
@@ -677,7 +812,7 @@ const Portfolio = () => {
                   d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                 />
               </svg>
-               parthivshingala@gmail.com
+              parthivshingala@gmail.com
             </motion.a>
           </motion.div>
         </motion.div>
@@ -718,10 +853,13 @@ const Portfolio = () => {
               >
                 <span
                   className={`${isDarkMode ? "text-white" : "text-gray-900"}`}
+                  style={{
+                    textShadow:
+                      "0 0 20px rgba(255, 255, 255,0.5), 0 0 40px rgba(255, 255, 255, 0.3), 0 0 60px rgba(255, 255, 255, 0.2)",
+                  }}
                 >
-                  Hi there!
+                  Hi there! I'm{}
                 </span>{" "}
-                I'm{" "}
                 <span className="bg-gradient-to-r  from-purple-500 to-pink-500 bg-clip-text text-transparent italic">
                   Parthiv
                 </span>
@@ -729,38 +867,43 @@ const Portfolio = () => {
 
               {/* Paragraphs */}
               <div
-  className={`space-y-6 ${isDarkMode ? "text-light-gray" : "text-gray-600"} text-lg leading-relaxed font-outfit`}
->
-  <motion.p
-    {...variants.fadeInUp}
-    viewport={{ once: true }}
-    transition={{ delay: 0.4 }}
-  >
-    I'm Parthiv Shingala, a passionate full-stack developer turning complex
-    ideas into powerful web applications. With a Gold Medal in BCA and SAP
-    Certification, I specialize in creating scalable, user-focused solutions
-    using MERN, PHP, and Firebase.
-  </motion.p>
+                className={`space-y-6 ${
+                  isDarkMode ? "text-light-gray" : "text-gray-600"
+                } text-lg leading-relaxed font-outfit`}
+              >
+                <motion.p
+                  {...variants.fadeInUp}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.4 }}
+                >
+                  I'm Parthiv Shingala, a passionate full-stack developer
+                  turning complex ideas into powerful web applications. With a
+                  Gold Medal in BCA and SAP Certification, I specialize in
+                  creating scalable, user-focused solutions using MERN, PHP, and
+                  Firebase.
+                </motion.p>
 
-  <motion.p
-    {...variants.fadeInUp}
-    viewport={{ once: true }}
-    transition={{ delay: 0.5 }}
-  >
-    Outside of code, I explore design, follow tech trends, and enjoy deep work
-    sessions with music. I'm constantly curious and believe in evolving both
-    professionally and personally.
-  </motion.p>
+                <motion.p
+                  {...variants.fadeInUp}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.5 }}
+                >
+                  Outside of code, I explore design, follow tech trends, and
+                  enjoy deep work sessions with music. I'm constantly curious
+                  and believe in evolving both professionally and personally.
+                </motion.p>
 
-  <motion.p
-    {...variants.fadeInUp}
-    viewport={{ once: true }}
-    transition={{ delay: 0.6 }}
-    className={`${isDarkMode ? "text-white" : "text-gray-900"} font-semibold font-opensans`}
-  >
-    I wake up every day eager to build something meaningful.
-  </motion.p>
-</div>
+                <motion.p
+                  {...variants.fadeInUp}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.6 }}
+                  className={`${
+                    isDarkMode ? "text-white" : "text-gray-900"
+                  } font-semibold font-opensans`}
+                >
+                  I wake up every day eager to build something meaningful.
+                </motion.p>
+              </div>
 
               {/* Social Links */}
               <motion.div
@@ -959,6 +1102,10 @@ const Portfolio = () => {
             >
               <span
                 className={`${isDarkMode ? "text-white" : "text-gray-900"}`}
+                style={{
+                  textShadow:
+                    "0 0 20px rgba(255, 255, 255,0.5), 0 0 40px rgba(255, 255, 255, 0.3), 0 0 60px rgba(255, 255, 255, 0.2)",
+                }}
               >
                 The Secret{" "}
               </span>
@@ -1038,6 +1185,10 @@ const Portfolio = () => {
             >
               <span
                 className={`${isDarkMode ? "text-white" : "text-gray-900"}`}
+                style={{
+                  textShadow:
+                    "0 0 20px rgba(255, 255, 255,0.5), 0 0 40px rgba(255, 255, 255, 0.3), 0 0 60px rgba(255, 255, 255, 0.2)",
+                }}
               >
                 My Recent{" "}
               </span>
@@ -1138,32 +1289,36 @@ const Portfolio = () => {
 
                   {/* View Project Button */}
                   <motion.button
-  whileHover={{
-    scale: 1.02,
-    boxShadow: "0 10px 25px rgba(168, 85, 247, 0.3)",
-  }}
-  whileTap={{ scale: 0.98 }}
-  className="w-full py-3 bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30 rounded-lg text-white font-medium hover:from-purple-500/30 hover:to-pink-500/30 hover:border-purple-500/50 transition-all duration-300 group-hover:shadow-lg font-outfit"
->
-  <NavLink to={`/ProjectShowcase/${project.title.toLowerCase().replace(/\s+/g, "-")}`}>
-    <span className="flex items-center justify-center">
-      View Project
-      <svg
-        className="ml-2 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M17 8l4 4m0 0l-4 4m4-4H3"
-        />
-      </svg>
-    </span>
-  </NavLink>
-</motion.button>
+                    whileHover={{
+                      scale: 1.02,
+                      boxShadow: "0 10px 25px rgba(168, 85, 247, 0.3)",
+                    }}
+                    whileTap={{ scale: 0.98 }}
+                    className="w-full py-3 bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30 rounded-lg text-white font-medium hover:from-purple-500/30 hover:to-pink-500/30 hover:border-purple-500/50 transition-all duration-300 group-hover:shadow-lg font-outfit"
+                  >
+                    <NavLink
+                      to={`/ProjectShowcase/${project.title
+                        .toLowerCase()
+                        .replace(/\s+/g, "-")}`}
+                    >
+                      <span className="flex items-center justify-center">
+                        View Project
+                        <svg
+                          className="ml-2 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M17 8l4 4m0 0l-4 4m4-4H3"
+                          />
+                        </svg>
+                      </span>
+                    </NavLink>
+                  </motion.button>
                 </div>
               </motion.div>
             ))}
@@ -1182,7 +1337,7 @@ const Portfolio = () => {
                 boxShadow: "0 20px 40px rgba(168, 85, 247, 0.3)",
               }}
               whileTap={{ scale: 0.95 }}
-              className="px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full font-semibold text-lg hover:from-purple-600 hover:to-pink-600 transition-all duration-300 shadow-lg text-white font-outfit" 
+              className="px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full font-semibold text-lg hover:from-purple-600 hover:to-pink-600 transition-all duration-300 shadow-lg text-white font-outfit"
             >
               View All Projects
               <svg
@@ -1498,34 +1653,38 @@ const Portfolio = () => {
               Professional Certifications
             </motion.h3>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              {certificates.map((cert, index) => (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.5 }}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            >
+              {certifications.map((cert, index) => (
                 <motion.div
-                  key={cert.title}
-                  initial={{ opacity: 0, y: 50 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
+                  key={cert.id}
+                  initial={{ opacity: 0, y: 50, scale: 0.9 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
                   transition={{
-                    delay: 1.4 + index * 0.2,
-                    duration: 0.8,
-                    ease: "easeOut",
+                    duration: 0.6,
+                    delay: index * 0.1,
+                    type: "spring",
+                    stiffness: 100,
                   }}
                   whileHover={{
-                    scale: 1.05,
+                    scale: 1.03,
                     y: -10,
                     boxShadow: "0 25px 50px rgba(168, 85, 247, 0.3)",
                   }}
                   className={`group ${
                     isDarkMode
-                      ? "bg-slate-800/40 border-slate-700/50 hover:border-purple-500/50"
-                      : "bg-white/40 border-gray-200/50 hover:border-purple-500/50"
-                  } backdrop-blur-sm rounded-xl overflow-hidden border transition-all duration-300 cursor-pointer`}
-                  style={{
-                    boxShadow: "0 0 0 1px rgba(168, 85, 247, 0.1)",
-                  }}
+                      ? "bg-slate-800/50 border-slate-700/50 hover:border-purple-500/50"
+                      : "bg-white/50 border-gray-200/50 hover:border-purple-500/50"
+                  } backdrop-blur-sm rounded-xl overflow-hidden border transition-all duration-300 cursor-pointer min-h-[500px]`}
+                  onClick={() => setSelectedCertificate(cert)}
                 >
-                  {/* Certificate Image */}
-                  <div className="h-48 bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center relative overflow-hidden">
+                  {/* Certificate Image - Increased height */}
+                  <div className="relative h-64 bg-gradient-to-br from-purple-500/20 to-pink-500/20 overflow-hidden">
                     <img
                       src={cert.image || "/placeholder.svg"}
                       alt={cert.title}
@@ -1539,67 +1698,115 @@ const Portfolio = () => {
                       <FaCertificate size={80} className="text-purple-400" />
                     </div>
 
-                    {/* Hover Glow Effect */}
+                    {/* Category Tag */}
+                    <div className="absolute top-4 left-4">
+                      <span className="px-3 py-1 bg-black/50 backdrop-blur-sm text-white text-xs font-medium rounded-full">
+                        {cert.category.split(" ")[0]}
+                      </span>
+                    </div>
+
+                    {/* Score Badge (if available) */}
+                    {cert.score && (
+                      <div className="absolute top-4 right-4">
+                        <span className="px-3 py-1 bg-green-500/90 backdrop-blur-sm text-white text-xs font-bold rounded-full">
+                          {cert.score}
+                        </span>
+                      </div>
+                    )}
+
+                    {/* Hover Overlay */}
                     <motion.div
                       initial={{ opacity: 0 }}
                       whileHover={{ opacity: 1 }}
-                      className="absolute inset-0 bg-gradient-to-t from-purple-900/50 via-transparent to-transparent"
-                    />
+                      className="absolute inset-0 bg-gradient-to-t from-purple-900/80 via-transparent to-transparent flex items-end justify-center pb-4"
+                    >
+                      <span className="text-white font-medium text-sm bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full">
+                        Click to view details
+                      </span>
+                    </motion.div>
                   </div>
 
-                  {/* Certificate Content */}
-                  <div className="p-6">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="flex-1">
-                        <motion.h4
-                          className={`text-lg font-bold ${
-                            isDarkMode ? "text-white" : "text-gray-900"
-                          } mb-2 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-purple-400 group-hover:to-pink-400 group-hover:bg-clip-text transition-all duration-300`}
-                          style={{ fontFamily: "'Playfair Display', serif" }}
-                        >
-                          {cert.title}
-                        </motion.h4>
-                        <p
-                          className={`${
-                            isDarkMode ? "text-gray-400" : "text-gray-500"
-                          } text-sm font-medium`}
-                          style={{ fontFamily: "'Poppins', sans-serif" }}
-                        >
-                          Issued by {cert.issuer}
-                        </p>
+                  {/* Certificate Content - Adjusted for increased height */}
+                  <div className="p-6 flex flex-col justify-between flex-1">
+                    <div>
+                      <div className="flex items-start justify-between mb-4">
+                        <div className="flex-1">
+                          <h3
+                            className={`text-lg font-bold ${
+                              isDarkMode ? "text-white" : "text-gray-900"
+                            } mb-2 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-purple-400 group-hover:to-pink-400 group-hover:bg-clip-text transition-all duration-300 line-clamp-2`}
+                            style={{ fontFamily: "'Playfair Display', serif" }}
+                          >
+                            {cert.title}
+                          </h3>
+                          <div className="flex items-center mb-3">
+                            <div className="mr-3 group-hover:scale-110 transition-transform duration-300">
+                              {cert.icon}
+                            </div>
+                            <div>
+                              <p
+                                className={`${
+                                  isDarkMode ? "text-gray-300" : "text-gray-600"
+                                } text-sm font-medium`}
+                                style={{ fontFamily: "'Poppins', sans-serif" }}
+                              >
+                                {cert.issuer}
+                              </p>
+                              <p
+                                className={`${
+                                  isDarkMode ? "text-gray-400" : "text-gray-500"
+                                } text-xs`}
+                              >
+                                {cert.date}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
                       </div>
 
-                      <motion.div
-                        whileHover={{ scale: 1.2, rotate: 10 }}
-                        className={`ml-4 p-2 ${
-                          isDarkMode
-                            ? "bg-slate-700/50 group-hover:bg-purple-500/20"
-                            : "bg-gray-100/50 group-hover:bg-purple-500/20"
-                        } rounded-lg transition-all duration-300`}
-                      >
-                        {cert.icon}
-                      </motion.div>
+                      {/* Skills Tags */}
+                      {cert.skills && (
+                        <div className="flex flex-wrap gap-2 mb-4">
+                          {cert.skills.slice(0, 3).map((skill, skillIndex) => (
+                            <span
+                              key={skillIndex}
+                              className="px-2 py-1 bg-purple-500/10 text-purple-300 rounded-md text-xs font-medium border border-purple-500/20"
+                            >
+                              {skill}
+                            </span>
+                          ))}
+                          {cert.skills.length > 3 && (
+                            <span className="px-2 py-1 bg-gray-500/10 text-gray-400 rounded-md text-xs font-medium">
+                              +{cert.skills.length - 3} more
+                            </span>
+                          )}
+                        </div>
+                      )}
                     </div>
 
-                    {/* Certificate Badge */}
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      whileInView={{ opacity: 1, scale: 1 }}
-                      viewport={{ once: true }}
-                      transition={{
-                        delay: 1.6 + index * 0.2,
-                        duration: 0.4,
+                    {/* View Certificate Button */}
+                    <motion.button
+                      whileHover={{
+                        scale: 1.02,
+                        boxShadow: "0 10px 25px rgba(168, 85, 247, 0.3)",
                       }}
-                      className="inline-flex items-center px-3 py-1 bg-purple-500/10 text-purple-300 rounded-full text-sm font-medium border border-purple-500/20 group-hover:border-purple-500/40 group-hover:bg-purple-500/20 transition-all duration-300"
+                      whileTap={{ scale: 0.98 }}
+                      className="w-full py-3 bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30 rounded-lg text-white font-medium hover:from-purple-500/30 hover:to-pink-500/30 hover:border-purple-500/50 transition-all duration-300 group-hover:shadow-lg"
                       style={{ fontFamily: "'Poppins', sans-serif" }}
                     >
-                      <FaAward size={12} className="mr-2" />
-                      Certified
-                    </motion.div>
+                      <span className="flex items-center justify-center">
+                        <FaAward className="mr-2" size={16} />
+                        View Certificate
+                        <FaExternalLinkAlt
+                          className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                          size={12}
+                        />
+                      </span>
+                    </motion.button>
                   </div>
                 </motion.div>
               ))}
-            </div>
+            </motion.div>
           </motion.div>
 
           {/* View All Certificates Button */}
@@ -1610,17 +1817,19 @@ const Portfolio = () => {
             transition={{ delay: 2, duration: 0.6 }}
             className="text-center"
           >
-            <motion.button
-              whileHover={{
-                scale: 1.05,
-                boxShadow: "0 20px 40px rgba(168, 85, 247, 0.3)",
-              }}
-              whileTap={{ scale: 0.95 }}
-              className="px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full font-semibold text-lg hover:from-purple-600 hover:to-pink-600 transition-all duration-300 shadow-lg text-white"
-              style={{ fontFamily: "'Poppins', sans-serif" }}
-            >
-              View All Certifications →
-            </motion.button>
+            <NavLink to="/AllCertifications">
+              <motion.button
+                whileHover={{
+                  scale: 1.05,
+                  boxShadow: "0 20px 40px rgba(168, 85, 247, 0.3)",
+                }}
+                whileTap={{ scale: 0.95 }}
+                className="px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full font-semibold text-lg hover:from-purple-600 hover:to-pink-600 transition-all duration-300 shadow-lg text-white"
+                style={{ fontFamily: "'Poppins', sans-serif" }}
+              >
+                <span>View All Certifications →</span>
+              </motion.button>
+            </NavLink>
           </motion.div>
         </div>
       </section>
@@ -1657,6 +1866,10 @@ const Portfolio = () => {
             >
               <span
                 className={`${isDarkMode ? "text-white" : "text-gray-900"}`}
+                style={{
+                  textShadow:
+                    "0 0 20px rgba(255, 255, 255,0.5), 0 0 40px rgba(255, 255, 255, 0.3), 0 0 60px rgba(255, 255, 255, 0.2)",
+                }}
               >
                 SAP x{" "}
               </span>
@@ -1665,6 +1878,10 @@ const Portfolio = () => {
               </span>
               <span
                 className={`${isDarkMode ? "text-white" : "text-gray-900"}`}
+                style={{
+                  textShadow:
+                    "0 0 20px rgba(255, 255, 255,0.5), 0 0 40px rgba(255, 255, 255, 0.3), 0 0 60px rgba(255, 255, 255, 0.2)",
+                }}
               >
                 {" "}
                 Internship
@@ -1924,6 +2141,10 @@ const Portfolio = () => {
             >
               <span
                 className={`${isDarkMode ? "text-white" : "text-gray-900"}`}
+                style={{
+                  textShadow:
+                    "0 0 20px rgba(255, 255, 255,0.5), 0 0 40px rgba(255, 255, 255, 0.3), 0 0 60px rgba(255, 255, 255, 0.2)",
+                }}
               >
                 Let's{" "}
               </span>
@@ -1964,13 +2185,12 @@ const Portfolio = () => {
               transition={{ delay: 0.6 }}
               className="flex-1 flex justify-center lg:justify-start"
             >
-              <div className="relative">
-                {/* Animated Avatar Container */}
-                <Lottie 
-    animationData={animationData} 
-    loop={true} 
-    className="w-[32rem] h-[32rem]" // adjust size as needed
-  />
+              <div className="relative w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl aspect-square">
+                <Lottie
+                  animationData={animationData}
+                  loop={true}
+                  className="w-full h-full"
+                />
               </div>
             </motion.div>
 
@@ -2318,8 +2538,284 @@ const Portfolio = () => {
         </div>
       </footer>
 
+      {/* Certificate Modal with Custom Scrollbar */}
+      <AnimatePresence>
+        {selectedCertificate && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+            onClick={() => {
+              setSelectedCertificate(null);
+              setIsImageExpanded(false);
+            }}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8, y: 50 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.8, y: 50 }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              className={`${
+                isDarkMode ? "bg-slate-800" : "bg-white"
+              } rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl custom-scrollbar`}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Modal Header - Clickable image for full view */}
+              <div className="relative">
+                <div
+                  className="h-64 bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center cursor-pointer group"
+                  onClick={() => {
+                    setExpandedCertificate(selectedCertificate);
+                    setSelectedCertificate(null);
+                    setIsImageExpanded(true);
+                  }}
+                >
+                  <img
+                    src={selectedCertificate.image || "/placeholder.svg"}
+                    alt={selectedCertificate.title}
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    onError={(e) => {
+                      e.target.style.display = "none";
+                      e.target.nextSibling.style.display = "flex";
+                    }}
+                  />
+                  <div className="w-full h-full bg-gradient-to-br from-purple-500/20 to-pink-500/20 hidden items-center justify-center">
+                    <FaCertificate size={120} className="text-purple-400" />
+                  </div>
+
+                  {/* Expand overlay */}
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    whileHover={{ opacity: 1 }}
+                    className="absolute inset-0 bg-black/50 flex items-center justify-center"
+                  >
+                    <div className="bg-white/20 backdrop-blur-sm rounded-full p-3">
+                      <FaExpand className="text-white" size={24} />
+                    </div>
+                  </motion.div>
+                </div>
+
+                {/* Close Button */}
+                <motion.button
+                  whileHover={{ scale: 1.1, rotate: 90 }}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={() => {
+                    setSelectedCertificate(null);
+                    setIsImageExpanded(false);
+                  }}
+                  className="absolute top-4 right-4 w-10 h-10 bg-black/50 backdrop-blur-sm text-white rounded-full flex items-center justify-center hover:bg-black/70 transition-colors z-10"
+                >
+                  <FaTimes size={16} />
+                </motion.button>
+              </div>
+
+              {/* Modal Content */}
+              <div className="p-8">
+                <div className="flex items-start justify-between mb-6">
+                  <div className="flex-1">
+                    <h2
+                      className={`text-2xl sm:text-3xl font-bold ${
+                        isDarkMode ? "text-white" : "text-gray-900"
+                      } mb-3`}
+                      style={{ fontFamily: "'Playfair Display', serif" }}
+                    >
+                      {selectedCertificate.title}
+                    </h2>
+                    <div className="flex items-center mb-4">
+                      <div className="mr-4">{selectedCertificate.icon}</div>
+                      <div>
+                        <p
+                          className={`${
+                            isDarkMode ? "text-gray-300" : "text-gray-600"
+                          } text-lg font-medium`}
+                          style={{ fontFamily: "'Poppins', sans-serif" }}
+                        >
+                          {selectedCertificate.issuer}
+                        </p>
+                        <p
+                          className={`${
+                            isDarkMode ? "text-gray-400" : "text-gray-500"
+                          } text-sm`}
+                        >
+                          Issued in {selectedCertificate.date}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {selectedCertificate.score && (
+                    <div className="text-center">
+                      <div className="text-3xl font-bold text-green-400 mb-1">
+                        {selectedCertificate.score}
+                      </div>
+                      <div
+                        className={`text-sm ${
+                          isDarkMode ? "text-gray-400" : "text-gray-500"
+                        }`}
+                      >
+                        Score
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Category Badge */}
+                <div className="mb-6">
+                  <span className="px-4 py-2 bg-purple-500/10 text-purple-300 rounded-full text-sm font-medium border border-purple-500/20">
+                    {selectedCertificate.category}
+                  </span>
+                </div>
+
+                {/* Description */}
+                <div className="mb-8">
+                  <h3
+                    className={`text-lg font-semibold ${
+                      isDarkMode ? "text-white" : "text-gray-900"
+                    } mb-3`}
+                    style={{ fontFamily: "'Playfair Display', serif" }}
+                  >
+                    About this Certification
+                  </h3>
+                  <p
+                    className={`${
+                      isDarkMode ? "text-gray-300" : "text-gray-600"
+                    } leading-relaxed`}
+                    style={{ fontFamily: "'Poppins', sans-serif" }}
+                  >
+                    {selectedCertificate.description}
+                  </p>
+                </div>
+
+                {/* Skills */}
+                {selectedCertificate.skills && (
+                  <div className="mb-8">
+                    <h3
+                      className={`text-lg font-semibold ${
+                        isDarkMode ? "text-white" : "text-gray-900"
+                      } mb-4`}
+                      style={{ fontFamily: "'Playfair Display', serif" }}
+                    >
+                      Skills Covered
+                    </h3>
+                    <div className="flex flex-wrap gap-3">
+                      {selectedCertificate.skills.map((skill, index) => (
+                        <motion.span
+                          key={index}
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{ delay: index * 0.1 }}
+                          className="px-4 py-2 bg-purple-500/10 text-purple-300 rounded-lg text-sm font-medium border border-purple-500/20 hover:bg-purple-500/20 transition-colors"
+                        >
+                          {skill}
+                        </motion.span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Action Buttons */}
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <motion.a
+                    href={selectedCertificate.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    whileHover={{
+                      scale: 1.02,
+                      boxShadow: "0 20px 40px rgba(168, 85, 247, 0.4)",
+                    }}
+                    whileTap={{ scale: 0.98 }}
+                    className="flex-1 px-6 py-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl font-semibold text-lg hover:from-purple-600 hover:to-pink-600 transition-all duration-300 shadow-lg text-white text-center"
+                    style={{ fontFamily: "'Poppins', sans-serif" }}
+                  >
+                    <span className="flex items-center justify-center">
+                      <FaExternalLinkAlt className="mr-3" size={18} />
+                      View Certificate
+                    </span>
+                  </motion.a>
+
+                  <motion.button
+                    whileHover={{
+                      scale: 1.02,
+                      boxShadow: "0 10px 25px rgba(168, 85, 247, 0.2)",
+                    }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => {
+                      setSelectedCertificate(null);
+                      setIsImageExpanded(false);
+                    }}
+                    className={`px-6 py-4 ${
+                      isDarkMode
+                        ? "bg-slate-700 hover:bg-slate-600 text-white"
+                        : "bg-gray-200 hover:bg-gray-300 text-gray-900"
+                    } rounded-xl font-semibold transition-all duration-300`}
+                    style={{ fontFamily: "'Poppins', sans-serif" }}
+                  >
+                    Close
+                  </motion.button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Full Screen Image Modal */}
+      <AnimatePresence>
+        {isImageExpanded && expandedCertificate && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/95 backdrop-blur-sm"
+            onClick={() => {
+              setIsImageExpanded(false);
+              setExpandedCertificate(null);
+            }}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              className="relative max-w-6xl max-h-[90vh] w-full h-full flex items-center justify-center"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <img
+                src={expandedCertificate.image || "/placeholder.svg"}
+                alt={expandedCertificate.title}
+                className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
+              />
+
+              {/* Close Button */}
+              <motion.button
+                whileHover={{ scale: 1.1, rotate: 90 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={() => {
+                  setIsImageExpanded(false);
+                  setExpandedCertificate(null);
+                }}
+                className="absolute top-4 right-4 w-12 h-12 bg-black/50 backdrop-blur-sm text-white rounded-full flex items-center justify-center hover:bg-black/70 transition-colors"
+              >
+                <FaTimes size={20} />
+              </motion.button>
+
+              {/* Image Info */}
+              <div className="absolute bottom-4 left-4 right-4 bg-black/50 backdrop-blur-sm rounded-lg p-4">
+                <h3 className="text-white font-semibold text-lg mb-1">
+                  {expandedCertificate.title}
+                </h3>
+                <p className="text-gray-300 text-sm">
+                  {expandedCertificate.issuer} • {expandedCertificate.date}
+                </p>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Floating Book a Call Button */}
-      <motion.button
+      {/* <motion.button
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
         transition={{ delay: 2 }}
@@ -2335,8 +2831,10 @@ const Portfolio = () => {
           <BsTelephoneOutboundFill className="mr-2 text-white" />
           Let's Connect
         </span>
-      </motion.button>
+      </motion.button> */}
     </div>
+      )}
+    </>
   );
 };
 

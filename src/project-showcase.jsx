@@ -1,16 +1,27 @@
-"use client"
+"use client";
 
-import { useState, useEffect, useCallback } from "react"
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
-import Particles from "react-tsparticles"
-import { loadSlim } from "tsparticles-slim"
-import * as SiIcons from "react-icons/si"
-import * as FaIcons from "react-icons/fa"
-import { FaExternalLinkAlt, FaArrowLeft } from "react-icons/fa"
-import { IoClose, IoChevronBack, IoChevronForward, IoChevronUp, IoChevronDown } from "react-icons/io5"
-import { NavLink, useParams } from "react-router-dom"
-import { projects } from "./projectsData"
-import { IoIosLaptop } from "react-icons/io"
+import { useState, useEffect, useCallback } from "react";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  AnimatePresence,
+} from "framer-motion";
+import Particles from "react-tsparticles";
+import { loadSlim } from "tsparticles-slim";
+import * as SiIcons from "react-icons/si";
+import * as FaIcons from "react-icons/fa";
+import { FaExternalLinkAlt, FaArrowLeft } from "react-icons/fa";
+import {
+  IoClose,
+  IoChevronBack,
+  IoChevronForward,
+  IoChevronUp,
+  IoChevronDown,
+} from "react-icons/io5";
+import { NavLink, useParams } from "react-router-dom";
+import { projects } from "./projectsData";
+import { IoIosLaptop } from "react-icons/io";
 
 // Custom hook for animations
 const useAnimationVariants = () => {
@@ -42,35 +53,54 @@ const useAnimationVariants = () => {
         },
       },
     },
-  }
-}
+  };
+};
 
 const ProjectShowcase = () => {
-  const { projectId } = useParams()
-  const [currentProject, setCurrentProject] = useState(null)
-  const [currentImageIndex, setCurrentImageIndex] = useState(0)
-  const [currentFeatureIndex, setCurrentFeatureIndex] = useState(0)
-  const [isLightboxOpen, setIsLightboxOpen] = useState(false)
-  const [lightboxImageIndex, setLightboxImageIndex] = useState(0)
-  const [scrolled, setScrolled] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { projectId } = useParams();
+  const [currentProject, setCurrentProject] = useState(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [currentFeatureIndex, setCurrentFeatureIndex] = useState(0);
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const [lightboxImageIndex, setLightboxImageIndex] = useState(0);
+  const [scrolled, setScrolled] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(true);
+  const [currentTime, setCurrentTime] = useState("");
 
-  const { scrollY } = useScroll()
-  const heroY = useTransform(scrollY, [0, 500], [0, -100])
-  const heroOpacity = useTransform(scrollY, [0, 300], [1, 0])
-  const variants = useAnimationVariants()
+  const { scrollY } = useScroll();
+  const heroY = useTransform(scrollY, [0, 500], [0, -100]);
+  const heroOpacity = useTransform(scrollY, [0, 300], [1, 0]);
+  const variants = useAnimationVariants();
 
   // Find current project based on URL parameter
   useEffect(() => {
     if (projectId) {
-      const project = projects.find((p) => p.id === projectId)
-      setCurrentProject(project)
+      const project = projects.find((p) => p.id === projectId);
+      setCurrentProject(project);
     }
-  }, [projectId])
+  }, [projectId]);
 
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      const indiaTime = new Intl.DateTimeFormat("en-IN", {
+        timeZone: "Asia/Kolkata",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      }).format(now);
+      setCurrentTime(`India — ${indiaTime} IST`);
+    };
+
+    updateTime();
+    const interval = setInterval(updateTime, 60000);
+    return () => clearInterval(interval);
+  }, []);
   // Particles configuration
   const particlesInit = useCallback(async (engine) => {
-    await loadSlim(engine)
-  }, [])
+    await loadSlim(engine);
+  }, []);
 
   const particlesConfig = {
     background: {
@@ -140,96 +170,111 @@ const ProjectShowcase = () => {
       },
     },
     detectRetina: true,
-  }
+  };
 
   // Helper function to get icon component
   const getIconComponent = (iconName, size = 32, color = "#ffffff") => {
-    const IconComponent = SiIcons[iconName] || FaIcons[iconName]
-    return IconComponent ? <IconComponent size={size} color={color} /> : null
-  }
+    const IconComponent = SiIcons[iconName] || FaIcons[iconName];
+    return IconComponent ? <IconComponent size={size} color={color} /> : null;
+  };
 
   // Auto-cycle images
   useEffect(() => {
     if (currentProject?.images?.length > 1) {
       const interval = setInterval(() => {
-        setCurrentImageIndex((prev) => (prev + 1) % currentProject.images.length)
-      }, 4000)
-      return () => clearInterval(interval)
+        setCurrentImageIndex(
+          (prev) => (prev + 1) % currentProject.images.length
+        );
+      }, 4000);
+      return () => clearInterval(interval);
     }
-  }, [currentProject])
+  }, [currentProject]);
 
   // Auto-cycle features
   useEffect(() => {
     if (currentProject?.keyFeatures?.length > 3) {
       const interval = setInterval(() => {
-        setCurrentFeatureIndex((prev) => (prev + 1) % currentProject.keyFeatures.length)
-      }, 5000)
-      return () => clearInterval(interval)
+        setCurrentFeatureIndex(
+          (prev) => (prev + 1) % currentProject.keyFeatures.length
+        );
+      }, 5000);
+      return () => clearInterval(interval);
     }
-  }, [currentProject])
+  }, [currentProject]);
 
   // Handle scroll effect
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50)
-    }
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const openLightbox = (index) => {
-    setLightboxImageIndex(index)
-    setIsLightboxOpen(true)
-  }
+    setLightboxImageIndex(index);
+    setIsLightboxOpen(true);
+  };
 
   const closeLightbox = () => {
-    setIsLightboxOpen(false)
-  }
+    setIsLightboxOpen(false);
+  };
 
   const nextImage = () => {
     if (currentProject?.images) {
-      setLightboxImageIndex((prev) => (prev + 1) % currentProject.images.length)
+      setLightboxImageIndex(
+        (prev) => (prev + 1) % currentProject.images.length
+      );
     }
-  }
+  };
 
   const prevImage = () => {
     if (currentProject?.images) {
-      setLightboxImageIndex((prev) => (prev - 1 + currentProject.images.length) % currentProject.images.length)
+      setLightboxImageIndex(
+        (prev) =>
+          (prev - 1 + currentProject.images.length) %
+          currentProject.images.length
+      );
     }
-  }
+  };
 
   const nextFeature = () => {
     if (currentProject?.keyFeatures) {
-      setCurrentFeatureIndex((prev) => (prev + 1) % currentProject.keyFeatures.length)
+      setCurrentFeatureIndex(
+        (prev) => (prev + 1) % currentProject.keyFeatures.length
+      );
     }
-  }
+  };
 
   const prevFeature = () => {
     if (currentProject?.keyFeatures) {
       setCurrentFeatureIndex(
-        (prev) => (prev - 1 + currentProject.keyFeatures.length) % currentProject.keyFeatures.length,
-      )
+        (prev) =>
+          (prev - 1 + currentProject.keyFeatures.length) %
+          currentProject.keyFeatures.length
+      );
     }
-  }
+  };
 
   // Get visible features for carousel
   const getVisibleFeatures = () => {
-    if (!currentProject?.keyFeatures || currentProject.keyFeatures.length === 0) return []
+    if (!currentProject?.keyFeatures || currentProject.keyFeatures.length === 0)
+      return [];
 
-    const features = currentProject.keyFeatures
-    const totalFeatures = features.length
+    const features = currentProject.keyFeatures;
+    const totalFeatures = features.length;
 
-    if (totalFeatures <= 3) return features
+    if (totalFeatures <= 3) return features;
 
-    const prevIndex = (currentFeatureIndex - 1 + totalFeatures) % totalFeatures
-    const nextIndex = (currentFeatureIndex + 1) % totalFeatures
+    const prevIndex = (currentFeatureIndex - 1 + totalFeatures) % totalFeatures;
+    const nextIndex = (currentFeatureIndex + 1) % totalFeatures;
 
     return [
       { ...features[prevIndex], position: "prev" },
       { ...features[currentFeatureIndex], position: "current" },
       { ...features[nextIndex], position: "next" },
-    ]
-  }
+    ];
+  };
 
   // Loading state
   if (!currentProject) {
@@ -238,20 +283,163 @@ const ProjectShowcase = () => {
         <div className="text-center">
           <motion.div
             animate={{ rotate: 360 }}
-            transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+            transition={{
+              duration: 1,
+              repeat: Number.POSITIVE_INFINITY,
+              ease: "linear",
+            }}
             className="w-16 h-16 border-4 border-purple-500 border-t-transparent rounded-full mx-auto mb-4"
           />
           <p className="text-xl text-gray-300">Loading project details...</p>
         </div>
       </div>
-    )
+    );
   }
-
+ const navItems = ["Home", "About", "Projects", "Contact"];
   return (
     <div className="min-h-screen bg-slate-900 text-white overflow-x-hidden relative">
       {/* Particles Background */}
-      <Particles id="tsparticles" init={particlesInit} options={particlesConfig} className="fixed inset-0 z-0" />
+      <Particles
+        id="tsparticles"
+        init={particlesInit}
+        options={particlesConfig}
+        className="fixed inset-0 z-0"
+      />
+{/* Navigation */}
+      <motion.nav
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          scrolled
+            ? `${
+                isDarkMode ? "bg-slate-900/90" : "bg-white/90"
+              } backdrop-blur-md`
+            : "bg-transparent"
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            {/* Logo */}
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent"
+              style={{ fontFamily: "'Playfair Display', serif" }}
+            >
+              PS
+            </motion.div>
 
+            {/* Desktop Navigation */}
+            <div
+              className={`hidden md:flex items-center space-x-1 ${
+                isDarkMode ? "bg-slate-800/50" : "bg-white/50"
+              } backdrop-blur-sm rounded-full px-6 py-2`}
+            >
+              {navItems.map((item) => (
+                <motion.a
+                  key={item}
+                  href={`#${item.toLowerCase()}`}
+                  whileHover={{
+                    scale: 1.05,
+                    boxShadow: "0 0 20px rgba(168, 85, 247, 0.3)",
+                  }}
+                  whileTap={{ scale: 0.95 }}
+                  className={`px-4 py-2 rounded-full text-sm font-medium ${
+                    isDarkMode
+                      ? "text-gray-300 hover:text-white hover:bg-slate-700/50"
+                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-100/50"
+                  } transition-all duration-200`}
+                  style={{ fontFamily: "'Poppins', sans-serif" }}
+                >
+                  {item}
+                </motion.a>
+              ))}
+              <motion.button
+                whileHover={{
+                  scale: 1.05,
+                  boxShadow: "0 10px 30px rgba(168, 85, 247, 0.4)",
+                }}
+                whileTap={{ scale: 0.95 }}
+                className="ml-4 px-6 py-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full text-sm font-medium hover:from-purple-600 hover:to-pink-600 transition-all duration-200 text-white"
+                style={{ fontFamily: "'Poppins', sans-serif" }}
+              >
+                Let's Connect
+              </motion.button>
+            </div>
+
+            {/* Mobile menu button */}
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className={`md:hidden p-2 rounded-lg ${
+                isDarkMode ? "hover:bg-slate-800" : "hover:bg-gray-100"
+              } transition-colors`}
+            >
+              <div className="w-6 h-6 flex flex-col justify-center items-center">
+                <span
+                  className={`block w-5 h-0.5 ${
+                    isDarkMode ? "bg-white" : "bg-gray-900"
+                  } transition-all duration-300 ${
+                    isMenuOpen ? "rotate-45 translate-y-1" : ""
+                  }`}
+                />
+                <span
+                  className={`block w-5 h-0.5 ${
+                    isDarkMode ? "bg-white" : "bg-gray-900"
+                  } mt-1 transition-all duration-300 ${
+                    isMenuOpen ? "opacity-0" : ""
+                  }`}
+                />
+                <span
+                  className={`block w-5 h-0.5 ${
+                    isDarkMode ? "bg-white" : "bg-gray-900"
+                  } mt-1 transition-all duration-300 ${
+                    isMenuOpen ? "-rotate-45 -translate-y-1" : ""
+                  }`}
+                />
+              </div>
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Navigation */}
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className={`md:hidden ${
+                isDarkMode ? "bg-slate-900/95" : "bg-white/95"
+              } backdrop-blur-md border-t ${
+                isDarkMode ? "border-slate-800" : "border-gray-200"
+              }`}
+            >
+              <div className="px-4 py-4 space-y-2">
+                {navItems.map((item) => (
+                  <a
+                    key={item}
+                    href={`#${item.toLowerCase()}`}
+                    className={`block px-4 py-2 rounded-lg ${
+                      isDarkMode
+                        ? "text-gray-300 hover:text-white hover:bg-slate-800"
+                        : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                    } transition-colors`}
+                    style={{ fontFamily: "'Poppins', sans-serif" }}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {item}
+                  </a>
+                ))}
+                <button
+                  className="w-full mt-4 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg font-medium text-white"
+                  style={{ fontFamily: "'Poppins', sans-serif" }}
+                >
+                  Let's Connect
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.nav>
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         <motion.div
@@ -294,7 +482,7 @@ const ProjectShowcase = () => {
           </motion.p>
 
           {/* Animated Scroll Indicator */}
-          <motion.div
+          {/* <motion.div
             {...variants.fadeInUp}
             transition={{ delay: 0.6 }}
             className="absolute bottom-14 -left-1/4 transform -translate-x-1/2"
@@ -310,10 +498,14 @@ const ProjectShowcase = () => {
               }}
               className="flex flex-col items-center cursor-pointer"
               onClick={() => {
-                document.getElementById("showcase")?.scrollIntoView({ behavior: "smooth" })
+                document
+                  .getElementById("showcase")
+                  ?.scrollIntoView({ behavior: "smooth" });
               }}
             >
-              <span className="text-gray-400 text-sm mb-2 font-medium">Scroll to explore</span>
+              <span className="text-gray-400 text-sm mb-2 font-medium">
+                Scroll to explore
+              </span>
               <div className="w-6 h-10 border-2 border-purple-400 rounded-full flex justify-center">
                 <motion.div
                   animate={{
@@ -329,7 +521,7 @@ const ProjectShowcase = () => {
                 />
               </div>
             </motion.div>
-          </motion.div>
+          </motion.div> */}
         </motion.div>
       </section>
 
@@ -338,7 +530,11 @@ const ProjectShowcase = () => {
         <section id="showcase" className="py-20 relative z-10">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {/* Section Header */}
-            <motion.div {...variants.fadeInUp} viewport={{ once: true }} className="text-center mb-16">
+            <motion.div
+              {...variants.fadeInUp}
+              viewport={{ once: true }}
+              className="text-center mb-16"
+            >
               <motion.h2
                 {...variants.fadeInUp}
                 viewport={{ once: true }}
@@ -346,7 +542,13 @@ const ProjectShowcase = () => {
                 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-8"
                 style={{ fontFamily: "'Playfair Display', serif" }}
               >
-                <span className="text-white">Visual </span>
+                <span
+                className={`${isDarkMode ? "text-white" : "text-gray-900"}`}
+                style={{
+                  textShadow:
+                    "0 0 20px rgba(255, 255, 255,0.5), 0 0 40px rgba(255, 255, 255, 0.3), 0 0 60px rgba(255, 255, 255, 0.2)",
+                }}
+              >Visual </span>
                 <span className="bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent italic">
                   Journey
                 </span>
@@ -357,7 +559,8 @@ const ProjectShowcase = () => {
                 transition={{ delay: 0.3 }}
                 className="text-xl text-gray-300 max-w-2xl mx-auto font-outfit"
               >
-                Explore the interface and functionality through these carefully crafted screenshots
+                Explore the interface and functionality through these carefully
+                crafted screenshots
               </motion.p>
             </motion.div>
 
@@ -372,8 +575,14 @@ const ProjectShowcase = () => {
                 <AnimatePresence mode="wait">
                   <motion.img
                     key={currentImageIndex}
-                    src={currentProject.images[currentImageIndex]?.src || "/placeholder.svg?height=600&width=800"}
-                    alt={currentProject.images[currentImageIndex]?.alt || "Project Image"}
+                    src={
+                      currentProject.images[currentImageIndex]?.src ||
+                      "/placeholder.svg?height=600&width=800"
+                    }
+                    alt={
+                      currentProject.images[currentImageIndex]?.alt ||
+                      "Project Image"
+                    }
                     className="w-full h-full object-cover cursor-pointer"
                     initial={{ opacity: 0, scale: 1.1 }}
                     animate={{ opacity: 1, scale: 1 }}
@@ -393,7 +602,8 @@ const ProjectShowcase = () => {
                     className="text-2xl font-bold text-white mb-2"
                     style={{ fontFamily: "'Playfair Display', serif" }}
                   >
-                    {currentProject.images[currentImageIndex]?.caption || "Project Screenshot"}
+                    {currentProject.images[currentImageIndex]?.caption ||
+                      "Project Screenshot"}
                   </motion.h3>
                   <motion.p
                     initial={{ opacity: 0 }}
@@ -412,7 +622,9 @@ const ProjectShowcase = () => {
                     <button
                       onClick={() =>
                         setCurrentImageIndex(
-                          (prev) => (prev - 1 + currentProject.images.length) % currentProject.images.length,
+                          (prev) =>
+                            (prev - 1 + currentProject.images.length) %
+                            currentProject.images.length
                         )
                       }
                       className="absolute left-4 top-1/2 transform -translate-y-1/2 w-12 h-12 bg-slate-800/80 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-slate-700/80 transition-all duration-300"
@@ -420,7 +632,11 @@ const ProjectShowcase = () => {
                       <IoChevronBack size={24} />
                     </button>
                     <button
-                      onClick={() => setCurrentImageIndex((prev) => (prev + 1) % currentProject.images.length)}
+                      onClick={() =>
+                        setCurrentImageIndex(
+                          (prev) => (prev + 1) % currentProject.images.length
+                        )
+                      }
                       className="absolute right-4 top-1/2 transform -translate-y-1/2 w-12 h-12 bg-slate-800/80 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-slate-700/80 transition-all duration-300"
                     >
                       <IoChevronForward size={24} />
@@ -437,7 +653,9 @@ const ProjectShowcase = () => {
                       key={index}
                       onClick={() => setCurrentImageIndex(index)}
                       className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                        index === currentImageIndex ? "bg-purple-500 scale-125" : "bg-gray-600 hover:bg-gray-500"
+                        index === currentImageIndex
+                          ? "bg-purple-500 scale-125"
+                          : "bg-gray-600 hover:bg-gray-500"
                       }`}
                       whileHover={{ scale: 1.2 }}
                       whileTap={{ scale: 0.9 }}
@@ -468,7 +686,11 @@ const ProjectShowcase = () => {
                     }`}
                     onClick={() => openLightbox(index)}
                   >
-                    <img src={image.src || "/placeholder.svg"} alt={image.alt} className="w-full h-full object-cover" />
+                    <img
+                      src={image.src || "/placeholder.svg"}
+                      alt={image.alt}
+                      className="w-full h-full object-cover"
+                    />
                     <div className="absolute inset-0 bg-slate-900/20 hover:bg-slate-900/10 transition-all duration-300" />
                   </motion.div>
                 ))}
@@ -483,7 +705,11 @@ const ProjectShowcase = () => {
         <section className="py-20 relative z-10">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {/* Section Header */}
-            <motion.div {...variants.fadeInUp} viewport={{ once: true }} className="text-center mb-16">
+            <motion.div
+              {...variants.fadeInUp}
+              viewport={{ once: true }}
+              className="text-center mb-16"
+            >
               <motion.div
                 {...variants.fadeInUp}
                 viewport={{ once: true }}
@@ -503,7 +729,13 @@ const ProjectShowcase = () => {
                 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-8"
                 style={{ fontFamily: "'Playfair Display', serif" }}
               >
-                <span className="text-white">Technology </span>
+                <span
+                className={`${isDarkMode ? "text-white" : "text-gray-900"}`}
+                style={{
+                  textShadow:
+                    "0 0 20px rgba(255, 255, 255,0.5), 0 0 40px rgba(255, 255, 255, 0.3), 0 0 60px rgba(255, 255, 255, 0.2)",
+                }}
+              >Technology </span>
                 <span className="bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent italic">
                   Stack
                 </span>
@@ -560,7 +792,11 @@ const ProjectShowcase = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row items-center gap-16">
             {/* Left Side - Description */}
-            <motion.div {...variants.fadeInLeft} viewport={{ once: true }} className="flex-1">
+            <motion.div
+              {...variants.fadeInLeft}
+              viewport={{ once: true }}
+              className="flex-1"
+            >
               <motion.h2
                 {...variants.fadeInUp}
                 viewport={{ once: true }}
@@ -568,7 +804,13 @@ const ProjectShowcase = () => {
                 className="text-4xl sm:text-5xl font-bold mb-8"
                 style={{ fontFamily: "'Playfair Display', serif" }}
               >
-                <span className="text-white">Project </span>
+                <span
+                className={`${isDarkMode ? "text-white" : "text-gray-900"}`}
+                style={{
+                  textShadow:
+                    "0 0 20px rgba(255, 255, 255,0.5), 0 0 40px rgba(255, 255, 255, 0.3), 0 0 60px rgba(255, 255, 255, 0.2)",
+                }}
+              >Project </span>
                 <span className="bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent italic">
                   Overview
                 </span>
@@ -585,165 +827,241 @@ const ProjectShowcase = () => {
                 </motion.p>
 
                 {currentProject.challenges && (
-                  <motion.p {...variants.fadeInUp} viewport={{ once: true }} transition={{ delay: 0.6 }}>
-                    <span className="text-white font-semibold font-outfit">Key Challenges Faced:</span>{" "}
+                  <motion.p
+                    {...variants.fadeInUp}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.6 }}
+                  >
+                    <span className="text-white font-semibold font-outfit">
+                      Key Challenges Faced:
+                    </span>{" "}
                     {currentProject.challenges}
                   </motion.p>
                 )}
 
                 {currentProject.outcome && (
-                  <motion.p {...variants.fadeInUp} viewport={{ once: true }} transition={{ delay: 0.8 }}>
-                    <span className="text-white font-semibold font-outfit">Outcome:</span> {currentProject.outcome}
+                  <motion.p
+                    {...variants.fadeInUp}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.8 }}
+                  >
+                    <span className="text-white font-semibold font-outfit">
+                      Outcome:
+                    </span>{" "}
+                    {currentProject.outcome}
                   </motion.p>
                 )}
               </div>
             </motion.div>
 
             {/* Right Side - Key Features Carousel */}
-            {currentProject.keyFeatures && currentProject.keyFeatures.length > 0 && (
-              <motion.div {...variants.fadeInRight} viewport={{ once: true }} className="flex-1">
-                <motion.h3
-                  {...variants.fadeInUp}
+            {currentProject.keyFeatures &&
+              currentProject.keyFeatures.length > 0 && (
+                <motion.div
+                  {...variants.fadeInRight}
                   viewport={{ once: true }}
-                  transition={{ delay: 0.3 }}
-                  className="text-3xl font-bold text-white mb-8 font-outfit text-center"
+                  className="flex-1"
                 >
-                  Key Features
-                </motion.h3>
+                  <motion.h3
+                    {...variants.fadeInUp}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.3 }}
+                    className="text-3xl font-bold text-white mb-8 font-outfit text-center"
+                    style={{
+                  textShadow:
+                    "0 0 20px rgba(255, 255, 255,0.5), 0 0 40px rgba(255, 255, 255, 0.3), 0 0 60px rgba(255, 255, 255, 0.2)",
+                }}
+                  >
+                    Key Features
+                  </motion.h3>
 
-                <div className="relative h-[600px] flex items-center justify-center">
-                  {/* Features Carousel Container */}
-                  <div className="relative w-full max-w-md">
-                    {/* All Features with Sliding Animation */}
-                    {currentProject.keyFeatures.map((feature, index) => {
-                      const totalFeatures = currentProject.keyFeatures.length
+                 <div className="relative h-auto sm:h-[600px] flex flex-col items-center justify-center">
+  {/* Features Carousel Container */}
+  <div className="relative w-full max-w-xs sm:max-w-md">
+    <div className="flex flex-col sm:block">
+      {currentProject.keyFeatures.map((feature, index) => {
+        const totalFeatures = currentProject.keyFeatures.length;
+        const prevIndex = (currentFeatureIndex - 1 + totalFeatures) % totalFeatures;
+        const nextIndex = (currentFeatureIndex + 1) % totalFeatures;
 
-                      // Calculate positions
-                      const prevIndex = (currentFeatureIndex - 1 + totalFeatures) % totalFeatures
-                      const nextIndex = (currentFeatureIndex + 1) % totalFeatures
+        let variant;
+        if (index === prevIndex) variant = "top";
+        else if (index === currentFeatureIndex) variant = "center";
+        else if (index === nextIndex) variant = "bottom";
+        else variant = "hidden";
 
-                      let variant
-                      if (totalFeatures <= 3) {
-                        // If 3 or fewer features, show all statically
-                        if (index === 0) variant = "top"
-                        else if (index === 1) variant = "center"
-                        else variant = "bottom"
-                      } else {
-                        // Dynamic carousel for more than 3 features
-                        if (index === prevIndex) variant = "top"
-                        else if (index === currentFeatureIndex) variant = "center"
-                        else if (index === nextIndex) variant = "bottom"
-                        else variant = "hidden"
-                      }
+        // Only show the current card on mobile
+        const showOnMobile = index === currentFeatureIndex;
 
-                      return (
-                        <motion.div
-                          key={feature.title}
-                          variants={{
-                            top: { y: -120, scale: 0.8, opacity: 0.6, zIndex: 1 },
-                            center: { y: 0, scale: 1, opacity: 1, zIndex: 2 },
-                            bottom: { y: 120, scale: 0.8, opacity: 0.6, zIndex: 1 },
-                            hidden: { opacity: 0, scale: 0.6, y: 0 },
-                          }}
-                          initial="hidden"
-                          animate={variant}
-                          transition={{
-                            duration: 0.6,
-                            ease: "easeInOut",
-                            type: "spring",
-                            stiffness: 100,
-                            damping: 20,
-                          }}
-                          className="absolute inset-0 flex items-center justify-center"
-                        >
-                          <motion.div
-                            whileHover={
-                              variant === "center"
-                                ? {
-                                    scale: 1.05,
-                                    boxShadow: "0 20px 40px rgba(168, 85, 247, 0.4)",
-                                  }
-                                : {}
-                            }
-                            className={`w-full p-6 rounded-xl border transition-all duration-500 group ${
-                              variant === "center"
-                                ? "bg-slate-800/60 border-purple-500/50 shadow-lg shadow-purple-500/20"
-                                : "bg-slate-800/30 border-slate-700/30"
-                            }`}
-                          >
-                            <div className="flex items-start">
-                              <motion.div
-                                whileHover={variant === "center" ? { scale: 1.1, rotate: 5 } : {}}
-                                className={`w-12 h-12 rounded-full flex items-center justify-center mr-4 transition-all duration-300 ${
-                                  variant === "center"
-                                    ? "bg-gradient-to-r from-purple-500/30 to-pink-500/30 shadow-lg"
-                                    : "bg-gradient-to-r from-purple-500/10 to-pink-500/10"
-                                }`}
-                              >
-                                {getIconComponent(feature.icon, 24, variant === "center" ? "#a855f7" : "#6b7280")}
-                              </motion.div>
-                              <div className="flex-1">
-                                <h4
-                                  className={`text-xl font-bold mb-2 transition-all duration-300 font-outfit ${
-                                    variant === "center"
-                                      ? "text-white group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-purple-400 group-hover:to-pink-400 group-hover:bg-clip-text"
-                                      : "text-gray-400"
-                                  }`}
-                                >
-                                  {feature.title}
-                                </h4>
-                                <p
-                                  className={`leading-relaxed font-outfit transition-all duration-300 ${
-                                    variant === "center" ? "text-gray-300" : "text-gray-500"
-                                  }`}
-                                >
-                                  {feature.description}
-                                </p>
-                              </div>
-                            </div>
-                          </motion.div>
-                        </motion.div>
-                      )
-                    })}
-
-                    {/* Navigation Controls - only show if more than 3 features */}
-                    {currentProject.keyFeatures.length > 3 && (
-                      <>
-                        <button
-                          onClick={prevFeature}
-                          className="absolute -top-56 left-1/2 transform -translate-x-1/2 w-10 h-10 bg-slate-800/80 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-slate-700/80 transition-all duration-300 z-30"
-                        >
-                          <IoChevronUp size={20} />
-                        </button>
-                        <button
-                          onClick={nextFeature}
-                          className="absolute -bottom-56 left-1/2 transform -translate-x-1/2 w-10 h-10 bg-slate-800/80 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-slate-700/80 transition-all duration-300 z-30"
-                        >
-                          <IoChevronDown size={20} />
-                        </button>
-                      </>
-                    )}
-
-                    {/* Feature Indicators - only show if more than 3 features */}
-                    {currentProject.keyFeatures.length > 3 && (
-                      <div className="absolute -right-8 top-1/2 transform -translate-y-1/2 flex flex-col space-y-2">
-                        {currentProject.keyFeatures.map((_, index) => (
-                          <motion.button
-                            key={index}
-                            onClick={() => setCurrentFeatureIndex(index)}
-                            className={`w-2 h-8 rounded-full transition-all duration-300 ${
-                              index === currentFeatureIndex ? "bg-purple-500" : "bg-gray-600 hover:bg-gray-500"
-                            }`}
-                            whileHover={{ scale: 1.2 }}
-                            whileTap={{ scale: 0.9 }}
-                          />
-                        ))}
-                      </div>
-                    )}
-                  </div>
+        return (
+          <motion.div
+            key={feature.title}
+            variants={{
+              top: {
+                y: -80,
+                scale: 0.85,
+                opacity: 0.7,
+                zIndex: 1,
+              },
+              center: { y: 0, scale: 1, opacity: 1, zIndex: 2 },
+              bottom: {
+                y: 130,
+                scale: 0.85,
+                opacity: 0.7,
+                zIndex: 1,
+              },
+              hidden: { opacity: 0, scale: 0.6, y: 0 },
+            }}
+            initial="hidden"
+            animate={variant}
+            transition={{
+              duration: 0.6,
+              ease: "easeInOut",
+              type: "spring",
+              stiffness: 100,
+              damping: 20,
+            }}
+            className={`
+              w-full
+              ${totalFeatures > 1 ? "sm:absolute sm:inset-0" : ""}
+              flex items-center justify-center
+              ${showOnMobile ? "my-6" : "hidden"}
+              sm:flex
+            `}
+            style={totalFeatures > 1 ? {} : { position: "static" }}
+          >
+            <motion.div
+              whileHover={
+                variant === "center"
+                  ? {
+                      scale: 1.05,
+                      boxShadow: "0 20px 40px rgba(168, 85, 247, 0.4)",
+                    }
+                  : {}
+              }
+              className={`w-full p-4 sm:p-6 rounded-xl border transition-all duration-500 group ${
+                variant === "center"
+                  ? "bg-slate-800/60 border-purple-500/50 shadow-lg shadow-purple-500/20"
+                  : "bg-slate-800/30 border-slate-700/30"
+              }`}
+            >
+              <div className="flex items-start">
+                <motion.div
+                  whileHover={
+                    variant === "center" ? { scale: 1.1, rotate: 5 } : {}
+                  }
+                  className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center mr-3 sm:mr-4 transition-all duration-300 ${
+                    variant === "center"
+                      ? "bg-gradient-to-r from-purple-500/30 to-pink-500/30 shadow-lg"
+                      : "bg-gradient-to-r from-purple-500/10 to-pink-500/10"
+                  }`}
+                >
+                  {getIconComponent(
+                    feature.icon,
+                    20,
+                    variant === "center" ? "#a855f7" : "#6b7280"
+                  )}
+                </motion.div>
+                <div className="flex-1">
+                  <h4
+                    className={`text-lg sm:text-xl font-bold mb-2 transition-all duration-300 font-outfit ${
+                      variant === "center"
+                        ? "text-white group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-purple-400 group-hover:to-pink-400 group-hover:bg-clip-text"
+                        : "text-gray-400"
+                    }`}
+                  >
+                    {feature.title}
+                  </h4>
+                  <p
+                    className={`text-sm sm:text-base leading-relaxed font-outfit transition-all duration-300 ${
+                      variant === "center" ? "text-gray-300" : "text-gray-500"
+                    }`}
+                  >
+                    {feature.description}
+                  </p>
                 </div>
-              </motion.div>
-            )}
+              </div>
+            </motion.div>
+          </motion.div>
+        );
+      })}
+    </div>
+
+    {/* Navigation Controls - always show if more than 1 feature */}
+    {currentProject.keyFeatures.length > 1 && (
+      <>
+        {/* Desktop/Tablet navigation */}
+        <button
+          onClick={prevFeature}
+          className="hidden sm:flex absolute -top-[11.5rem] left-1/2 transform -translate-x-1/2 w-10 h-10 bg-slate-800/80 backdrop-blur-sm rounded-full items-center justify-center text-white hover:bg-slate-700/80 transition-all duration-300 z-30"
+        >
+          <IoChevronUp size={20} />
+        </button>
+        <button
+          onClick={nextFeature}
+          className="hidden sm:flex absolute -bottom-60 left-1/2 transform -translate-x-1/2 w-10 h-10 bg-slate-800/80 backdrop-blur-sm rounded-full items-center justify-center text-white hover:bg-slate-700/80 transition-all duration-300 z-30"
+        >
+          <IoChevronDown size={20} />
+        </button>
+        {/* Mobile navigation */}
+        <div className="flex sm:hidden justify-center mt-4 gap-4">
+          <button
+            onClick={prevFeature}
+            className="w-10 h-10 bg-slate-800/80 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-slate-700/80 transition-all duration-300"
+          >
+            <IoChevronUp size={20} />
+          </button>
+          <button
+            onClick={nextFeature}
+            className="w-10 h-10 bg-slate-800/80 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-slate-700/80 transition-all duration-300"
+          >
+            <IoChevronDown size={20} />
+          </button>
+        </div>
+      </>
+    )}
+
+    {/* Feature Indicators - always show if more than 1 feature */}
+    {currentProject.keyFeatures.length > 1 && (
+      <>
+        {/* Desktop/Tablet indicators */}
+        <div className="hidden sm:flex absolute -right-8 top-1/2 transform -translate-y-1/2 flex-col space-y-2">
+          {currentProject.keyFeatures.map((_, index) => (
+            <motion.button
+              key={index}
+              onClick={() => setCurrentFeatureIndex(index)}
+              className={`w-2 h-8 rounded-full transition-all duration-300 ${
+                index === currentFeatureIndex
+                  ? "bg-purple-500"
+                  : "bg-gray-600 hover:bg-gray-500"
+              }`}
+              whileHover={{ scale: 1.2 }}
+              whileTap={{ scale: 0.9 }}
+            />
+          ))}
+        </div>
+        {/* Mobile indicators */}
+        <div className="flex sm:hidden justify-center mt-2 gap-2">
+          {currentProject.keyFeatures.map((_, index) => (
+            <motion.button
+              key={index}
+              onClick={() => setCurrentFeatureIndex(index)}
+              className={`w-2 h-6 rounded-full transition-all duration-300 ${
+                index === currentFeatureIndex
+                  ? "bg-purple-500"
+                  : "bg-gray-600 hover:bg-gray-500"
+              }`}
+              whileHover={{ scale: 1.2 }}
+              whileTap={{ scale: 0.9 }}
+            />
+          ))}
+        </div>
+      </>
+    )}
+  </div>
+</div>
+                </motion.div>
+              )}
           </div>
         </div>
       </section>
@@ -775,7 +1093,8 @@ const ProjectShowcase = () => {
               transition={{ delay: 0.4 }}
               className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto font-outfit"
             >
-              Experience the live application and dive into the source code to see the magic behind the scenes
+              Experience the live application and dive into the source code to
+              see the magic behind the scenes
             </motion.p>
 
             <motion.div
@@ -812,32 +1131,23 @@ const ProjectShowcase = () => {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="py-16 border-t border-slate-800 bg-slate-900/80 backdrop-blur-sm relative z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row items-center justify-between">
-            <motion.div
-              {...variants.fadeInLeft}
-              viewport={{ once: true }}
-              whileHover={{
-                scale: 1.05,
-                boxShadow: "0 10px 25px rgba(168, 85, 247, 0.3)",
-              }}
-              whileTap={{ scale: 0.95 }}
-              className="flex items-center px-6 py-3 bg-slate-800/50 border border-slate-700/50 hover:border-purple-500/50 rounded-full transition-all duration-300 mb-6 md:mb-0 font-outfit"
-            >
-              <FaArrowLeft className="mr-3 text-purple-400" />
-              <NavLink to="/" className="text-white">
-                Back to Portfolio
-              </NavLink>
-            </motion.div>
-
-            <motion.p {...variants.fadeInRight} viewport={{ once: true }} className="text-gray-400 text-sm font-outfit">
-              © 2024 Parthiv Shingala. Crafted with passion and precision.
-            </motion.p>
-          </div>
-        </div>
-      </footer>
+      <section className="py-20 relative z-10 flex items-center justify-center">
+        <motion.div
+          {...variants.fadeInLeft}
+          viewport={{ once: true }}
+          whileHover={{
+            scale: 1.05,
+            boxShadow: "0 10px 25px rgba(168, 85, 247, 0.3)",
+          }}
+          whileTap={{ scale: 0.95 }}
+          className="flex items-center px-6 py-3 bg-slate-800/50 border border-slate-700/50 hover:border-purple-500/50 rounded-full transition-all duration-300 mb-6 md:mb-0 font-outfit"
+        >
+          <FaArrowLeft className="mr-3 text-purple-400" />
+          <NavLink to="/" className="text-white">
+            Back to Portfolio
+          </NavLink>
+        </motion.div>
+      </section>
 
       {/* Lightbox */}
       <AnimatePresence>
@@ -857,8 +1167,14 @@ const ProjectShowcase = () => {
               onClick={(e) => e.stopPropagation()}
             >
               <img
-                src={currentProject.images[lightboxImageIndex]?.src || "/placeholder.svg"}
-                alt={currentProject.images[lightboxImageIndex]?.alt || "Project Image"}
+                src={
+                  currentProject.images[lightboxImageIndex]?.src ||
+                  "/placeholder.svg"
+                }
+                alt={
+                  currentProject.images[lightboxImageIndex]?.alt ||
+                  "Project Image"
+                }
                 className="w-full h-full object-contain rounded-lg"
               />
 
@@ -891,7 +1207,8 @@ const ProjectShowcase = () => {
               {/* Caption */}
               <div className="absolute bottom-4 left-4 right-4 text-center">
                 <h3 className="text-xl font-bold text-white mb-2">
-                  {currentProject.images[lightboxImageIndex]?.caption || "Project Screenshot"}
+                  {currentProject.images[lightboxImageIndex]?.caption ||
+                    "Project Screenshot"}
                 </h3>
                 <p className="text-gray-300 text-sm">
                   {lightboxImageIndex + 1} of {currentProject.images.length}
@@ -901,8 +1218,116 @@ const ProjectShowcase = () => {
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
-  )
-}
 
-export default ProjectShowcase
+      <footer
+        className={`py-16 border-t ${
+          isDarkMode
+            ? "border-slate-800 bg-slate-900/80"
+            : "border-gray-200 bg-gray-50/80"
+        } backdrop-blur-sm relative z-10`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row items-center justify-between">
+            <div className="mb-8 md:mb-0">
+              <h3
+                className={`text-2xl font-bold mb-2 ${
+                  isDarkMode ? "text-white" : "text-gray-900"
+                }`}
+                style={{ fontFamily: "'Playfair Display', serif" }}
+              >
+                Let's work together
+              </h3>
+              <p
+                className={`${isDarkMode ? "text-gray-400" : "text-gray-600"}`}
+                style={{ fontFamily: "'Poppins', sans-serif" }}
+              >
+                Ready to bring your ideas to life?
+              </p>
+            </div>
+
+            <div className="flex items-center space-x-6">
+              {[
+                {
+                  href: "mailto:parthiv@example.com",
+                  icon: "M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z",
+                },
+                {
+                  href: "https://github.com/parthiv",
+                  icon: "M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z",
+                },
+                {
+                  href: "https://linkedin.com/in/parthiv",
+                  icon: "M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z",
+                },
+                {
+                  href: "https://twitter.com/parthiv",
+                  icon: "M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z",
+                },
+              ].map((social, index) => (
+                <motion.a
+                  key={index}
+                  href={social.href}
+                  whileHover={{ scale: 1.05 }}
+                  className={`p-3 ${
+                    isDarkMode
+                      ? "bg-slate-800 hover:bg-slate-700"
+                      : "bg-white hover:bg-gray-100"
+                  } rounded-full transition-colors`}
+                >
+                  <svg
+                    className="w-6 h-6"
+                    fill={
+                      social.href.includes("mailto") ? "none" : "currentColor"
+                    }
+                    stroke={
+                      social.href.includes("mailto") ? "currentColor" : "none"
+                    }
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap={
+                        social.href.includes("mailto") ? "round" : undefined
+                      }
+                      strokeLinejoin={
+                        social.href.includes("mailto") ? "round" : undefined
+                      }
+                      strokeWidth={
+                        social.href.includes("mailto") ? 2 : undefined
+                      }
+                      d={social.icon}
+                    />
+                  </svg>
+                </motion.a>
+              ))}
+            </div>
+          </div>
+
+          <div
+            className={`mt-12 pt-8 border-t ${
+              isDarkMode ? "border-slate-800" : "border-gray-200"
+            } flex flex-col md:flex-row items-center justify-between`}
+          >
+            <p
+              className={`${
+                isDarkMode ? "text-gray-400" : "text-gray-500"
+              } text-sm`}
+              style={{ fontFamily: "'Poppins', sans-serif" }}
+            >
+              © 2024 Parthiv Shingala. All rights reserved.
+            </p>
+            <p
+              className={`${
+                isDarkMode ? "text-gray-400" : "text-gray-500"
+              } text-sm mt-4 md:mt-0`}
+              style={{ fontFamily: "'Poppins', sans-serif" }}
+            >
+              {currentTime}
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+export default ProjectShowcase;

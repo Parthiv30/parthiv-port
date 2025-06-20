@@ -6,6 +6,7 @@ import Portfolio from "./portfolio"
 import ProjectShowcase from './project-showcase'
 
 import { BrowserRouter as Router, Routes, Route, Outlet } from "react-router-dom";
+import AllCertifications from './all-certifications'
 
 export default function Page() {
   return (
@@ -13,6 +14,7 @@ export default function Page() {
   <Routes>
       <Route path="/" element={<Portfolio />} />
       <Route path="/ProjectShowcase/:projectId" element={<ProjectShowcase />} />
+      <Route path="/AllCertifications" element={<AllCertifications />} />
   </Routes>
   </Router>
   );
