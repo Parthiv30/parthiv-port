@@ -1,15 +1,15 @@
-import learnverseCommDark from "./assets/learnverse/learnverseCommDark.png";
-import learnverseCommLight from "./assets/learnverse/learnverseCommLight.png";
-import learnverseDashDark from "./assets/learnverse/learnverseDashDark.png";
-import learnverseDashLight from "./assets/learnverse/learnverseDashLight.png";
-import learnverseHome from "./assets/learnverse/learnverseHome.png";
-import learnverseLogin from "./assets/learnverse/learnverseLogin.png";
-import learnverseMain from "./assets/learnverse/learnverseMain.jpg";
-import learnverseMobileDashDark from "./assets/learnverse/learnverseMobileDashDark.png";
-import learnverseMobileDashLight from "./assets/learnverse/learnverseMobileDashLight.png";
-import learnverseProfileDark from "./assets/learnverse/learnverseProfileDark.png";
-import learnverseProfileLight from "./assets/learnverse/learnverseProfileLight.png";
-import mobile from "./assets/learnverse/mobile.jpg";
+import learnverseCommDark from "./assets/Learnverse/learnverseCommDark.png";
+import learnverseCommLight from "./assets/Learnverse/learnverseCommLight.png";
+import learnverseDashDark from "./assets/Learnverse/learnverseDashDark.png";
+import learnverseDashLight from "./assets/Learnverse/learnverseDashLight.png";
+import learnverseHome from "./assets/Learnverse/learnverseHome.png";
+import learnverseLogin from "./assets/Learnverse/learnverseLogin.png";
+import learnverseMain from "./assets/Learnverse/learnverseMain.jpg";
+import learnverseMobileDashDark from "./assets/Learnverse/learnverseMobileDashDark.png";
+import learnverseMobileDashLight from "./assets/Learnverse/learnverseMobileDashLight.png";
+import learnverseProfileDark from "./assets/Learnverse/learnverseProfileDark.png";
+import learnverseProfileLight from "./assets/Learnverse/learnverseProfileLight.png";
+import mobile from "./assets/Learnverse/mobile.jpg";
 
 export const projects = [
   {
