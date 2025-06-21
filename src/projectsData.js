@@ -11,6 +11,20 @@ import learnverseProfileDark from "./assets/LearnVerse/learnverseProfileDark.png
 import learnverseProfileLight from "./assets/LearnVerse/learnverseProfileLight.png";
 import mobile from "./assets/LearnVerse/mobile.jpg";
 
+import Ad from "./assets/village/Ad.png";
+import Ao from "./assets/village/Ao.png";
+import Ausers from "./assets/village/Ausers.png";
+import A from "./assets/village/paymentDetails.png";
+import payRep from "./assets/village/payRep.png";
+import Chome from "./assets/village/Chome.png";
+import Cmain from "./assets/village/Cmain.png";
+// import Cprofile from "./assets/village/Cprofile.png";
+import Clogin from "./assets/village/Clogin.png";
+import Ccheckout from "./assets/village/Ccheckout.png";
+import Cmenu from "./assets/village/Cmenu.png";
+import Cres from "./assets/village/Cres.png";
+
+
 export const projects = [
   {
     id: "learnverse",
@@ -323,14 +337,59 @@ export const projects = [
     "Village Chef is a full-featured PHP-MySQL web application designed to simplify online food ordering and restaurant administration. It offers a dedicated customer panel for secure ordering, real-time tracking, and automated receipts, while the admin panel enables full management of restaurants, cuisines, orders, payments, and users. The platform integrates Razorpay for payments, PHPMailer for email communication, FPDF for PDF generation, and Chart.js for real-time analytics, making it a comprehensive digital solution for the food service industry.",
   images: [
     {
-      src: "/village/customer.jpg",
-      alt: "Customer Panel",
-      caption: "Ordering Interface",
-    },
-    {
-      src: "/village/admin.jpg",
+      src: Ad,
       alt: "Admin Panel",
       caption: "Management Dashboard",
+    },
+    {
+      src: A,
+      alt: "Admin Panel",
+      caption: "Payment Details",
+    },
+    {
+      src: Ao,
+      alt: "Admin Panel",
+      caption: "Order Tracking",
+    },
+    {
+      src: Ausers,
+      alt: "Admin Panel",
+      caption: "User Administration",
+    },
+    {
+      src: payRep,
+      alt: "Payment Report",
+      caption: "Monthly Payment Report",
+    },
+    {
+      src: Chome,
+      alt: "Customer Home",
+      caption: "Customer Home Page",
+    },
+    {
+      src: Cmain,
+      alt: "Customer Dashboard",
+      caption: "Customer Dashboard",
+    },
+    {
+      src: Clogin,
+      alt: "Customer Login",
+      caption: "Customer Login Page",
+    },
+    {
+      src: Ccheckout,
+      alt: "Checkout Page",
+      caption: "Secure Checkout",
+    },
+    {
+      src: Cmenu,
+      alt: "Menu Page",
+      caption: "Restaurant Menu",
+    },
+    {
+      src: Cres,
+      alt: "Restaurant Page",
+      caption: "Restaurant Details",
     }
   ],
   techStack: [

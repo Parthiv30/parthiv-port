@@ -119,26 +119,125 @@ const Loader = () => (
   </motion.div>
 );
 
+
+
 const Intro = ({ onComplete }) => {
+   const [isDarkMode, setIsDarkMode] = useState(true);
+const particlesInit = useCallback(async (engine) => {
+    await loadSlim(engine);
+  }, []);
+
+  const particlesConfig = {
+    background: {
+      color: {
+        value: "transparent",
+      },
+    },
+    fpsLimit: 120,
+    interactivity: {
+      events: {
+        onClick: {
+          enable: true,
+          mode: "push",
+        },
+        onHover: {
+          enable: true,
+          mode: "repulse",
+        },
+        resize: true,
+      },
+      modes: {
+        push: {
+          quantity: 4,
+        },
+        repulse: {
+          distance: 200,
+          duration: 0.4,
+        },
+      },
+    },
+    particles: {
+      color: {
+        value: isDarkMode
+          ? ["#8b5cf6", "#ec4899", "#06b6d4"]
+          : ["#6366f1", "#d946ef", "#0ea5e9"],
+      },
+      links: {
+        color: isDarkMode ? "#8b5cf6" : "#6366f1",
+        distance: 150,
+        enable: true,
+        opacity: 0.3,
+        width: 1,
+      },
+      move: {
+        direction: "none",
+        enable: true,
+        outModes: {
+          default: "bounce",
+        },
+        random: false,
+        speed: 1,
+        straight: false,
+      },
+      number: {
+        density: {
+          enable: true,
+          area: 800,
+        },
+        value: 80,
+      },
+      opacity: {
+        value: 0.5,
+      },
+      shape: {
+        type: "circle",
+      },
+      size: {
+        value: { min: 1, max: 3 },
+      },
+    },
+    detectRetina: true,
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
-      className="fixed inset-0 z-40 flex items-center justify-center bg-slate-900"
+      className={`fixed inset-0 z-40 flex items-center justify-center ${
+        isDarkMode ? "bg-slate-900 text-white" : "bg-gray-50 text-gray-900"
+      } overflow-x-hidden`}
+      style={{ minHeight: "100vh" }}
     >
-      <div className="text-center px-4">
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-4">
+      {/* Particles Background */}
+      <Particles
+        id="intro-particles"
+        init={particlesInit}
+        options={particlesConfig}
+        className="fixed inset-0 z-0"
+      />
+
+      {/* Centered animated intro text */}
+      <div className="relative z-10 text-center px-4">
+        <h1
+          className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4"
+          style={{
+            fontFamily: "'Playfair Display', serif",
+            color: isDarkMode ? "#fff" : "#111",
+            textShadow:
+                      "0 0 20px rgba(255, 255, 255,0.5), 0 0 40px rgba(255, 255, 255, 0.3), 0 0 60px rgba(255, 255, 255, 0.2)",
+          }}
+        >
           Hey, I am Parthiv.
         </h1>
         <TypeAnimation
           sequence={[
-            500, // Wait 1 second before starting
+            500,
             "Full-Stack Developer",
-            500, // Pause for 1.5 seconds
+            500,
             "",
-            500, // Erase
+            500,
             "Gold Medalist",
             500,
             "",
@@ -146,15 +245,19 @@ const Intro = ({ onComplete }) => {
             "Certified SAP Developer",
             500,
             "",
-            500,
+            0,
             () => {
-              setTimeout(onComplete, 1000); // Wait 1 second before transitioning
+              setTimeout(onComplete, 1000);
             },
           ]}
           wrapper="h2"
           cursor={true}
           repeat={0}
-          className="text-2xl sm:text-3xl md:text-4xl font-semibold text-purple-300"
+          className="text-2xl sm:text-3xl md:text-4xl font-semibold bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent font-outfit"
+          style={{
+            textShadow:
+              "0 0 20px rgba(168,85,247,0.3), 0 0 40px rgba(236,72,153,0.2)",
+          }}
         />
       </div>
     </motion.div>
