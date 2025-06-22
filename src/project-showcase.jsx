@@ -11,7 +11,8 @@ import Particles from "react-tsparticles";
 import { loadSlim } from "tsparticles-slim";
 import * as SiIcons from "react-icons/si";
 import * as FaIcons from "react-icons/fa";
-import { FaExternalLinkAlt, FaArrowLeft } from "react-icons/fa";
+
+import { FaPhone,FaExternalLinkAlt, FaArrowLeft } from "react-icons/fa";
 import {
   IoClose,
   IoChevronBack,
@@ -19,7 +20,7 @@ import {
   IoChevronUp,
   IoChevronDown,
 } from "react-icons/io5";
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, useParams,useNavigate } from "react-router-dom";
 import { projects } from "./projectsData";
 import { IoIosLaptop } from "react-icons/io";
 
@@ -67,10 +68,11 @@ const ProjectShowcase = () => {
   const [scrolled, setScrolled] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [currentTime, setCurrentTime] = useState("");
+  const navigate = useNavigate();
 
   const { scrollY } = useScroll();
   const heroY = useTransform(scrollY, [0, 500], [0, -100]);
-  const heroOpacity = useTransform(scrollY, [0, 300], [1, 0]);
+  const heroOpacity = useTransform(scrollY, [0, 300], [1, 0.3]);
   const variants = useAnimationVariants();
 
   // Find current project based on URL parameter
@@ -296,6 +298,12 @@ const ProjectShowcase = () => {
     );
   }
  const navItems = ["Home", "About", "Projects", "Contact"];
+
+ // Handle navigation and scrolling
+  const handleNavClick = (section) => {
+    navigate("/", { state: { section: section.toLowerCase() } });
+  };
+
   return (
     <div className="min-h-screen bg-slate-900 text-white overflow-x-hidden relative">
       {/* Particles Background */}
@@ -309,17 +317,10 @@ const ProjectShowcase = () => {
       <motion.nav
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled
-            ? `${
-                isDarkMode ? "bg-slate-900/90" : "bg-white/90"
-              } backdrop-blur-md`
-            : "bg-transparent"
-        }`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? `${isDarkMode ? "bg-slate-900/90" : "bg-white/90"} backdrop-blur-md` : "bg-transparent"}`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            {/* Logo */}
             <motion.div
               whileHover={{ scale: 1.05 }}
               className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent"
@@ -328,46 +329,35 @@ const ProjectShowcase = () => {
               PS
             </motion.div>
 
-            {/* Desktop Navigation */}
-            <div
-              className={`hidden md:flex items-center space-x-1 ${
-                isDarkMode ? "bg-slate-800/50" : "bg-white/50"
-              } backdrop-blur-sm rounded-full px-6 py-2`}
-            >
+            <div className={`hidden md:flex items-center space-x-1 ${isDarkMode ? "bg-slate-800/50" : "bg-white/50"} backdrop-blur-sm rounded-full px-6 py-2`}>
               {navItems.map((item) => (
                 <motion.a
                   key={item}
                   href={`#${item.toLowerCase()}`}
-                  whileHover={{
-                    scale: 1.05,
-                    boxShadow: "0 0 20px rgba(168, 85, 247, 0.3)",
-                  }}
+                  whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(168, 85, 247, 0.3)" }}
                   whileTap={{ scale: 0.95 }}
-                  className={`px-4 py-2 rounded-full text-sm font-medium ${
-                    isDarkMode
-                      ? "text-gray-300 hover:text-white hover:bg-slate-700/50"
-                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-100/50"
-                  } transition-all duration-200`}
+                  className={`px-4 py-2 rounded-full text-sm font-medium ${isDarkMode ? "text-gray-300 hover:text-white hover:bg-slate-700/50" : "text-gray-600 hover:text-gray-900 hover:bg-gray-100/50"} transition-all duration-200`}
                   style={{ fontFamily: "'Poppins', sans-serif" }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavClick(item);
+                  }}
                 >
                   {item}
                 </motion.a>
               ))}
               <motion.button
-                whileHover={{
-                  scale: 1.05,
-                  boxShadow: "0 10px 30px rgba(168, 85, 247, 0.4)",
-                }}
+                whileHover={{ scale: 1.05, boxShadow: "0 10px 30px rgba(168, 85, 247, 0.4)" }}
                 whileTap={{ scale: 0.95 }}
                 className="ml-4 px-6 py-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full text-sm font-medium hover:from-purple-600 hover:to-pink-600 transition-all duration-200 text-white"
                 style={{ fontFamily: "'Poppins', sans-serif" }}
+                 onClick={() => window.open("https://wa.me/919727181143?text=Hi%20Parthiv!", "_blank")}
               >
                 Let's Connect
               </motion.button>
             </div>
 
-            {/* Mobile menu button */}
-            <button
+             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className={`md:hidden p-2 rounded-lg ${
                 isDarkMode ? "hover:bg-slate-800" : "hover:bg-gray-100"
@@ -400,31 +390,26 @@ const ProjectShowcase = () => {
           </div>
         </div>
 
-        {/* Mobile Navigation */}
         <AnimatePresence>
           {isMenuOpen && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              className={`md:hidden ${
-                isDarkMode ? "bg-slate-900/95" : "bg-white/95"
-              } backdrop-blur-md border-t ${
-                isDarkMode ? "border-slate-800" : "border-gray-200"
-              }`}
+              className={`md:hidden ${isDarkMode ? "bg-slate-900/95" : "bg-white/95"} backdrop-blur-md border-t ${isDarkMode ? "border-slate-800" : "border-gray-200"}`}
             >
               <div className="px-4 py-4 space-y-2">
                 {navItems.map((item) => (
                   <a
                     key={item}
                     href={`#${item.toLowerCase()}`}
-                    className={`block px-4 py-2 rounded-lg ${
-                      isDarkMode
-                        ? "text-gray-300 hover:text-white hover:bg-slate-800"
-                        : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
-                    } transition-colors`}
+                    className={`block px-4 py-2 rounded-lg ${isDarkMode ? "text-gray-300 hover:text-white hover:bg-slate-800" : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"} transition-colors`}
                     style={{ fontFamily: "'Poppins', sans-serif" }}
-                    onClick={() => setIsMenuOpen(false)}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleNavClick(item);
+                      setIsMenuOpen(false);
+                    }}
                   >
                     {item}
                   </a>
@@ -1103,29 +1088,44 @@ const ProjectShowcase = () => {
               transition={{ delay: 0.6 }}
               className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6"
             >
-              <motion.button
-                whileHover={{
-                  scale: 1.05,
-                  boxShadow: "0 20px 40px rgba(168, 85, 247, 0.4)",
-                }}
-                whileTap={{ scale: 0.95 }}
-                className="px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full font-semibold text-lg hover:from-purple-600 hover:to-pink-600 transition-all duration-300 shadow-lg text-white flex items-center font-outfit"
-              >
-                <FaExternalLinkAlt className="mr-3" />
-                Live Demo
-              </motion.button>
+              {currentProject.live ? (
+    <motion.button
+      whileHover={{
+        scale: 1.05,
+        boxShadow: "0 20px 40px rgba(168, 85, 247, 0.4)",
+      }}
+      whileTap={{ scale: 0.95 }}
+      className="px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full font-semibold text-lg hover:from-purple-600 hover:to-pink-600 transition-all duration-300 shadow-lg text-white flex items-center font-outfit"
+      onClick={() => window.open(currentProject.live, "_blank")}
+    >
+      <FaExternalLinkAlt className="mr-3" />
+      Live Demo
+    </motion.button>
+  ) : (
+    <span className="px-8 py-4 rounded-full font-semibold text-lg bg-slate-800/60 text-gray-400 border border-purple-500/20 font-outfit">
+      Live Demo Coming soon...
+    </span>
+  )}
 
-              <motion.button
-                whileHover={{
-                  scale: 1.05,
-                  boxShadow: "0 10px 25px rgba(168, 85, 247, 0.2)",
-                }}
-                whileTap={{ scale: 0.95 }}
-                className="flex items-center px-6 py-3 border border-gray-600 text-gray-300 hover:text-white hover:border-gray-500 rounded-full transition-all duration-300 font-outfit"
-              >
-                {getIconComponent("SiGithub", 20, "#ffffff")}
-                <span className="ml-3">GitHub Repo</span>
-              </motion.button>
+  {/* GitHub Repo Button or Coming Soon */}
+  {currentProject.repo ? (
+    <motion.button
+      whileHover={{
+        scale: 1.05,
+        boxShadow: "0 10px 25px rgba(168, 85, 247, 0.2)",
+      }}
+      onClick={() => window.open(currentProject.repo, "_blank")}
+      whileTap={{ scale: 0.95 }}
+      className="flex items-center px-6 py-3 border border-gray-600 text-gray-300 hover:text-white hover:border-gray-500 rounded-full transition-all duration-300 font-outfit"
+    >
+      {getIconComponent("SiGithub", 20, "#ffffff")}
+      <span className="ml-3">GitHub Repo</span>
+    </motion.button>
+  ) : (
+    <span className="px-8 py-4 rounded-full font-semibold text-lg bg-slate-800/60 text-gray-400 border border-purple-500/20 font-outfit">
+      GitHub Repo Coming soon...
+    </span>
+  )}
             </motion.div>
           </motion.div>
         </div>
@@ -1143,9 +1143,13 @@ const ProjectShowcase = () => {
           className="flex items-center px-6 py-3 bg-slate-800/50 border border-slate-700/50 hover:border-purple-500/50 rounded-full transition-all duration-300 mb-6 md:mb-0 font-outfit"
         >
           <FaArrowLeft className="mr-3 text-purple-400" />
-          <NavLink to="/" className="text-white">
-            Back to Portfolio
-          </NavLink>
+          <NavLink
+  to="/"
+  state={{ fromProject: true }}
+  className="text-white"
+>
+  Back to Portfolio
+</NavLink>
         </motion.div>
       </section>
 
@@ -1220,112 +1224,126 @@ const ProjectShowcase = () => {
       </AnimatePresence>
 
       <footer
-        className={`py-16 border-t ${
-          isDarkMode
-            ? "border-slate-800 bg-slate-900/80"
-            : "border-gray-200 bg-gray-50/80"
-        } backdrop-blur-sm relative z-10`}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row items-center justify-between">
-            <div className="mb-8 md:mb-0">
-              <h3
-                className={`text-2xl font-bold mb-2 ${
-                  isDarkMode ? "text-white" : "text-gray-900"
-                }`}
-                style={{ fontFamily: "'Playfair Display', serif" }}
-              >
-                Let's work together
-              </h3>
-              <p
-                className={`${isDarkMode ? "text-gray-400" : "text-gray-600"}`}
-                style={{ fontFamily: "'Poppins', sans-serif" }}
-              >
-                Ready to bring your ideas to life?
-              </p>
-            </div>
-
-            <div className="flex items-center space-x-6">
-              {[
-                {
-                  href: "mailto:parthiv@example.com",
-                  icon: "M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z",
-                },
-                {
-                  href: "https://github.com/parthiv",
-                  icon: "M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z",
-                },
-                {
-                  href: "https://linkedin.com/in/parthiv",
-                  icon: "M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z",
-                },
-                {
-                  href: "https://twitter.com/parthiv",
-                  icon: "M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z",
-                },
-              ].map((social, index) => (
-                <motion.a
-                  key={index}
-                  href={social.href}
-                  whileHover={{ scale: 1.05 }}
-                  className={`p-3 ${
+                  className={`py-16 border-t ${
                     isDarkMode
-                      ? "bg-slate-800 hover:bg-slate-700"
-                      : "bg-white hover:bg-gray-100"
-                  } rounded-full transition-colors`}
+                      ? "border-slate-800 bg-slate-900/80"
+                      : "border-gray-200 bg-gray-50/80"
+                  } backdrop-blur-sm relative z-10`}
                 >
-                  <svg
-                    className="w-6 h-6"
-                    fill={
-                      social.href.includes("mailto") ? "none" : "currentColor"
-                    }
-                    stroke={
-                      social.href.includes("mailto") ? "currentColor" : "none"
-                    }
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap={
-                        social.href.includes("mailto") ? "round" : undefined
-                      }
-                      strokeLinejoin={
-                        social.href.includes("mailto") ? "round" : undefined
-                      }
-                      strokeWidth={
-                        social.href.includes("mailto") ? 2 : undefined
-                      }
-                      d={social.icon}
-                    />
-                  </svg>
-                </motion.a>
-              ))}
-            </div>
-          </div>
-
-          <div
-            className={`mt-12 pt-8 border-t ${
-              isDarkMode ? "border-slate-800" : "border-gray-200"
-            } flex flex-col md:flex-row items-center justify-between`}
-          >
-            <p
-              className={`${
-                isDarkMode ? "text-gray-400" : "text-gray-500"
-              } text-sm`}
-              style={{ fontFamily: "'Poppins', sans-serif" }}
-            >
-              © 2024 Parthiv Shingala. All rights reserved.
-            </p>
-            <p
-              className={`${
-                isDarkMode ? "text-gray-400" : "text-gray-500"
-              } text-sm mt-4 md:mt-0`}
-              style={{ fontFamily: "'Poppins', sans-serif" }}
-            >
-              {currentTime}
-            </p>
-          </div>
-        </div>
-      </footer>
+                  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="flex flex-col md:flex-row items-center justify-between">
+                      <div className="mb-8 md:mb-0">
+                        <h3
+                          className={`text-2xl font-bold mb-2 ${
+                            isDarkMode ? "text-white" : "text-gray-900"
+                          }`}
+                          style={{ fontFamily: "'Playfair Display', serif" }}
+                        >
+                          Let's work together
+                        </h3>
+                        <p
+                          className={`${
+                            isDarkMode ? "text-gray-400" : "text-gray-600"
+                          }`}
+                          style={{ fontFamily: "'Poppins', sans-serif" }}
+                        >
+                          Ready to bring your ideas to life?
+                        </p>
+                        <a
+                          href="tel:+919727181143"
+                          className="mt-2 flex items-center space-x-2 text-lg font-medium text-gray-300 hover:text-purple-400 transition-colors"
+                          style={{ fontFamily: "'Poppins', sans-serif" }}
+                        >
+                          <FaPhone className="text-purple-400 -scale-x-100" />
+                          <span>+91 97271 81143</span>
+                        </a>
+                      </div>
+      
+                      <div className="flex items-center space-x-6">
+                        {[
+                          {
+                            href: "mailto:parthivshingala@gmail.com",
+                            icon: "M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z",
+                          },
+                          {
+                            href: "https://github.com/Parthiv30",
+                            icon: "M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z",
+                          },
+                          {
+                            href: "https://www.linkedin.com/in/parthiv-shingala-933224322",
+                            icon: "M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z",
+                          },
+                          // {
+                          //   href: "https://twitter.com/parthiv",
+                          //   icon: "M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z",
+                          // },
+                        ].map((social, index) => (
+                          <motion.a
+                            key={index}
+                            href={social.href}
+                            whileHover={{ scale: 1.05 }}
+                            className={`p-3 ${
+                              isDarkMode
+                                ? "bg-slate-800 hover:bg-slate-700"
+                                : "bg-white hover:bg-gray-100"
+                            } rounded-full transition-colors`}
+                          >
+                            <svg
+                              className="w-6 h-6"
+                              fill={
+                                social.href.includes("mailto")
+                                  ? "none"
+                                  : "currentColor"
+                              }
+                              stroke={
+                                social.href.includes("mailto")
+                                  ? "currentColor"
+                                  : "none"
+                              }
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap={
+                                  social.href.includes("mailto") ? "round" : undefined
+                                }
+                                strokeLinejoin={
+                                  social.href.includes("mailto") ? "round" : undefined
+                                }
+                                strokeWidth={
+                                  social.href.includes("mailto") ? 2 : undefined
+                                }
+                                d={social.icon}
+                              />
+                            </svg>
+                          </motion.a>
+                        ))}
+                      </div>
+                    </div>
+      
+                    <div
+                      className={`mt-12 pt-8 border-t ${
+                        isDarkMode ? "border-slate-800" : "border-gray-200"
+                      } flex flex-col md:flex-row items-center justify-between`}
+                    >
+                      <p
+                        className={`${
+                          isDarkMode ? "text-gray-400" : "text-gray-500"
+                        } text-sm`}
+                        style={{ fontFamily: "'Poppins', sans-serif" }}
+                      >
+                        © 2024 Parthiv Shingala. All rights reserved.
+                      </p>
+                      <p
+                        className={`${
+                          isDarkMode ? "text-gray-400" : "text-gray-500"
+                        } text-sm mt-4 md:mt-0`}
+                        style={{ fontFamily: "'Poppins', sans-serif" }}
+                      >
+                        {currentTime}
+                      </p>
+                    </div>
+                  </div>
+                </footer>
     </div>
   );
 };
