@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo,useRef } from "react";
 import {
   motion,
   AnimatePresence,
@@ -22,7 +22,8 @@ import {
   FaSearch,
   FaArrowLeft,
   FaExpand,
-  FaPhone
+  FaPhone,
+  FaStar,
 } from "react-icons/fa";
 import SAP1 from "./assets/certi/SAP Certified Associate.png";
 import SAP2 from "./assets/certi/SAP2.png";
@@ -49,6 +50,7 @@ import SAP22 from "./assets/certi/SAP22.png";
 import SAP23 from "./assets/certi/SAP23.png";
 import SAP24 from "./assets/certi/SAP24.png";
 import { NavLink, useParams, useNavigate } from "react-router-dom";
+
 // Custom hook for animations (matching your portfolio)
 const useAnimationVariants = () => {
   return {
@@ -82,6 +84,24 @@ const useAnimationVariants = () => {
   };
 };
 
+// Skeleton Loader Component
+const CertificationSkeleton = ({ isDarkMode }) => (
+  <div className="animate-pulse">
+    <div className={`h-56 ${isDarkMode ? "bg-slate-700" : "bg-gray-200"} rounded-t-xl`}></div>
+    <div className="p-6">
+      <div className={`h-6 ${isDarkMode ? "bg-slate-700" : "bg-gray-200"} rounded w-3/4 mb-4`}></div>
+      <div className="flex items-center mb-4">
+        <div className={`w-6 h-6 ${isDarkMode ? "bg-slate-700" : "bg-gray-200"} rounded-full mr-3`}></div>
+        <div>
+          <div className={`h-4 ${isDarkMode ? "bg-slate-700" : "bg-gray-200"} rounded w-24 mb-2`}></div>
+          <div className={`h-3 ${isDarkMode ? "bg-slate-700" : "bg-gray-200"} rounded w-16`}></div>
+        </div>
+      </div>
+      <div className={`h-10 ${isDarkMode ? "bg-slate-700" : "bg-gray-200"} rounded-lg`}></div>
+    </div>
+  </div>
+);
+
 const AllCertifications = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -92,85 +112,76 @@ const AllCertifications = () => {
   const [currentTime, setCurrentTime] = useState("");
   const [isImageExpanded, setIsImageExpanded] = useState(false);
   const [expandedCertificate, setExpandedCertificate] = useState(null);
+  const [featuredIndex, setFeaturedIndex] = useState(0);
+  const [isFiltering, setIsFiltering] = useState(false); // New state for skeleton loader
   const navigate = useNavigate();
+  const certificationsGridRef = useRef(null);
 
   const { scrollY } = useScroll();
   const heroY = useTransform(scrollY, [0, 500], [0, -100]);
   const heroOpacity = useTransform(scrollY, [0, 300], [1, 0.3]);
   const variants = useAnimationVariants();
 
+  useEffect(() => {
+  window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+}, []);
+
   // Particles configuration (matching your portfolio)
   const particlesInit = useCallback(async (engine) => {
     await loadSlim(engine);
   }, []);
 
+  // Smooth scroll handler
+  const handleExploreClick = (e) => {
+    e.preventDefault();
+    certificationsGridRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   const particlesConfig = {
-    background: {
-      color: {
-        value: "transparent",
-      },
-    },
+    background: { color: { value: "transparent" } },
     fpsLimit: 120,
+    fullScreen: { enable: false },
     interactivity: {
       events: {
-        onClick: {
-          enable: true,
-          mode: "push",
-        },
-        onHover: {
-          enable: true,
-          mode: "repulse",
-        },
+        onClick: { enable: true, mode: "push" },
+        onHover: { enable: true, mode: "attract" },
         resize: true,
       },
       modes: {
-        push: {
-          quantity: 4,
-        },
-        repulse: {
-          distance: 200,
-          duration: 0.4,
-        },
+        push: { quantity: 3 },
+        attract: { distance: 200, duration: 0.5, factor: 2 },
       },
     },
     particles: {
+      number: { value: 60, density: { enable: true, area: 800 } },
       color: {
         value: isDarkMode
-          ? ["#8b5cf6", "#ec4899", "#06b6d4"]
-          : ["#6366f1", "#d946ef", "#0ea5e9"],
+          ? ["#d946ef", "#06b6d4", "#facc15"]
+          : ["#6366f1", "#ec4899", "#0ea5e9"],
+      },
+      shape: { type: ["circle", "triangle"] },
+      size: {
+        value: { min: 1, max: 4 },
+        animation: { enable: true, speed: 3, minimumValue: 0.3, sync: false },
+      },
+      opacity: {
+        value: 0.6,
+        animation: { enable: true, speed: 1, minimumValue: 0.2, sync: false },
       },
       links: {
-        color: isDarkMode ? "#8b5cf6" : "#6366f1",
-        distance: 150,
         enable: true,
-        opacity: 0.3,
+        distance: 120,
+        color: isDarkMode ? "#f472b6" : "#8b5cf6",
+        opacity:0.5,
         width: 1,
       },
       move: {
-        direction: "none",
         enable: true,
-        outModes: {
-          default: "bounce",
-        },
-        random: false,
-        speed: 1,
+        speed: 2,
+        direction: "none",
+        random: true,
         straight: false,
-      },
-      number: {
-        density: {
-          enable: true,
-          area: 800,
-        },
-        value: 80,
-      },
-      opacity: {
-        value: 0.5,
-      },
-      shape: {
-        type: "circle",
-      },
-      size: {
-        value: { min: 1, max: 3 },
+        outModes: { default: "bounce" },
       },
     },
     detectRetina: true,
@@ -178,7 +189,6 @@ const AllCertifications = () => {
 
   // Comprehensive certifications data
   const certifications = [
-    // SAP Certifications
     {
       id: 1,
       title: "SAP Certified Associate – Back-End Developer – ABAP Cloud",
@@ -191,12 +201,7 @@ const AllCertifications = () => {
       score: "84%",
       description:
         "Comprehensive certification covering ABAP Cloud development, RESTful services, and modern SAP development practices.",
-      skills: [
-        "ABAP Cloud",
-        "RESTful Services",
-        "SAP BTP",
-        "Core Data Services",
-      ],
+      skills: ["ABAP Cloud", "RESTful Services", "SAP BTP", "Core Data Services"],
     },
     {
       id: 2,
@@ -315,8 +320,6 @@ const AllCertifications = () => {
         "Certification for completing an online non-credit course on Enterprise Systems Environment.",
       skills: ["Enterprise Systems", "SAP"],
     },
-
-    // Software Development & Engineering
     {
       id: 10,
       title: "Software Engineering Essentials",
@@ -327,7 +330,7 @@ const AllCertifications = () => {
       icon: <SiCoursera size={24} color="#0056D3" />,
       date: "2025",
       description:
-        "Foundational course on software engineering principles and best practices.",
+        "Foundational course onDirty software engineering principles and best practices.",
       skills: ["Software Engineering", "Best Practices"],
     },
     {
@@ -382,8 +385,6 @@ const AllCertifications = () => {
         "Certification for completing an online non-credit course on Software Engineering.",
       skills: ["Software Engineering"],
     },
-
-    // Professional & Soft Skills
     {
       id: 13,
       title: "Adaptability and Resiliency",
@@ -423,19 +424,19 @@ const AllCertifications = () => {
         "A series of courses focused on communication, teamwork, and digital skills.",
       skills: ["Communication", "Teamwork", "Workplace Tools"],
     },
-    {
-      id: 16,
-      title: "Collaborating with Microsoft Teams",
-      issuer: "Microsoft",
-      category: "Professional & Soft Skills",
-      image: "/placeholder.svg?height=300&width=400",
-      url: "#",
-      icon: <FaMicrosoft color="#00A4EF" />,
-      date: "2024",
-      description:
-        "Using Microsoft Teams effectively for collaboration and productivity.",
-      skills: ["Collaboration", "Microsoft Tools"],
-    },
+    // {
+    //   id: 16,
+    //   title: "Collaborating with Microsoft Teams",
+    //   issuer: "Microsoft",
+    //   category: "Professional & Soft Skills",
+    //   image: "/placeholder.svg?height=300&width=400",
+    //   url: "#",
+    //   icon: <FaMicrosoft color="#00A4EF" />,
+    //   date: "2024",
+    //   description:
+    //     "Using Microsoft Teams effectively for collaboration and productivity.",
+    //   skills: ["Collaboration", "Microsoft Tools"],
+    // },
     {
       id: 17,
       title: "Communicate Effectively",
@@ -516,6 +517,15 @@ const AllCertifications = () => {
     },
   ];
 
+  const featuredCerts = [certifications[0], certifications[4], certifications[10]];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFeaturedIndex((prevIndex) => (prevIndex + 1) % featuredCerts.length);
+    }, 5000); // Rotate every 5 seconds
+    return () => clearInterval(interval);
+  }, [featuredCerts.length]);
+
   const filterCategories = [
     "All",
     "SAP Certifications",
@@ -530,18 +540,20 @@ const AllCertifications = () => {
     navigate("/", { state: { section: section.toLowerCase() } });
   };
 
-  // Filter certifications based on selected filter and search term
-  const filteredCertifications = certifications.filter((cert) => {
-    const matchesFilter =
-      selectedFilter === "All" || cert.category === selectedFilter;
-    const matchesSearch =
-      cert.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      cert.issuer.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      cert.skills?.some((skill) =>
-        skill.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    return matchesFilter && matchesSearch;
-  });
+  // Filter certifications with useMemo for optimization
+  const filteredCertifications = useMemo(() => {
+    return certifications.filter((cert) => {
+      const matchesFilter =
+        selectedFilter === "All" || cert.category === selectedFilter;
+      const matchesSearch =
+        cert.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        cert.issuer.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        cert.skills?.some((skill) =>
+          skill.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+      return matchesFilter && matchesSearch;
+    });
+  }, [selectedFilter, searchTerm, certifications]);
 
   // Handle scroll effect for navigation
   useEffect(() => {
@@ -585,6 +597,15 @@ const AllCertifications = () => {
     return () => document.removeEventListener("keydown", handleEscape);
   }, [isImageExpanded, selectedCertificate]);
 
+  // Handle loading state for filter changes
+  useEffect(() => {
+    setIsFiltering(true);
+    const timer = setTimeout(() => {
+      setIsFiltering(false);
+    }, 300); // Adjust delay as needed
+    return () => clearTimeout(timer);
+  }, [selectedFilter, searchTerm]);
+
   return (
     <div
       className={`min-h-screen ${
@@ -613,7 +634,7 @@ const AllCertifications = () => {
         }
       `}</style>
 
-      {/* Particles Background (matching your portfolio) */}
+      {/* Particles Background */}
       <Particles
         id="tsparticles"
         init={particlesInit}
@@ -621,15 +642,13 @@ const AllCertifications = () => {
         className="fixed inset-0 z-0"
       />
 
-      {/* Navigation (exact copy from your portfolio) */}
+      {/* Navigation */}
       <motion.nav
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled
-            ? `${
-                isDarkMode ? "bg-slate-900/90" : "bg-white/90"
-              } backdrop-blur-md`
+            ? `${isDarkMode ? "bg-slate-900/90" : "bg-white/90"} backdrop-blur-md`
             : "bg-transparent"
         }`}
       >
@@ -698,7 +717,7 @@ const AllCertifications = () => {
             >
               <div className="w-6 h-6 flex flex-col justify-center items-center">
                 <span
-                  className={`block w-5 h-0.5 ${
+                  class reusableStylesName={`block w-5 h-0.5 ${
                     isDarkMode ? "bg-white" : "bg-gray-900"
                   } transition-all duration-300 ${
                     isMenuOpen ? "rotate-45 translate-y-1" : ""
@@ -768,291 +787,293 @@ const AllCertifications = () => {
       </motion.nav>
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <motion.div
-          style={{ y: heroY, opacity: heroOpacity }}
-          className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center"
-        >
-          {/* Main Heading */}
-          <motion.h1
-            {...variants.fadeInUp}
-            transition={{ delay: 0.4 }}
-            className="text-4xl sm:text-5xl lg:text-7xl font-bold leading-tight mb-8"
-            style={{ fontFamily: "'Playfair Display', serif" }}
-          >
-            <span
-              className={`${isDarkMode ? "text-white" : "text-gray-900"}`}
-              style={{
-                textShadow:
-                  "0 0 20px rgba(255, 255, 255,0.5), 0 0 40px rgba(255, 255, 255, 0.3), 0 0 60px rgba(255, 255, 255, 0.2)",
-              }}
+      <section className="relative min-h-screen flex items-center overflow-hidden">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <motion.div
+              style={{ y: heroY, opacity: heroOpacity }}
+              className="text-center lg:text-left"
             >
-              All{" "}
-            </span>
-            <motion.span
-              className="bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent relative"
-              animate={{
-                backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
-              }}
-              transition={{
-                duration: 5,
-                repeat: Number.POSITIVE_INFINITY,
-                ease: "linear",
-              }}
-              style={{
-                backgroundSize: "200% 200%",
-                fontStyle: "italic",
-              }}
-            >
-              Certifications
-              {/* Shimmer effect */}
-              <motion.div
-                className="absolute -bottom-2 left-0 h-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"
-                initial={{ width: 0 }}
-                animate={{ width: "100%" }}
-                transition={{ duration: 1.5, delay: 0.5 }}
-              />
-            </motion.span>
-          </motion.h1>
+              <motion.h1
+                {...variants.fadeInUp}
+                className="text-4xl sm:text-5xl lg:text-7xl font-bold leading-tight mb-6"
+                style={{ fontFamily: "'Playfair Display', serif" }}
+              >
+                <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
+                  My Digital
+                </span>
+                <br />
+                Credentials
+              </motion.h1>
 
-          <motion.p
-            {...variants.fadeInUp}
-            transition={{ delay: 0.8 }}
-            className={`text-lg sm:text-xl ${
-              isDarkMode ? "text-gray-400" : "text-gray-600"
-            } mb-12 max-w-2xl mx-auto font-outfit`}
-          >
-            A comprehensive collection of my professional certifications
-            spanning SAP technologies, software development, and essential soft
-            skills.
-          </motion.p>
-
-          {/* Search Bar - Fixed search icon */}
-          <motion.div
-            {...variants.fadeInUp}
-            transition={{ delay: 1 }}
-            className="max-w-md mx-auto mb-12"
-          >
-            <div className="relative">
-              <FaSearch
-                className={`absolute left-4 top-1/2 transform -translate-y-1/2 ${
-                  isDarkMode ? "text-purple-400" : "text-purple-500"
-                } z-10`}
-                size={16}
-              />
-              <input
-                type="text"
-                placeholder="Search certifications..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className={`w-full pl-12 pr-4 py-4 ${
-                  isDarkMode
-                    ? "bg-slate-800/50 border-slate-700/50 text-white placeholder-gray-400"
-                    : "bg-white/50 border-gray-200/50 text-gray-900 placeholder-gray-500"
-                } backdrop-blur-sm rounded-xl border focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all duration-300`}
-                style={{ fontFamily: "'Poppins', sans-serif" }}
-              />
-            </div>
-          </motion.div>
-
-          {/* Filter Buttons */}
-          <motion.div
-            {...variants.staggerContainer}
-            className="flex flex-wrap justify-center gap-3 mb-16"
-          >
-            {filterCategories.map((category, index) => (
-              <motion.button
-                key={category}
-                {...variants.scaleIn}
-                transition={{ delay: 1.2 + index * 0.1 }}
-                whileHover={{
-                  scale: 1.05,
-                  boxShadow: "0 10px 25px rgba(168, 85, 247, 0.3)",
-                }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setSelectedFilter(category)}
-                className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
-                  selectedFilter === category
-                    ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg"
-                    : `${
-                        isDarkMode
-                          ? "bg-slate-800/50 border-slate-700/50 text-gray-300 hover:text-white hover:border-purple-500/50 hover:bg-purple-500/10"
-                          : "bg-white/50 border-gray-200/50 text-gray-600 hover:text-gray-900 hover:border-purple-500/50 hover:bg-purple-500/10"
-                      } backdrop-blur-sm border`
-                }`}
+              <motion.p
+                {...variants.fadeInUp}
+                transition={{ delay: 0.2 }}
+                className={`text-lg sm:text-xl ${
+                  isDarkMode ? "text-gray-400" : "text-gray-600"
+                } max-w-xl mx-auto lg:mx-0`}
                 style={{ fontFamily: "'Poppins', sans-serif" }}
               >
-                <FaFilter className="inline-block mr-2" size={14} />
-                {category}
-              </motion.button>
-            ))}
-          </motion.div>
-        </motion.div>
-      </section>
+                A comprehensive collection of my professional achievements,
+                spanning SAP technologies, software engineering, and essential
+                workplace skills.
+              </motion.p>
+              <motion.div
+                {...variants.fadeInUp}
+                transition={{ delay: 0.4 }}
+                className="mt-10"
+              >
+                <a
+                  href="#certifications-grid"
+                  onClick={handleExploreClick}
+                  className="inline-block px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full text-lg font-medium text-white shadow-lg hover:shadow-purple-500/50 transition-all duration-300 transform hover:scale-105"
+                >
+                  Explore Certifications
+                </a>
+              </motion.div>
+            </motion.div>
 
-      {/* Certifications Grid - Increased card height */}
-      <section className="py-20 relative z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <AnimatePresence mode="wait">
             <motion.div
-              key={selectedFilter + searchTerm}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.5 }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+              {...variants.fadeInRight}
+              className="hidden lg:flex justify-center items-center"
             >
-              {filteredCertifications.map((cert, index) => (
+              <AnimatePresence mode="wait">
                 <motion.div
-                  key={cert.id}
+                  key={featuredIndex}
                   initial={{ opacity: 0, y: 50, scale: 0.9 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
-                  transition={{
-                    duration: 0.6,
-                    delay: index * 0.1,
-                    type: "spring",
-                    stiffness: 100,
-                  }}
-                  whileHover={{
-                    scale: 1.03,
-                    y: -10,
-                    boxShadow: "0 25px 50px rgba(168, 85, 247, 0.3)",
-                  }}
-                  className={`group ${
+                  exit={{ opacity: 0, y: -50, scale: 0.9 }}
+                  transition={{ duration: 0.5, type: "spring" }}
+                  className={`${
                     isDarkMode
-                      ? "bg-slate-800/50 border-slate-700/50 hover:border-purple-500/50"
-                      : "bg-white/50 border-gray-200/50 hover:border-purple-500/50"
-                  } backdrop-blur-sm rounded-xl overflow-hidden border transition-all duration-300 cursor-pointer min-h-[500px]`}
-                  onClick={() => setSelectedCertificate(cert)}
+                      ? "bg-slate-800/50 border-slate-700/50"
+                      : "bg-white/50 border-gray-200/50"
+                  } backdrop-blur-lg rounded-2xl overflow-hidden border w-full max-w-sm shadow-2xl shadow-purple-500/10`}
                 >
-                  {/* Certificate Image - Increased height */}
-                  <div className="relative h-64 bg-gradient-to-br from-purple-500/20 to-pink-500/20 overflow-hidden">
-                    <img
-                      src={cert.image || "/placeholder.svg"}
-                      alt={cert.title}
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                      onError={(e) => {
-                        e.target.style.display = "none";
-                        e.target.nextSibling.style.display = "flex";
-                      }}
-                    />
-                    <div className="w-full h-full bg-gradient-to-br from-purple-500/20 to-pink-500/20 hidden items-center justify-center">
-                      <FaCertificate size={80} className="text-purple-400" />
+                  <div className="p-4">
+                    <div className="relative h-48 bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-xl overflow-hidden">
+                      <img
+                        src={featuredCerts[featuredIndex].image}
+                        alt={featuredCerts[featuredIndex].title}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute top-3 left-3 px-3 py-1 bg-yellow-400 text-black text-xs font-bold rounded-full flex items-center gap-1">
+                        <FaStar /> Featured
+                      </div>
                     </div>
-
-                    {/* Category Tag */}
-                    <div className="absolute top-4 left-4">
-                      <span className="px-3 py-1 bg-black/50 backdrop-blur-sm text-white text-xs font-medium rounded-full">
-                        {cert.category.split(" ")[0]}
+                  </div>
+                  <div className="p-6 pt-2">
+                    <h3
+                      className="text-lg font-bold mb-2 line-clamp-2"
+                      style={{ fontFamily: "'Playfair Display', serif" }}
+                    >
+                      {featuredCerts[featuredIndex].title}
+                    </h3>
+                    <div className="flex items-center text-sm">
+                      <div className="mr-2">{featuredCerts[featuredIndex].icon}</div>
+                      <span
+                        className={isDarkMode ? "text-gray-300" : "text-gray-600"}
+                      >
+                        {featuredCerts[featuredIndex].issuer}
                       </span>
                     </div>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </motion.div>
+          </div>
+        </div>
+      </section>
 
-                    {/* Score Badge (if available) */}
-                    {cert.score && (
-                      <div className="absolute top-4 right-4">
-                        <span className="px-3 py-1 bg-green-500/90 backdrop-blur-sm text-white text-xs font-bold rounded-full">
-                          {cert.score}
+      {/* Certifications Grid Section */}
+      <section id="certifications-grid" className="py-24 relative z-10" ref={certificationsGridRef}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            variants={variants.staggerContainer}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true, amount: 0.2 }}
+            className="mb-16"
+          >
+            <motion.div {...variants.fadeInUp} className="text-center mb-12">
+              <h2
+                className="text-3xl md:text-4xl font-bold mb-3"
+                style={{ fontFamily: "'Playfair Display', serif" }}
+              >
+                Filter & Search Credentials
+              </h2>
+              <p className="text-lg text-gray-400">
+                Use the tools below to find specific qualifications.
+              </p>
+            </motion.div>
+            <motion.div
+              {...variants.fadeInUp}
+              transition={{ delay: 0.2 }}
+              className="flex flex-col lg:flex-row items-center gap-6 mb-12 p-4 rounded-xl backdrop-blur-sm"
+              style={{
+                background: isDarkMode
+                  ? "rgba(30, 41, 59, 0.5)"
+                  : "rgba(249, 250, 251, 0.5)",
+              }}
+            >
+              <div className="relative w-full lg:w-2/5">
+                <FaSearch
+                  className={`absolute left-4 top-1/2 transform -translate-y-1/2 ${
+                    isDarkMode ? "text-purple-400" : "text-purple-500"
+                  } z-10`}
+                  size={16}
+                />
+                <input
+                  type="text"
+                  placeholder="Search by title, issuer, or skill..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className={`w-full pl-12 pr-4 py-4 ${
+                    isDarkMode
+                      ? "bg-slate-800 border-slate-700 text-white placeholder-gray-400"
+                      : "bg-white border-gray-200 text-gray-900 placeholder-gray-500"
+                  } rounded-xl border focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all duration-300`}
+                  style={{ fontFamily: "'Poppins', sans-serif" }}
+                />
+              </div>
+              <div className="flex flex-wrap w-full justify-center lg:justify-start gap-3">
+  {filterCategories.map((category) => (
+    <motion.button
+      key={category}
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      onClick={() => setSelectedFilter(category)}
+      className={`px-5 py-3 rounded-full font-medium transition-all duration-300 text-sm ${
+        selectedFilter === category
+          ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg"
+          : `${
+              isDarkMode
+                ? "bg-slate-700/50 text-gray-300 hover:text-white hover:bg-slate-700"
+                : "bg-white/80 text-gray-600 hover:text-gray-900 hover:bg-white"
+            } border border-transparent`
+      }`}
+      style={{ fontFamily: "'Poppins', sans-serif" }}
+    >
+      {category}
+    </motion.button>
+  ))}
+</div>
+            </motion.div>
+          </motion.div>
+
+          {/* Grid with Skeleton Loader */}
+          {isFiltering ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {Array.from({ length: 9 }).map((_, index) => (
+                <CertificationSkeleton key={index} isDarkMode={isDarkMode} />
+              ))}
+            </div>
+          ) : (
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={selectedFilter + searchTerm}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.5 }}
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+              >
+                {filteredCertifications.map((cert, index) => (
+                  <motion.div
+                    key={cert.id}
+                    layout
+                    initial={{ opacity: 0, y: 50, scale: 0.9 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -50, scale: 0.9 }}
+                    transition={{
+                      duration: 0.6,
+                      delay: index * 0.05,
+                      type: "spring",
+                      stiffness: 100,
+                    }}
+                    whileHover={{
+                      scale: 1.03,
+                      y: -10,
+                      boxShadow: "0 25px 50px rgba(168, 85, 247, 0.3)",
+                    }}
+                    className={`group ${
+                      isDarkMode
+                        ? "bg-slate-800/50 border-slate-700/50 hover:border-purple-500/50"
+                        : "bg-white/50 border-gray-200/50 hover:border-purple-500/50"
+                    } backdrop-blur-sm rounded-xl overflow-hidden border transition-all duration-300 cursor-pointer flex flex-col`}
+                    onClick={() => setSelectedCertificate(cert)}
+                  >
+                    <div className="relative h-56 bg-gradient-to-br from-purple-500/20 to-pink-500/20 overflow-hidden">
+                      <img
+                        src={cert.image || "/placeholder.svg"}
+                        alt={cert.title}
+                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                      />
+                      <div className="absolute top-4 left-4">
+                        <span className="px-3 py-1 bg-black/50 backdrop-blur-sm text-white text-xs font-medium rounded-full">
+                          {cert.category.split(" ")[0]}
                         </span>
                       </div>
-                    )}
-
-                    {/* Hover Overlay */}
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      whileHover={{ opacity: 1 }}
-                      className="absolute inset-0 bg-gradient-to-t from-purple-900/80 via-transparent to-transparent flex items-end justify-center pb-4"
-                    >
-                      <span className="text-white font-medium text-sm bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full">
-                        Click to view details
-                      </span>
-                    </motion.div>
-                  </div>
-
-                  {/* Certificate Content - Adjusted for increased height */}
-                  <div className="p-6 flex flex-col justify-between flex-1">
-                    <div>
-                      <div className="flex items-start justify-between mb-4">
-                        <div className="flex-1">
-                          <h3
-                            className={`text-lg font-bold ${
-                              isDarkMode ? "text-white" : "text-gray-900"
-                            } mb-2 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-purple-400 group-hover:to-pink-400 group-hover:bg-clip-text transition-all duration-300 line-clamp-2`}
-                            style={{ fontFamily: "'Playfair Display', serif" }}
-                          >
-                            {cert.title}
-                          </h3>
-                          <div className="flex items-center mb-3">
-                            <div className="mr-3 group-hover:scale-110 transition-transform duration-300">
-                              {cert.icon}
-                            </div>
-                            <div>
-                              <p
-                                className={`${
-                                  isDarkMode ? "text-gray-300" : "text-gray-600"
-                                } text-sm font-medium`}
-                                style={{ fontFamily: "'Poppins', sans-serif" }}
-                              >
-                                {cert.issuer}
-                              </p>
-                              <p
-                                className={`${
-                                  isDarkMode ? "text-gray-400" : "text-gray-500"
-                                } text-xs`}
-                              >
-                                {cert.date}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Skills Tags */}
-                      {cert.skills && (
-                        <div className="flex flex-wrap gap-2 mb-4">
-                          {cert.skills.slice(0, 3).map((skill, skillIndex) => (
-                            <span
-                              key={skillIndex}
-                              className="px-2 py-1 bg-purple-500/10 text-purple-300 rounded-md text-xs font-medium border border-purple-500/20"
-                            >
-                              {skill}
-                            </span>
-                          ))}
-                          {cert.skills.length > 3 && (
-                            <span className="px-2 py-1 bg-gray-500/10 text-gray-400 rounded-md text-xs font-medium">
-                              +{cert.skills.length - 3} more
-                            </span>
-                          )}
+                      {cert.score && (
+                        <div className="absolute top-4 right-4">
+                          <span className="px-3 py-1 bg-green-500/90 backdrop-blur-sm text-white text-xs font-bold rounded-full">
+                            {cert.score}
+                          </span>
                         </div>
                       )}
                     </div>
 
-                    {/* View Certificate Button */}
-                    <motion.button
-                      whileHover={{
-                        scale: 1.02,
-                        boxShadow: "0 10px 25px rgba(168, 85, 247, 0.3)",
-                      }}
-                      whileTap={{ scale: 0.98 }}
-                      className="w-full py-3 bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30 rounded-lg text-white font-medium hover:from-purple-500/30 hover:to-pink-500/30 hover:border-purple-500/50 transition-all duration-300 group-hover:shadow-lg"
-                      style={{ fontFamily: "'Poppins', sans-serif" }}
-                    >
-                      <span className="flex items-center justify-center">
-                        <FaAward className="mr-2" size={16} />
-                        View Certificate
-                        <FaExternalLinkAlt
-                          className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                          size={12}
-                        />
-                      </span>
-                    </motion.button>
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
-          </AnimatePresence>
+                    <div className="p-6 flex flex-col justify-between flex-1">
+                      <div>
+                        <h3
+                          className={`text-lg font-bold ${
+                            isDarkMode ? "text-white" : "text-gray-900"
+                          } mb-2 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-purple-400 group-hover:to-pink-400 group-hover:bg-clip-text transition-all duration-300 line-clamp-2 h-14`}
+                          style={{ fontFamily: "'Playfair Display', serif" }}
+                        >
+                          {cert.title}
+                        </h3>
+                        <div className="flex items-center mb-4">
+                          <div className="mr-3">{cert.icon}</div>
+                          <div>
+                            <p
+                              className={`${
+                                isDarkMode ? "text-gray-300" : "text-gray-600"
+                              } text-sm font-medium`}
+                              style={{ fontFamily: "'Poppins', sans-serif" }}
+                            >
+                              {cert.issuer}
+                            </p>
+                            <p
+                              className={`${
+                                isDarkMode ? "text-gray-400" : "text-gray-500"
+                              } text-xs`}
+                            >
+                              {cert.date}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <motion.div
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        className="mt-auto w-full py-3 bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30 rounded-lg text-white font-medium hover:from-purple-500/30 hover:to-pink-500/30 hover:border-purple-500/50 transition-all duration-300 text-center"
+                        style={{ fontFamily: "'Poppins', sans-serif" }}
+                      >
+                        <span className="flex items-center justify-center">
+                          <FaAward className="mr-2" size={16} />
+                          View Details
+                        </span>
+                      </motion.div>
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </AnimatePresence>
+          )}
 
           {/* No Results Message */}
-          {filteredCertifications.length === 0 && (
+          {filteredCertifications.length === 0 && !isFiltering && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -1071,9 +1092,7 @@ const AllCertifications = () => {
               >
                 No certifications found
               </h3>
-              <p
-                className={`${isDarkMode ? "text-gray-400" : "text-gray-500"}`}
-              >
+              <p className={`${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>
                 Try adjusting your search terms or filters
               </p>
             </motion.div>
@@ -1081,7 +1100,7 @@ const AllCertifications = () => {
         </div>
       </section>
 
-      {/* Certificate Modal with Custom Scrollbar */}
+      {/* Certificate Modal */}
       <AnimatePresence>
         {selectedCertificate && (
           <motion.div
@@ -1089,213 +1108,165 @@ const AllCertifications = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
-            onClick={() => {
-              setSelectedCertificate(null);
-              setIsImageExpanded(false);
-            }}
+            onClick={() => setSelectedCertificate(null)}
           >
             <motion.div
-              initial={{ opacity: 0, scale: 0.8, y: 50 }}
+              initial={{ opacity: 0, scale: 0.9, y: 50 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.8, y: 50 }}
+              exit={{ opacity: 0, scale: 0.9, y: 50 }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
               className={`${
                 isDarkMode ? "bg-slate-800" : "bg-white"
-              } rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl custom-scrollbar`}
+              } rounded-2xl max-w-5xl w-full max-h-[90vh] overflow-hidden flex flex-col shadow-2xl`}
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Modal Header - Clickable image for full view */}
-              <div className="relative">
-                <div
-                  className="h-64 bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center cursor-pointer group"
-                  onClick={() => {
-                    setExpandedCertificate(selectedCertificate);
-                    setSelectedCertificate(null);
-                    setIsImageExpanded(true);
-                  }}
+              <div
+                className="relative h-64 bg-gradient-to-br from-purple-500/20 to-pink-500/20 cursor-pointer group flex-shrink-0"
+                onClick={() => {
+                  setExpandedCertificate(selectedCertificate);
+                  setSelectedCertificate(null);
+                  setIsImageExpanded(true);
+                }}
+              >
+                <img
+                  src={selectedCertificate.image}
+                  alt={selectedCertificate.title}
+                  className="w-full h-full object-cover"
+                />
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  whileHover={{ opacity: 1 }}
+                  className="absolute inset-0 bg-black/60 flex items-center justify-center"
                 >
-                  <img
-                    src={selectedCertificate.image || "/placeholder.svg"}
-                    alt={selectedCertificate.title}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    onError={(e) => {
-                      e.target.style.display = "none";
-                      e.target.nextSibling.style.display = "flex";
-                    }}
-                  />
-                  <div className="w-full h-full bg-gradient-to-br from-purple-500/20 to-pink-500/20 hidden items-center justify-center">
-                    <FaCertificate size={120} className="text-purple-400" />
+                  <div className="bg-white/20 backdrop-blur-sm rounded-full p-4">
+                    <FaExpand className="text-white" size={24} />
                   </div>
-
-                  {/* Expand overlay */}
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    whileHover={{ opacity: 1 }}
-                    className="absolute inset-0 bg-black/50 flex items-center justify-center"
-                  >
-                    <div className="bg-white/20 backdrop-blur-sm rounded-full p-3">
-                      <FaExpand className="text-white" size={24} />
-                    </div>
-                  </motion.div>
-                </div>
-
-                {/* Close Button */}
+                </motion.div>
                 <motion.button
                   whileHover={{ scale: 1.1, rotate: 90 }}
-                  whileTap={{ scale: 0.9 }}
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation();
                     setSelectedCertificate(null);
-                    setIsImageExpanded(false);
                   }}
-                  className="absolute top-4 right-4 w-10 h-10 bg-black/50 backdrop-blur-sm text-white rounded-full flex items-center justify-center hover:bg-black/70 transition-colors z-10"
+                  className="absolute top-4 right-4 w-10 h-10 bg-black/50 backdrop-blur-sm text-white rounded-full flex items-center justify-center z-10"
                 >
                   <FaTimes size={16} />
                 </motion.button>
               </div>
 
-              {/* Modal Content */}
-              <div className="p-8">
-                <div className="flex items-start justify-between mb-6">
-                  <div className="flex-1">
+              <div className="p-8 overflow-y-auto custom-scrollbar">
+                <div className="grid lg:grid-cols-3 gap-8">
+                  <div className="lg:col-span-2">
                     <h2
-                      className={`text-2xl sm:text-3xl font-bold ${
-                        isDarkMode ? "text-white" : "text-gray-900"
-                      } mb-3`}
+                      className="text-2xl sm:text-3xl font-bold mb-6"
                       style={{ fontFamily: "'Playfair Display', serif" }}
                     >
                       {selectedCertificate.title}
                     </h2>
-                    <div className="flex items-center mb-4">
-                      <div className="mr-4">{selectedCertificate.icon}</div>
-                      <div>
-                        <p
-                          className={`${
-                            isDarkMode ? "text-gray-300" : "text-gray-600"
-                          } text-lg font-medium`}
-                          style={{ fontFamily: "'Poppins', sans-serif" }}
-                        >
-                          {selectedCertificate.issuer}
-                        </p>
-                        <p
-                          className={`${
-                            isDarkMode ? "text-gray-400" : "text-gray-500"
-                          } text-sm`}
-                        >
-                          Issued in {selectedCertificate.date}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {selectedCertificate.score && (
-                    <div className="text-center">
-                      <div className="text-3xl font-bold text-green-400 mb-1">
-                        {selectedCertificate.score}
-                      </div>
-                      <div
-                        className={`text-sm ${
-                          isDarkMode ? "text-gray-400" : "text-gray-500"
-                        }`}
+                    <div className="mb-8">
+                      <h3
+                        className="text-lg font-semibold mb-3"
+                        style={{ fontFamily: "'Playfair Display', serif" }}
                       >
-                        Score
+                        About this Certification
+                      </h3>
+                      <p
+                        className="leading-relaxed text-gray-300"
+                        style={{ fontFamily: "'Poppins', sans-serif" }}
+                      >
+                        {selectedCertificate.description}
+                      </p>
+                    </div>
+                    {selectedCertificate.skills && (
+                      <div className="mb-8">
+                        <h3
+                          className="text-lg font-semibold mb-4"
+                          style={{ fontFamily: "'Playfair Display', serif" }}
+                        >
+                          Skills Covered
+                        </h3>
+                        <div className="flex flex-wrap gap-3">
+                          {selectedCertificate.skills.map((skill, index) => (
+                            <span
+                              key={index}
+                              className="px-4 py-2 bg-purple-500/10 text-purple-300 rounded-lg text-sm font-medium border border-purple-500/20"
+                            >
+                              {skill}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="lg:col-span-1">
+                    <div
+                      className={`p-6 rounded-xl ${
+                        isDarkMode ? "bg-slate-700/50" : "bg-gray-100/80"
+                      } border ${
+                        isDarkMode ? "border-slate-600/50" : "border-gray-200"
+                      }`}
+                    >
+                      <h3
+                        className="text-lg font-semibold mb-4"
+                        style={{ fontFamily: "'Playfair Display', serif" }}
+                      >
+                        Details
+                      </h3>
+                      <div className="space-y-4 text-sm">
+                        <div className="flex items-center">
+                          <div className="mr-3">{selectedCertificate.icon}</div>
+                          <div>
+                            <p className="font-medium text-gray-200">
+                              {selectedCertificate.issuer}
+                            </p>
+                            <p className="text-gray-400">Issuer</p>
+                          </div>
+                        </div>
+                        <div className="flex items-center">
+                          <FaCertificate className="mr-3 text-purple-400" />
+                          <div>
+                            <p className="font-medium text-gray-200">
+                              {selectedCertificate.category}
+                            </p>
+                            <p className="text-gray-400">Category</p>
+                          </div>
+                        </div>
+                        {selectedCertificate.score && (
+                          <div className="flex items-center">
+                            <FaAward className="mr-3 text-green-400" />
+                            <div>
+                              <p className="font-medium text-green-400">
+                                {selectedCertificate.score}
+                              </p>
+                              <p className="text-gray-400">Score</p>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                      <div className="mt-6 pt-6 border-t border-slate-600/50 flex flex-col gap-3">
+                        <motion.a
+                          href={selectedCertificate.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          className="w-full px-4 py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg font-semibold text-white text-center flex items-center justify-center gap-2"
+                        >
+                          <FaExternalLinkAlt size={14} />
+                          View Credential
+                        </motion.a>
+                        <motion.button
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={() => setSelectedCertificate(null)}
+                          className="w-full px-4 py-3 bg-slate-600/50 hover:bg-slate-600 rounded-lg font-semibold text-white"
+                        >
+                          Close
+                        </motion.button>
                       </div>
                     </div>
-                  )}
-                </div>
-
-                {/* Category Badge */}
-                <div className="mb-6">
-                  <span className="px-4 py-2 bg-purple-500/10 text-purple-300 rounded-full text-sm font-medium border border-purple-500/20">
-                    {selectedCertificate.category}
-                  </span>
-                </div>
-
-                {/* Description */}
-                <div className="mb-8">
-                  <h3
-                    className={`text-lg font-semibold ${
-                      isDarkMode ? "text-white" : "text-gray-900"
-                    } mb-3`}
-                    style={{ fontFamily: "'Playfair Display', serif" }}
-                  >
-                    About this Certification
-                  </h3>
-                  <p
-                    className={`${
-                      isDarkMode ? "text-gray-300" : "text-gray-600"
-                    } leading-relaxed`}
-                    style={{ fontFamily: "'Poppins', sans-serif" }}
-                  >
-                    {selectedCertificate.description}
-                  </p>
-                </div>
-
-                {/* Skills */}
-                {selectedCertificate.skills && (
-                  <div className="mb-8">
-                    <h3
-                      className={`text-lg font-semibold ${
-                        isDarkMode ? "text-white" : "text-gray-900"
-                      } mb-4`}
-                      style={{ fontFamily: "'Playfair Display', serif" }}
-                    >
-                      Skills Covered
-                    </h3>
-                    <div className="flex flex-wrap gap-3">
-                      {selectedCertificate.skills.map((skill, index) => (
-                        <motion.span
-                          key={index}
-                          initial={{ opacity: 0, scale: 0.8 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ delay: index * 0.1 }}
-                          className="px-4 py-2 bg-purple-500/10 text-purple-300 rounded-lg text-sm font-medium border border-purple-500/20 hover:bg-purple-500/20 transition-colors"
-                        >
-                          {skill}
-                        </motion.span>
-                      ))}
-                    </div>
                   </div>
-                )}
-
-                {/* Action Buttons */}
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <motion.a
-                    href={selectedCertificate.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    whileHover={{
-                      scale: 1.02,
-                      boxShadow: "0 20px 40px rgba(168, 85, 247, 0.4)",
-                    }}
-                    whileTap={{ scale: 0.98 }}
-                    className="flex-1 px-6 py-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl font-semibold text-lg hover:from-purple-600 hover:to-pink-600 transition-all duration-300 shadow-lg text-white text-center"
-                    style={{ fontFamily: "'Poppins', sans-serif" }}
-                  >
-                    <span className="flex items-center justify-center">
-                      <FaExternalLinkAlt className="mr-3" size={18} />
-                      View Certificate
-                    </span>
-                  </motion.a>
-
-                  <motion.button
-                    whileHover={{
-                      scale: 1.02,
-                      boxShadow: "0 10px 25px rgba(168, 85, 247, 0.2)",
-                    }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={() => {
-                      setSelectedCertificate(null);
-                      setIsImageExpanded(false);
-                    }}
-                    className={`px-6 py-4 ${
-                      isDarkMode
-                        ? "bg-slate-700 hover:bg-slate-600 text-white"
-                        : "bg-gray-200 hover:bg-gray-300 text-gray-900"
-                    } rounded-xl font-semibold transition-all duration-300`}
-                    style={{ fontFamily: "'Poppins', sans-serif" }}
-                  >
-                    Close
-                  </motion.button>
                 </div>
               </div>
             </motion.div>
@@ -1311,10 +1282,7 @@ const AllCertifications = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/95 backdrop-blur-sm"
-            onClick={() => {
-              setIsImageExpanded(false);
-              setExpandedCertificate(null);
-            }}
+            onClick={() => setIsImageExpanded(false)}
           >
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
@@ -1325,52 +1293,51 @@ const AllCertifications = () => {
               onClick={(e) => e.stopPropagation()}
             >
               <img
-                src={expandedCertificate.image || "/placeholder.svg"}
+                src={expandedCertificate.image}
                 alt={expandedCertificate.title}
                 className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
               />
-
-              {/* Close Button */}
               <motion.button
                 whileHover={{ scale: 1.1, rotate: 90 }}
-                whileTap={{ scale: 0.9 }}
-                onClick={() => {
-                  setIsImageExpanded(false);
-                  setExpandedCertificate(null);
-                }}
+                onClick={() => setIsImageExpanded(false)}
                 className="absolute top-4 right-4 w-12 h-12 bg-black/50 backdrop-blur-sm text-white rounded-full flex items-center justify-center hover:bg-black/70 transition-colors"
               >
                 <FaTimes size={20} />
               </motion.button>
-
-              {/* Image Info */}
-              <div className="absolute bottom-4 left-4 right-4 bg-black/50 backdrop-blur-sm rounded-lg p-4">
-                <h3 className="text-white font-semibold text-lg mb-1">
+              <div className="absolute bottom-4 left-4 right-4 bg-black/50 backdrop-blur-sm rounded-lg p-4 text-center">
+                <h3 className="text-white font-semibold text-lg">
                   {expandedCertificate.title}
                 </h3>
-                <p className="text-gray-300 text-sm">
-                  {expandedCertificate.issuer} • {expandedCertificate.date}
-                </p>
               </div>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      <section className="py-20 relative z-10 flex items-center justify-center">
+      <section className="py-20 relative z-10 text-center">
         <motion.div
-          {...variants.fadeInLeft}
+          {...variants.fadeInUp}
           viewport={{ once: true }}
-          whileHover={{
-            scale: 1.05,
-            boxShadow: "0 10px 25px rgba(168, 85, 247, 0.3)",
-          }}
-          whileTap={{ scale: 0.95 }}
-          className="flex items-center px-6 py-3 bg-slate-800/50 border border-slate-700/50 hover:border-purple-500/50 rounded-full transition-all duration-300 mb-6 md:mb-0 font-outfit"
+          className="inline-block"
         >
-          <FaArrowLeft className="mr-3 text-purple-400" />
-          <NavLink to="/" state={{ fromCert: true }} className="text-white">
-            Back to Portfolio
+          <h3
+            className="text-2xl font-bold mb-4"
+            style={{ fontFamily: "'Playfair Display', serif" }}
+          >
+            Finished Exploring?
+          </h3>
+          <NavLink to="/" state={{ fromCert: true }}>
+            <motion.div
+              whileHover={{
+                scale: 1.05,
+                boxShadow: "0 10px 25px rgba(168, 85, 247, 0.3)",
+              }}
+              whileTap={{ scale: 0.95 }}
+              className="flex items-center px-6 py-3 bg-slate-800/50 border border-slate-700/50 hover:border-purple-500/50 rounded-full transition-all duration-300 font-outfit text-white"
+            >
+              <FaArrowLeft className="mr-3 text-purple-400" />
+              Return to Main Portfolio
+            </motion.div>
           </NavLink>
         </motion.div>
       </section>
@@ -1423,10 +1390,6 @@ const AllCertifications = () => {
                   href: "https://www.linkedin.com/in/parthiv-shingala-933224322",
                   icon: "M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z",
                 },
-                // {
-                //   href: "https://twitter.com/parthiv",
-                //   icon: "M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z",
-                // },
               ].map((social, index) => (
                 <motion.a
                   key={index}
@@ -1455,9 +1418,7 @@ const AllCertifications = () => {
                       strokeLinejoin={
                         social.href.includes("mailto") ? "round" : undefined
                       }
-                      strokeWidth={
-                        social.href.includes("mailto") ? 2 : undefined
-                      }
+                      strokeWidth={social.href.includes("mailto") ? 2 : undefined}
                       d={social.icon}
                     />
                   </svg>
