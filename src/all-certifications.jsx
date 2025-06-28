@@ -533,10 +533,10 @@ const AllCertifications = () => {
     "Professional & Soft Skills",
   ];
 
-  const navItems = ["Home", "About", "Projects", "Contact"];
+  const navItems = ["Home", "About", "Education", "Projects", "Contact"]
 
   // Handle navigation and scrolling
-  const handleNavClick = (section) => {
+ const handleNavClick = (section) => {
     navigate("/", { state: { section: section.toLowerCase() } });
   };
 
@@ -613,26 +613,26 @@ const AllCertifications = () => {
       } overflow-x-hidden relative`}
     >
       {/* Custom Scrollbar Styles */}
-      <style jsx global>{`
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 8px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background: ${isDarkMode ? "#1e293b" : "#f1f5f9"};
-          border-radius: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: linear-gradient(135deg, #8b5cf6, #ec4899);
-          border-radius: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: linear-gradient(135deg, #7c3aed, #db2777);
-        }
-        .custom-scrollbar {
-          scrollbar-width: thin;
-          scrollbar-color: #8b5cf6 ${isDarkMode ? "#1e293b" : "#f1f5f9"};
-        }
-      `}</style>
+      <style>{`
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: ${isDarkMode ? "#1e293b" : "#f1f5f9"};
+    border-radius: 4px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #8b5cf6, #ec4899);
+    border-radius: 4px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #7c3aed, #db2777);
+  }
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: #8b5cf6 ${isDarkMode ? "#1e293b" : "#f1f5f9"};
+  }
+`}</style>
 
       {/* Particles Background */}
       <Particles
@@ -642,129 +642,106 @@ const AllCertifications = () => {
         className="fixed inset-0 z-0"
       />
 
-      {/* Navigation */}
-      <motion.nav
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled
-            ? `${isDarkMode ? "bg-slate-900/90" : "bg-white/90"} backdrop-blur-md`
-            : "bg-transparent"
-        }`}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent"
-              style={{ fontFamily: "'Playfair Display', serif" }}
-            >
-              PS
-            </motion.div>
-
-            <div
-              className={`hidden md:flex items-center space-x-1 ${
-                isDarkMode ? "bg-slate-800/50" : "bg-white/50"
-              } backdrop-blur-sm rounded-full px-6 py-2`}
-            >
-              {navItems.map((item) => (
-                <motion.a
-                  key={item}
-                  href={`#${item.toLowerCase()}`}
-                  whileHover={{
-                    scale: 1.05,
-                    boxShadow: "0 0 20px rgba(168, 85, 247, 0.3)",
-                  }}
-                  whileTap={{ scale: 0.95 }}
-                  className={`px-4 py-2 rounded-full text-sm font-medium ${
-                    isDarkMode
-                      ? "text-gray-300 hover:text-white hover:bg-slate-700/50"
-                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-100/50"
-                  } transition-all duration-200`}
-                  style={{ fontFamily: "'Poppins', sans-serif" }}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleNavClick(item);
-                  }}
+       {/* Navigation */}
+          <motion.nav
+            initial={{ y: -100 }}
+            animate={{ y: 0 }}
+            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+              scrolled ? `${isDarkMode ? "bg-slate-900/90" : "bg-white/90"} backdrop-blur-md` : "bg-transparent"
+            }`}
+          >
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="flex items-center justify-between h-16">
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent"
+                  style={{ fontFamily: "'Iceland', sans-serif" }}
                 >
-                  {item}
-                </motion.a>
-              ))}
-              <motion.button
-                whileHover={{
-                  scale: 1.05,
-                  boxShadow: "0 10px 30px rgba(168, 85, 247, 0.4)",
-                }}
-                whileTap={{ scale: 0.95 }}
-                className="ml-4 px-6 py-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full text-sm font-medium hover:from-purple-600 hover:to-pink-600 transition-all duration-200 text-white"
-                style={{ fontFamily: "'Poppins', sans-serif" }}
-                onClick={() =>
-                  window.open(
-                    "https://wa.me/919727181143?text=Hi%20Parthiv!",
-                    "_blank"
-                  )
-                }
-              >
-                Let's Connect
-              </motion.button>
+                  PARTHIV SHINGALA
+                </motion.div>
+
+                <div
+                  className={`hidden md:flex items-center space-x-1 ${
+                    isDarkMode ? "bg-slate-800/50" : "bg-white/50"
+                  } backdrop-blur-sm rounded-full px-6 py-2`}
+                >
+                  {navItems.map((item) => (
+                    <motion.a
+                      key={item}
+                      href={`#${item.toLowerCase()}`}
+                      whileHover={{
+                        scale: 1.05,
+                        boxShadow: "0 0 20px rgba(168, 85, 247, 0.3)",
+                      }}
+                      whileTap={{ scale: 0.95 }}
+                      className={`px-4 py-2 rounded-full text-sm font-medium ${
+                        isDarkMode
+                          ? "text-gray-300 hover:text-white hover:bg-slate-700/50"
+                          : "text-gray-600 hover:text-gray-900 hover:bg-gray-100/50"
+                      } transition-all duration-200 font-outfit`}
+                      onClick={(e) => {
+                        e.preventDefault()
+                        handleNavClick(item)
+                      }}
+                    >
+                      {item}
+                    </motion.a>
+                  ))}
+                  <motion.button
+                    whileHover={{
+                      scale: 1.05,
+                      boxShadow: "0 10px 30px rgba(168, 85, 247, 0.4)",
+                    }}
+                    whileTap={{ scale: 0.95 }}
+                    className="ml-4 px-6 py-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full text-sm font-medium hover:from-purple-600 hover:to-pink-600 transition-all duration-200 text-white"
+                    style={{ fontFamily: "'Poppins', sans-serif" }}
+                    onClick={() => window.open("https://wa.me/919727181143?text=Hi%20Parthiv!", "_blank")}
+                  >
+                    Let's Connect
+                  </motion.button>
+                </div>
+
+                <button
+                  onClick={() => setIsMenuOpen(!isMenuOpen)}
+                  className={`md:hidden p-2 rounded-lg ${
+                    isDarkMode ? "hover:bg-slate-800" : "hover:bg-gray-100"
+                  } transition-colors`}
+                >
+                  <div className="w-6 h-6 flex flex-col justify-center items-center">
+                    <span
+                      className={`block w-5 h-0.5 ${
+                        isDarkMode ? "bg-white" : "bg-gray-900"
+                      } transition-all duration-300 ${isMenuOpen ? "rotate-45 translate-y-1" : ""}`}
+                    />
+                    <span
+                      className={`block w-5 h-0.5 ${
+                        isDarkMode ? "bg-white" : "bg-gray-900"
+                      } mt-1 transition-all duration-300 ${isMenuOpen ? "opacity-0" : ""}`}
+                    />
+                    <span
+                      className={`block w-5 h-0.5 ${
+                        isDarkMode ? "bg-white" : "bg-gray-900"
+                      } mt-1 transition-all duration-300 ${isMenuOpen ? "-rotate-45 -translate-y-1" : ""}`}
+                    />
+                  </div>
+                </button>
+              </div>
             </div>
 
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className={`md:hidden p-2 rounded-lg ${
-                isDarkMode ? "hover:bg-slate-800" : "hover:bg-gray-100"
-              } transition-colors`}
-            >
-              <div className="w-6 h-6 flex flex-col justify-center items-center">
-                <span
-                  class reusableStylesName={`block w-5 h-0.5 ${
-                    isDarkMode ? "bg-white" : "bg-gray-900"
-                  } transition-all duration-300 ${
-                    isMenuOpen ? "rotate-45 translate-y-1" : ""
-                  }`}
-                />
-                <span
-                  className={`block w-5 h-0.5 ${
-                    isDarkMode ? "bg-white" : "bg-gray-900"
-                  } mt-1 transition-all duration-300 ${
-                    isMenuOpen ? "opacity-0" : ""
-                  }`}
-                />
-                <span
-                  className={`block w-5 h-0.5 ${
-                    isDarkMode ? "bg-white" : "bg-gray-900"
-                  } mt-1 transition-all duration-300 ${
-                    isMenuOpen ? "-rotate-45 -translate-y-1" : ""
-                  }`}
-                />
-              </div>
-            </button>
-          </div>
-        </div>
-
-        <AnimatePresence>
+            <AnimatePresence>
           {isMenuOpen && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              className={`md:hidden ${
-                isDarkMode ? "bg-slate-900/95" : "bg-white/95"
-              } backdrop-blur-md border-t ${
-                isDarkMode ? "border-slate-800" : "border-gray-200"
-              }`}
+              className={`md:hidden ${isDarkMode ? "bg-slate-900/95" : "bg-white/95"} backdrop-blur-md border-t ${isDarkMode ? "border-slate-800" : "border-gray-200"}`}
             >
               <div className="px-4 py-4 space-y-2">
                 {navItems.map((item) => (
                   <a
                     key={item}
                     href={`#${item.toLowerCase()}`}
-                    className={`block px-4 py-2 rounded-lg ${
-                      isDarkMode
-                        ? "text-gray-300 hover:text-white hover:bg-slate-800"
-                        : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
-                    } transition-colors`}
-                    style={{ fontFamily: "'Poppins', sans-serif" }}
+                    className={`block px-4 py-2 rounded-lg ${isDarkMode ? "text-gray-300 hover:text-white hover:bg-slate-800" : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"} transition-colors font-outfit`}
                     onClick={(e) => {
                       e.preventDefault();
                       handleNavClick(item);
@@ -784,7 +761,7 @@ const AllCertifications = () => {
             </motion.div>
           )}
         </AnimatePresence>
-      </motion.nav>
+          </motion.nav>
 
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center overflow-hidden">
@@ -796,8 +773,8 @@ const AllCertifications = () => {
             >
               <motion.h1
                 {...variants.fadeInUp}
-                className="text-4xl sm:text-5xl lg:text-7xl font-bold leading-tight mb-6"
-                style={{ fontFamily: "'Playfair Display', serif" }}
+                className="text-[65px] sm:text-7xl md:text-[80px] lg:text-7xl font-bold mb-8"
+                style={{ fontFamily: "'Iceland', sans-serif" }}
               >
                 <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
                   My Digital
@@ -811,8 +788,7 @@ const AllCertifications = () => {
                 transition={{ delay: 0.2 }}
                 className={`text-lg sm:text-xl ${
                   isDarkMode ? "text-gray-400" : "text-gray-600"
-                } max-w-xl mx-auto lg:mx-0`}
-                style={{ fontFamily: "'Poppins', sans-serif" }}
+                } max-w-xl mx-auto lg:mx-0 font-outfit`}
               >
                 A comprehensive collection of my professional achievements,
                 spanning SAP technologies, software engineering, and essential
@@ -826,7 +802,7 @@ const AllCertifications = () => {
                 <a
                   href="#certifications-grid"
                   onClick={handleExploreClick}
-                  className="inline-block px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full text-lg font-medium text-white shadow-lg hover:shadow-purple-500/50 transition-all duration-300 transform hover:scale-105"
+                  className="inline-block px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full text-lg font-medium text-white shadow-lg hover:shadow-purple-500/50 transition-all duration-300 transform hover:scale-105 font-outfit"
                 >
                   Explore Certifications
                 </a>
@@ -864,12 +840,11 @@ const AllCertifications = () => {
                   </div>
                   <div className="p-6 pt-2">
                     <h3
-                      className="text-lg font-bold mb-2 line-clamp-2"
-                      style={{ fontFamily: "'Playfair Display', serif" }}
+                      className="text-lg font-bold mb-2 line-clamp-2 font-outfit"
                     >
                       {featuredCerts[featuredIndex].title}
                     </h3>
-                    <div className="flex items-center text-sm">
+                    <div className="flex items-center text-sm font-outfit">
                       <div className="mr-2">{featuredCerts[featuredIndex].icon}</div>
                       <span
                         className={isDarkMode ? "text-gray-300" : "text-gray-600"}
@@ -897,12 +872,11 @@ const AllCertifications = () => {
           >
             <motion.div {...variants.fadeInUp} className="text-center mb-12">
               <h2
-                className="text-3xl md:text-4xl font-bold mb-3"
-                style={{ fontFamily: "'Playfair Display', serif" }}
+                className="text-3xl md:text-4xl font-bold mb-3 font-outfit"
               >
                 Filter & Search Credentials
               </h2>
-              <p className="text-lg text-gray-400">
+              <p className="text-lg text-gray-400 font-outfit">
                 Use the tools below to find specific qualifications.
               </p>
             </motion.div>
@@ -932,8 +906,7 @@ const AllCertifications = () => {
                     isDarkMode
                       ? "bg-slate-800 border-slate-700 text-white placeholder-gray-400"
                       : "bg-white border-gray-200 text-gray-900 placeholder-gray-500"
-                  } rounded-xl border focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all duration-300`}
-                  style={{ fontFamily: "'Poppins', sans-serif" }}
+                  } rounded-xl border focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all duration-300 font-outfit`}
                 />
               </div>
               <div className="flex flex-wrap w-full justify-center lg:justify-start gap-3">
@@ -943,7 +916,7 @@ const AllCertifications = () => {
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       onClick={() => setSelectedFilter(category)}
-      className={`px-5 py-3 rounded-full font-medium transition-all duration-300 text-sm ${
+      className={`px-5 font-outfit py-3 rounded-full font-medium transition-all duration-300 text-sm ${
         selectedFilter === category
           ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg"
           : `${
@@ -952,7 +925,6 @@ const AllCertifications = () => {
                 : "bg-white/80 text-gray-600 hover:text-gray-900 hover:bg-white"
             } border border-transparent`
       }`}
-      style={{ fontFamily: "'Poppins', sans-serif" }}
     >
       {category}
     </motion.button>
@@ -1028,8 +1000,7 @@ const AllCertifications = () => {
                         <h3
                           className={`text-lg font-bold ${
                             isDarkMode ? "text-white" : "text-gray-900"
-                          } mb-2 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-purple-400 group-hover:to-pink-400 group-hover:bg-clip-text transition-all duration-300 line-clamp-2 h-14`}
-                          style={{ fontFamily: "'Playfair Display', serif" }}
+                          } mb-2 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-purple-400 group-hover:to-pink-400 group-hover:bg-clip-text transition-all duration-300 line-clamp-2 h-14 font-outfit`}
                         >
                           {cert.title}
                         </h3>
@@ -1039,13 +1010,12 @@ const AllCertifications = () => {
                             <p
                               className={`${
                                 isDarkMode ? "text-gray-300" : "text-gray-600"
-                              } text-sm font-medium`}
-                              style={{ fontFamily: "'Poppins', sans-serif" }}
+                              } text-sm font-medium font-outfit`}
                             >
                               {cert.issuer}
                             </p>
                             <p
-                              className={`${
+                              className={`font-outfit ${
                                 isDarkMode ? "text-gray-400" : "text-gray-500"
                               } text-xs`}
                             >
@@ -1057,8 +1027,7 @@ const AllCertifications = () => {
                       <motion.div
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        className="mt-auto w-full py-3 bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30 rounded-lg text-white font-medium hover:from-purple-500/30 hover:to-pink-500/30 hover:border-purple-500/50 transition-all duration-300 text-center"
-                        style={{ fontFamily: "'Poppins', sans-serif" }}
+                        className="mt-auto w-full py-3 bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30 rounded-lg text-white font-medium hover:from-purple-500/30 hover:to-pink-500/30 hover:border-purple-500/50 transition-all duration-300 text-center font-outfit"
                       >
                         <span className="flex items-center justify-center">
                           <FaAward className="mr-2" size={16} />
@@ -1158,21 +1127,18 @@ const AllCertifications = () => {
                 <div className="grid lg:grid-cols-3 gap-8">
                   <div className="lg:col-span-2">
                     <h2
-                      className="text-2xl sm:text-3xl font-bold mb-6"
-                      style={{ fontFamily: "'Playfair Display', serif" }}
+                      className="text-2xl sm:text-3xl font-bold mb-6 font-outfit"
                     >
                       {selectedCertificate.title}
                     </h2>
                     <div className="mb-8">
                       <h3
-                        className="text-lg font-semibold mb-3"
-                        style={{ fontFamily: "'Playfair Display', serif" }}
+                        className="text-lg font-semibold mb-3 font-outfit"
                       >
                         About this Certification
                       </h3>
                       <p
-                        className="leading-relaxed text-gray-300"
-                        style={{ fontFamily: "'Poppins', sans-serif" }}
+                        className="leading-relaxed text-gray-300 font-outfit"
                       >
                         {selectedCertificate.description}
                       </p>
@@ -1180,8 +1146,7 @@ const AllCertifications = () => {
                     {selectedCertificate.skills && (
                       <div className="mb-8">
                         <h3
-                          className="text-lg font-semibold mb-4"
-                          style={{ fontFamily: "'Playfair Display', serif" }}
+                          className="text-lg font-semibold mb-4 font-outfit"
                         >
                           Skills Covered
                         </h3>
@@ -1189,7 +1154,7 @@ const AllCertifications = () => {
                           {selectedCertificate.skills.map((skill, index) => (
                             <span
                               key={index}
-                              className="px-4 py-2 bg-purple-500/10 text-purple-300 rounded-lg text-sm font-medium border border-purple-500/20"
+                              className="font-outfit px-4 py-2 bg-purple-500/10 text-purple-300 rounded-lg text-sm font-medium border border-purple-500/20"
                             >
                               {skill}
                             </span>
@@ -1208,8 +1173,7 @@ const AllCertifications = () => {
                       }`}
                     >
                       <h3
-                        className="text-lg font-semibold mb-4"
-                        style={{ fontFamily: "'Playfair Display', serif" }}
+                        className="text-lg font-semibold mb-4 font-outfit"
                       >
                         Details
                       </h3>
@@ -1217,29 +1181,29 @@ const AllCertifications = () => {
                         <div className="flex items-center">
                           <div className="mr-3">{selectedCertificate.icon}</div>
                           <div>
-                            <p className="font-medium text-gray-200">
+                            <p className="font-medium text-gray-200 font-outfit">
                               {selectedCertificate.issuer}
                             </p>
-                            <p className="text-gray-400">Issuer</p>
+                            <p className="text-gray-400 font-outfit">Issuer</p>
                           </div>
                         </div>
                         <div className="flex items-center">
                           <FaCertificate className="mr-3 text-purple-400" />
                           <div>
-                            <p className="font-medium text-gray-200">
+                            <p className="font-medium text-gray-200 font-outfit">
                               {selectedCertificate.category}
                             </p>
-                            <p className="text-gray-400">Category</p>
+                            <p className="text-gray-400 font-outfit">Category</p>
                           </div>
                         </div>
                         {selectedCertificate.score && (
                           <div className="flex items-center">
                             <FaAward className="mr-3 text-green-400" />
                             <div>
-                              <p className="font-medium text-green-400">
+                              <p className="font-medium text-green-400 font-outfit">
                                 {selectedCertificate.score}
                               </p>
-                              <p className="text-gray-400">Score</p>
+                              <p className="text-gray-400 font-outfit">Score</p>
                             </div>
                           </div>
                         )}
@@ -1251,7 +1215,7 @@ const AllCertifications = () => {
                           rel="noopener noreferrer"
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
-                          className="w-full px-4 py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg font-semibold text-white text-center flex items-center justify-center gap-2"
+                          className="w-full px-4 py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg font-semibold text-white text-center flex items-center justify-center gap-2 font-outfit"
                         >
                           <FaExternalLinkAlt size={14} />
                           View Credential
@@ -1260,7 +1224,7 @@ const AllCertifications = () => {
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
                           onClick={() => setSelectedCertificate(null)}
-                          className="w-full px-4 py-3 bg-slate-600/50 hover:bg-slate-600 rounded-lg font-semibold text-white"
+                          className="w-full font-outfit px-4 py-3 bg-slate-600/50 hover:bg-slate-600 rounded-lg font-semibold text-white"
                         >
                           Close
                         </motion.button>
@@ -1321,8 +1285,7 @@ const AllCertifications = () => {
           className="inline-block"
         >
           <h3
-            className="text-2xl font-bold mb-4"
-            style={{ fontFamily: "'Playfair Display', serif" }}
+            className="text-2xl font-bold mb-4 font-outfit"
           >
             Finished Exploring?
           </h3>
@@ -1353,23 +1316,20 @@ const AllCertifications = () => {
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="mb-8 md:mb-0">
               <h3
-                className={`text-2xl font-bold mb-2 ${
+                className={`font-outfit text-2xl font-bold mb-2 ${
                   isDarkMode ? "text-white" : "text-gray-900"
                 }`}
-                style={{ fontFamily: "'Playfair Display', serif" }}
               >
                 Let's work together
               </h3>
               <p
-                className={`${isDarkMode ? "text-gray-400" : "text-gray-600"}`}
-                style={{ fontFamily: "'Poppins', sans-serif" }}
+                className={`${isDarkMode ? "text-gray-400" : "text-gray-600"} font-outfit`}
               >
                 Ready to bring your ideas to life?
               </p>
               <a
                 href="tel:+919727181143"
-                className="mt-2 flex items-center space-x-2 text-lg font-medium text-gray-300 hover:text-purple-400 transition-colors"
-                style={{ fontFamily: "'Poppins', sans-serif" }}
+                className="mt-2 flex items-center space-x-2 text-lg font-medium text-gray-300 hover:text-purple-400 transition-colors font-outfit"
               >
                 <FaPhone className="text-purple-400 -scale-x-100" />
                 <span>+91 97271 81143</span>
@@ -1435,16 +1395,14 @@ const AllCertifications = () => {
             <p
               className={`${
                 isDarkMode ? "text-gray-400" : "text-gray-500"
-              } text-sm`}
-              style={{ fontFamily: "'Poppins', sans-serif" }}
+              } text-sm font-outfit`}
             >
               © 2024 Parthiv Shingala. All rights reserved.
             </p>
             <p
               className={`${
                 isDarkMode ? "text-gray-400" : "text-gray-500"
-              } text-sm mt-4 md:mt-0`}
-              style={{ fontFamily: "'Poppins', sans-serif" }}
+              } text-sm mt-4 md:mt-0 font-outfit`}
             >
               {currentTime}
             </p>

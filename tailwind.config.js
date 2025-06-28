@@ -15,7 +15,9 @@ export default {
         playwrite: ['Playwrite IN', 'cursive'],
         playball: ['Playball', 'cursive'],
         outfit: ['Outfit', 'sans-serif'],
-
+        iceland: ['Iceland', 'sans-serif'],
+        lancelot: ['Lancelot', 'cursive'],
+        youngSerif: ['Young Serif', 'serif'],
       },
       colors: {
         'light-gray': '#e6e6e6',
