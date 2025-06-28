@@ -18,6 +18,7 @@ export default {
         iceland: ['Iceland', 'sans-serif'],
         lancelot: ['Lancelot', 'cursive'],
         youngSerif: ['Young Serif', 'serif'],
+        
       },
       colors: {
         'light-gray': '#e6e6e6',

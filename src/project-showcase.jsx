@@ -75,6 +75,11 @@ const ProjectShowcase = () => {
   const heroOpacity = useTransform(scrollY, [0, 300], [1, 0.3]);
   const variants = useAnimationVariants();
 
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, []);
+
   // Find current project based on URL parameter
   useEffect(() => {
     if (projectId) {
@@ -277,7 +282,7 @@ const ProjectShowcase = () => {
       </div>
     );
   }
-  const navItems = ["Home", "About", "Education", "Projects", "Contact"];
+  const navItems = ["Home", "About", "Education", "Projects","Achievements","Internship", "Contact"]
 
   // Handle navigation and scrolling
   const handleNavClick = (section) => {
@@ -310,9 +315,9 @@ const ProjectShowcase = () => {
             <motion.div
               whileHover={{ scale: 1.05 }}
               className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent"
-              style={{ fontFamily: "'Playfair Display', serif" }}
+              style={{ fontFamily: "'Iceland', sans-serif" }}
             >
-              PS
+              PARTHIV SHINGALA
             </motion.div>
 
             <div
@@ -479,7 +484,7 @@ const ProjectShowcase = () => {
           <motion.div
             {...variants.fadeInUp}
             transition={{ delay: 0.6 }}
-            className="absolute sm:left-56 left-[115px] transform -translate-x-1/2"
+            className="  transform -translate-x-1/2"
           >
             <motion.div
               animate={{
@@ -596,7 +601,7 @@ const ProjectShowcase = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     className="text-2xl font-bold text-white mb-2"
-                    style={{ fontFamily: "'Playfair Display', serif" }}
+                    style={{ fontFamily: "'Iceland', serif" }}
                   >
                     {currentProject.images[currentImageIndex]?.caption ||
                       "Project Screenshot"}
@@ -710,8 +715,7 @@ const ProjectShowcase = () => {
                 {...variants.fadeInUp}
                 viewport={{ once: true }}
                 transition={{ delay: 0.2 }}
-                className="inline-flex items-center px-4 py-2 rounded-full bg-purple-500/10 border-purple-500/20 text-purple-400 text-sm font-medium mb-8 tracking-widest uppercase border"
-                style={{ fontFamily: "'Poppins', sans-serif" }}
+                className="inline-flex items-center px-4 py-2 rounded-full bg-purple-500/10 border-purple-500/20 text-purple-400 text-sm font-medium mb-8 tracking-widest uppercase border font-outfit"
               >
                 <span className="text-purple-500 justify-center items-center">
                   Built With <IoIosLaptop className="inline-block mr-2" />
@@ -831,6 +835,7 @@ const ProjectShowcase = () => {
                     {...variants.fadeInUp}
                     viewport={{ once: true }}
                     transition={{ delay: 0.6 }}
+                    className="font-outfit"
                   >
                     <span className="text-white font-semibold font-outfit">
                       Key Challenges Faced:
@@ -844,6 +849,7 @@ const ProjectShowcase = () => {
                     {...variants.fadeInUp}
                     viewport={{ once: true }}
                     transition={{ delay: 0.8 }}
+                    className="font-outfit"
                   >
                     <span className="text-white font-semibold font-outfit">
                       Outcome:
@@ -877,7 +883,7 @@ const ProjectShowcase = () => {
 
                   <div className="relative h-auto sm:h-[600px] flex flex-col items-center justify-center">
                     {/* Features Carousel Container */}
-                    <div className="relative w-full max-w-xs sm:max-w-md">
+                    <div className="relative w-full max-w-xs sm:max-w-md md:w-[600px] lg:w-[800px] mx-auto">
                       <div className="flex flex-col sm:block">
                         {currentProject.keyFeatures.map((feature, index) => {
                           const totalFeatures =
@@ -932,12 +938,12 @@ const ProjectShowcase = () => {
                                 damping: 20,
                               }}
                               className={`
-              w-full
-              ${totalFeatures > 1 ? "sm:absolute sm:inset-0" : ""}
-              flex items-center justify-center
-              ${showOnMobile ? "my-6" : "hidden"}
-              sm:flex
-            `}
+                                      w-full
+                                      ${totalFeatures > 1 ? "sm:absolute sm:inset-0" : ""}
+                                      flex items-center justify-center
+                                      ${showOnMobile ? "my-6" : "hidden"}
+                                      sm:flex
+                                    `}
                               style={
                                 totalFeatures > 1 ? {} : { position: "static" }
                               }

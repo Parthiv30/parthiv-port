@@ -533,7 +533,7 @@ const AllCertifications = () => {
     "Professional & Soft Skills",
   ];
 
-  const navItems = ["Home", "About", "Education", "Projects", "Contact"]
+  const navItems = ["Home", "About", "Education", "Projects","Achievements","Internship", "Contact"]
 
   // Handle navigation and scrolling
  const handleNavClick = (section) => {
