@@ -26,7 +26,7 @@ import SAP1 from "./assets/certi/SAP2.png"
 import SAP6 from "./assets/certi/SAP6.png"
 import SAP11 from "./assets/certi/SAP11.png"
 import { DiVisualstudio } from "react-icons/di"
-
+import placeholder from "./assets/placeholder.png"
 import { FaExternalLinkAlt ,FaWhatsapp } from "react-icons/fa"
 // Import icons
 import {
@@ -317,7 +317,7 @@ const TechItem = ({ tech }) => (
   <div className="flex items-center space-x-2">
     {tech.logo && (
       <img
-        src={tech.logo || "/placeholder.svg"}
+        src={tech.logo || placeholder}
         alt={`${tech.name} logo`}
         className={`w-6 h-6 rounded-full ${tech.name === "Express.js" ? "bg-white p-1" : ""}`}
       />
@@ -937,153 +937,156 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
           {/* Navigation */}
           <motion.nav
-            initial={{ y: -100 }}
-            animate={{ y: 0 }}
-            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-              scrolled ? `${isDarkMode ? "bg-slate-900/90" : "bg-white/90"} backdrop-blur-md` : "bg-transparent"
-            }`}
+  initial={{ y: -100 }}
+  animate={{ y: 0 }}
+  className={`fixed top-0 left-0 right-0 z-50 mt-0 transition-all duration-300 ${
+    scrolled ? `${isDarkMode ? "bg-slate-900/90" : "bg-white/90"} backdrop-blur-md` : "bg-transparent"
+  }`}
+>
+  <div className="max-w-7xl mx-auto px-4 mt-3 sm:px-6 lg:px-8">
+    <div className="flex items-center justify-between h-16">
+      <motion.div
+        whileHover={{ scale: 1.05 }}
+        className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent font-iceland tracking-wide"
+      >
+        PARTHIV SHINGALA
+      </motion.div>
+
+      {/* Full Navigation Menu - Visible only on lg and above */}
+      <div
+        className={`hidden lg:flex items-center space-x-1 ${
+          isDarkMode ? "bg-slate-800/50" : "bg-white/50"
+        } backdrop-blur-sm rounded-full px-6 py-2`}
+      >
+        {navItems.map((item) => (
+          <motion.a
+            key={item}
+            href={`#${item.toLowerCase()}`}
+            whileHover={{
+              scale: 1.05,
+              boxShadow: "0 0 20px rgba(168, 85, 247, 0.3)",
+            }}
+            whileTap={{ scale: 0.95 }}
+            className={`px-4 py-2 rounded-full text-sm font-medium ${
+              isDarkMode
+                ? "text-gray-300 hover:text-white hover:bg-slate-700/50"
+                : "text-gray-600 hover:text-gray-900 hover:bg-gray-100/50"
+            } transition-all duration-200`}
+            style={{ fontFamily: "'Poppins', sans-serif" }}
+            onClick={(e) => {
+              e.preventDefault();
+              handleNavClick(item);
+            }}
           >
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="flex items-center justify-between h-16">
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent font-iceland tracking-wide"
-                >
-                  PARTHIV SHINGALA
-                </motion.div>
+            {item}
+          </motion.a>
+        ))}
+        <motion.button
+          whileHover={{
+            scale: 1.05,
+            boxShadow: "0 10px 30px rgba(168, 85, 247, 0.4)",
+          }}
+          whileTap={{ scale: 0.95 }}
+          className="ml-4 px-6 py-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full text-sm font-medium hover:from-purple-600 hover:to-pink-600 transition-all duration-200 text-white"
+          style={{ fontFamily: "'Poppins', sans-serif" }}
+          onClick={() => {
+            console.log("Connecting via WhatsApp");
+            toast('Opening WhatsApp...', {
+              icon: <FaWhatsapp color={isDarkMode ? '#3b82f6' : '#60a5fa'} />,
+              style: {
+                borderRadius: '10px',
+                background: isDarkMode ? '#1e293b' : '#f1f5f9',
+                color: isDarkMode ? '#f1f5f9' : '#1e293b'
+              }
+            });
+            setTimeout(() => {
+              window.open("https://wa.me/919727181143?text=Hi%20Parthiv!", "_blank");
+            }, 1000);
+          }}
+        >
+          Let's Connect
+        </motion.button>
+      </div>
 
-                <div
-                  className={`hidden md:flex items-center space-x-1 ${
-                    isDarkMode ? "bg-slate-800/50" : "bg-white/50"
-                  } backdrop-blur-sm rounded-full px-6 py-2`}
-                >
-                  {navItems.map((item) => (
-                    <motion.a
-                      key={item}
-                      href={`#${item.toLowerCase()}`}
-                      whileHover={{
-                        scale: 1.05,
-                        boxShadow: "0 0 20px rgba(168, 85, 247, 0.3)",
-                      }}
-                      whileTap={{ scale: 0.95 }}
-                      className={`px-4 py-2 rounded-full text-sm font-medium ${
-                        isDarkMode
-                          ? "text-gray-300 hover:text-white hover:bg-slate-700/50"
-                          : "text-gray-600 hover:text-gray-900 hover:bg-gray-100/50"
-                      } transition-all duration-200`}
-                      style={{ fontFamily: "'Poppins', sans-serif" }}
-                      onClick={(e) => {
-                        e.preventDefault()
-                        handleNavClick(item)
-                      }}
-                    >
-                      {item}
-                    </motion.a>
-                  ))}
-                  <motion.button
-                    whileHover={{
-                      scale: 1.05,
-                      boxShadow: "0 10px 30px rgba(168, 85, 247, 0.4)",
-                    }}
-                    whileTap={{ scale: 0.95 }}
-                    className="ml-4 px-6 py-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full text-sm font-medium hover:from-purple-600 hover:to-pink-600 transition-all duration-200 text-white"
-                    style={{ fontFamily: "'Poppins', sans-serif" }}
-                    onClick={() => {
-  console.log("Connecting via WhatsApp");
-  toast('Opening WhatsApp...', {
-    icon: <FaWhatsapp color={isDarkMode ? '#3b82f6' : '#60a5fa'} />,
-    style: {
-      borderRadius: '10px',
-      background: isDarkMode ? '#1e293b' : '#f1f5f9',
-      color: isDarkMode ? '#f1f5f9' : '#1e293b'
-    }
-  });
-  setTimeout(() => {
-    window.open("https://wa.me/919727181143?text=Hi%20Parthiv!", "_blank");
-  }, 1000);
-}}
-                  >
-                    Let's Connect
-                  </motion.button>
-                </div>
-                
-                <button
-                  onClick={() => setIsMenuOpen(!isMenuOpen)}
-                  className={`md:hidden p-2 rounded-lg ${
-                    isDarkMode ? "hover:bg-slate-800" : "hover:bg-gray-100"
-                  } transition-colors`}
-                >
-                  <div className="w-6 h-6 flex flex-col justify-center items-center">
-                    <span
-                      className={`block w-5 h-0.5 ${
-                        isDarkMode ? "bg-white" : "bg-gray-900"
-                      } transition-all duration-300 ${isMenuOpen ? "rotate-45 translate-y-1" : ""}`}
-                    />
-                    <span
-                      className={`block w-5 h-0.5 ${
-                        isDarkMode ? "bg-white" : "bg-gray-900"
-                      } mt-1 transition-all duration-300 ${isMenuOpen ? "opacity-0" : ""}`}
-                    />
-                    <span
-                      className={`block w-5 h-0.5 ${
-                        isDarkMode ? "bg-white" : "bg-gray-900"
-                      } mt-1 transition-all duration-300 ${isMenuOpen ? "-rotate-45 -translate-y-1" : ""}`}
-                    />
-                  </div>
-                </button>
-              </div>
-            </div>
+      {/* Hamburger Menu Button - Visible below lg */}
+      <button
+        onClick={() => setIsMenuOpen(!isMenuOpen)}
+        className={`lg:hidden p-2 rounded-lg ${
+          isDarkMode ? "hover:bg-slate-800" : "hover:bg-gray-100"
+        } transition-colors`}
+      >
+        <div className="w-6 h-6 flex flex-col justify-center items-center">
+          <span
+            className={`block w-5 h-0.5 ${
+              isDarkMode ? "bg-white" : "bg-gray-900"
+            } transition-all duration-300 ${isMenuOpen ? "rotate-45 translate-y-1" : ""}`}
+          />
+          <span
+            className={`block w-5 h-0.5 ${
+              isDarkMode ? "bg-white" : "bg-gray-900"
+            } mt-1 transition-all duration-300 ${isMenuOpen ? "opacity-0" : ""}`}
+          />
+          <span
+            className={`block w-5 h-0.5 ${
+              isDarkMode ? "bg-white" : "bg-gray-900"
+            } mt-1 transition-all duration-300 ${isMenuOpen ? "-rotate-45 -translate-y-1" : ""}`}
+          />
+        </div>
+      </button>
+    </div>
+  </div>
 
-            <AnimatePresence>
-              {isMenuOpen && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  className={`md:hidden ${isDarkMode ? "bg-slate-900/95" : "bg-white/95"} backdrop-blur-md border-t ${
-                    isDarkMode ? "border-slate-800" : "border-gray-200"
-                  }`}
-                >
-                  <div className="px-4 py-4 space-y-2">
-                    {navItems.map((item) => (
-                      <motion.a
-                        key={item}
-                        href={`#${item.toLowerCase()}`}
-                        className={`block px-4 py-2 rounded-lg ${
-                          isDarkMode
-                            ? "text-gray-300 hover:text-white hover:bg-slate-800"
-                            : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
-                        } transition-colors`}
-                        style={{ fontFamily: "'Poppins', sans-serif" }}
-                        onClick={() => setIsMenuOpen(false)} // Only close the menu
-                      >
-                        {item}
-                      </motion.a>
-                    ))}
-                    <button
-                      className="w-full mt-4 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg font-medium text-white"
-                      style={{ fontFamily: "'Poppins', sans-serif" }}
-                      onClick={() => {
-  toast('Opening WhatsApp...', {
-    icon: <FaWhatsapp color={isDarkMode ? '#3b82f6' : '#60a5fa'} />,
-    style: {
-      borderRadius: '10px',
-      background: isDarkMode ? '#1e293b' : '#f1f5f9',
-      color: isDarkMode ? '#f1f5f9' : '#1e293b'
-    }
-  });
-  setTimeout(() => {
-    window.open("https://wa.me/919727181143?text=Hi%20Parthiv!", "_blank");
-  }, 1000);
-}}
-                    >
-                      Let's Connect
-                    </button>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </motion.nav>
+  {/* Mobile Menu - Visible when hamburger is clicked */}
+  <AnimatePresence>
+    {isMenuOpen && (
+      <motion.div
+        initial={{ opacity: 0, height: 0 }}
+        animate={{ opacity: 1, height: "auto" }}
+        exit={{ opacity: 0, height: 0 }}
+        className={`lg:hidden ${isDarkMode ? "bg-slate-900/95" : "bg-white/95"} backdrop-blur-md border-t ${
+          isDarkMode ? "border-slate-800" : "border-gray-200"
+        }`}
+      >
+        <div className="px-4 py-4 space-y-2">
+          {navItems.map((item) => (
+            <motion.a
+              key={item}
+              href={`#${item.toLowerCase()}`}
+              className={`block px-4 py-2 rounded-lg ${
+                isDarkMode
+                  ? "text-gray-300 hover:text-white hover:bg-slate-800"
+                  : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+              } transition-colors`}
+              style={{ fontFamily: "'Poppins', sans-serif" }}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              {item}
+            </motion.a>
+          ))}
+          <button
+            className="w-full mt-4 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg font-medium text-white"
+            style={{ fontFamily: "'Poppins', sans-serif" }}
+            onClick={() => {
+              toast('Opening WhatsApp...', {
+                icon: <FaWhatsapp color={isDarkMode ? '#3b82f6' : '#60a5fa'} />,
+                style: {
+                  borderRadius: '10px',
+                  background: isDarkMode ? '#1e293b' : '#f1f5f9',
+                  color: isDarkMode ? '#f1f5f9' : '#1e293b'
+                }
+              });
+              setTimeout(() => {
+                window.open("https://wa.me/919727181143?text=Hi%20Parthiv!", "_blank");
+              }, 1000);
+            }}
+          >
+            Let's Connect
+          </button>
+        </div>
+      </motion.div>
+    )}
+  </AnimatePresence>
+</motion.nav>
 
           {/* Hero Section */}
           <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-14 sm:pt-0">
@@ -1137,7 +1140,7 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                 </span>
                 <div className="flex-shrink-0 min-w-0 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
                   <img
-                    src={best || "/placeholder.svg"}
+                    src={best}
                     alt="Parthiv Shingala"
                     className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full object-cover"
                     onError={(e) => {
@@ -1645,7 +1648,7 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                       className={`h-48 bg-gradient-to-br ${project.gradient} flex items-center justify-center relative overflow-hidden`}
                     >
                       <img
-                        src={project.image || "/placeholder.svg"}
+                        src={project.image}
                         alt={project.title}
                         className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                       />
@@ -1694,32 +1697,47 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
                       {/* View Project Button */}
                       <motion.button
-                        whileHover={{
-                          scale: 1.02,
-                          boxShadow: "0 10px 25px rgba(168, 85, 247, 0.3)",
-                        }}
-                        whileTap={{ scale: 0.98 }}
-                        className="w-full py-3 bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30 rounded-lg text-white font-medium hover:from-purple-500/30 hover:to-pink-500/30 hover:border-purple-500/50 transition-all duration-300 group-hover:shadow-lg font-outfit"
-                      >
-                        <NavLink to={`/ProjectShowcase/${project.title.toLowerCase().replace(/\s+/g, "-")}`}>
-                          <span className="flex items-center justify-center">
-                            View Project
-                            <svg
-                              className="ml-2 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M17 8l4 4m0 0l-4 4m4-4H3"
-                              />
-                            </svg>
-                          </span>
-                        </NavLink>
-                      </motion.button>
+  whileHover={{
+    scale: 1.02,
+    boxShadow: "0 10px 25px rgba(168, 85, 247, 0.3)",
+  }}
+  whileTap={{ scale: 0.98 }}
+  className="w-full py-3 bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30 rounded-lg text-white font-medium hover:from-purple-500/30 hover:to-pink-500/30 hover:border-purple-500/50 transition-all duration-300 group-hover:shadow-lg font-outfit"
+  onClick={() => {
+    toast(`Opening ${project.title}`, {
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
+      ),
+      style: {
+        borderRadius: '10px',
+        background: '#1e293b',
+        color: '#f1f5f9'
+      }
+    });
+    setTimeout(() => {
+      navigate(`/ProjectShowcase/${project.title.toLowerCase().replace(/\s+/g, "-")}`);
+    }, 1000);
+  }}
+>
+  <span className="flex items-center justify-center">
+    View Project
+    <svg
+      className="ml-2 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M17 8l4 4m0 0l-4 4m4-4H3"
+      />
+    </svg>
+  </span>
+</motion.button>
                     </div>
                   </motion.div>
                 ))}
@@ -1850,7 +1868,7 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                             style={{ borderColor: medal.borderColor }}
                           >
                             <img
-                              src={medal.image || "/placeholder.svg"}
+                              src={medal.image}
                               alt={medal.title}
                               className="w-full h-full object-cover"
                               onError={(e) => {
@@ -2023,7 +2041,7 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                       {/* Certificate Image - Increased height */}
                       <div className="relative h-64 bg-gradient-to-br from-purple-500/20 to-pink-500/20 overflow-hidden">
                         <img
-                          src={cert.image || "/placeholder.svg"}
+                          src={cert.image}
                           alt={cert.title}
                           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                           onError={(e) => {
@@ -2330,7 +2348,7 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                       <div className="flex flex-col items-center text-center">
                         <div className="w-24 h-24 mb-4 flex items-center justify-center">
                           <img
-                            src="/placeholder.svg?height=96&width=96"
+                            src="./assets/placeholder.png?height=96&width=96"
                             alt="SAP Logo"
                             className="w-full h-full object-contain rounded-lg"
                             onError={(e) => {
@@ -2397,7 +2415,7 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                       <div className="flex flex-col items-center text-center">
                         <div className="w-24 h-24 mb-4 flex items-center justify-center">
                           <img
-                            src="/placeholder.svg?height=96&width=96"
+                            src="./assets/placeholder.png?height=96&width=96"
                             alt="EduNet Logo"
                             className="w-full h-full object-contain rounded-lg"
                             onError={(e) => {
@@ -2871,7 +2889,7 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                       }}
                     >
                       <img
-                        src={selectedCertificate.image || "/placeholder.svg"}
+                        src={selectedCertificate.image || placeholder}
                         alt={selectedCertificate.title}
                         className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                         onError={(e) => {
@@ -3065,7 +3083,7 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                   onClick={(e) => e.stopPropagation()}
                 >
                   <img
-                    src={expandedCertificate.image || "/placeholder.svg"}
+                    src={expandedCertificate.image || placeholder}
                     alt={expandedCertificate.title}
                     className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
                   />
