@@ -2347,18 +2347,8 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                     >
                       <div className="flex flex-col items-center text-center">
                         <div className="w-24 h-24 mb-4 flex items-center justify-center">
-                          <img
-                            src="./assets/placeholder.png?height=96&width=96"
-                            alt="SAP Logo"
-                            className="w-full h-full object-contain rounded-lg"
-                            onError={(e) => {
-                              e.target.style.display = "none"
-                              e.target.nextSibling.style.display = "flex"
-                            }}
-                          />
-                          <div className="w-full h-full bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-lg hidden items-center justify-center">
                             <SiSap size={48} className="text-blue-400" />
-                          </div>
+                        
                         </div>
                         <h4
                           className={`text-xl font-bold ${
@@ -2414,18 +2404,7 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                     >
                       <div className="flex flex-col items-center text-center">
                         <div className="w-24 h-24 mb-4 flex items-center justify-center">
-                          <img
-                            src="./assets/placeholder.png?height=96&width=96"
-                            alt="EduNet Logo"
-                            className="w-full h-full object-contain rounded-lg"
-                            onError={(e) => {
-                              e.target.style.display = "none"
-                              e.target.nextSibling.style.display = "flex"
-                            }}
-                          />
-                          <div className="w-full h-full bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-lg hidden items-center justify-center">
                             <FaGraduationCap size={48} className="text-purple-400" />
-                          </div>
                         </div>
                         <h4
                           className={`text-xl font-bold ${
