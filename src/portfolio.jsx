@@ -1,37 +1,48 @@
-"use client"
+"use client";
 
-import { useRef } from "react"
+import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect, useCallback } from "react"
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
+import { useState, useEffect, useCallback } from "react";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  AnimatePresence,
+} from "framer-motion";
 // import toast, { Toaster } from "react-hot-toast"
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { TypeAnimation } from "react-type-animation"
-import Particles from "react-tsparticles"
-import { loadSlim } from "tsparticles-slim"
-import convo from "./assets/convo.jpg"
-import convo4 from "./assets/convo4.jpg"
-import medal from "./assets/medal.jpg"
-import travel from "./assets/travel.jpg"
-import best from "./assets/best.jpg"
-import edge from "./assets/edge.jpg"
-import village from "./assets/village.jpg"
-import learnverselogo from "./assets/learnverselogo.jpg"
-import Lottie from "lottie-react"
-import animationData from "./assets/animation.json"
-import animationData2 from "./assets/edu.json"
-import animationData3 from "./assets/animation3.json"
-import SAP1 from "./assets/certi/SAP2.png"
-import SAP6 from "./assets/certi/SAP6.png"
-import SAP11 from "./assets/certi/SAP11.png"
-import { DiVisualstudio } from "react-icons/di"
-import placeholder from "./assets/placeholder.png"
-import { FaExternalLinkAlt ,FaWhatsapp } from "react-icons/fa"
+import { TypeAnimation } from "react-type-animation";
+import Particles from "react-tsparticles";
+import { loadSlim } from "tsparticles-slim";
+import convo from "./assets/convo.jpg";
+import convo4 from "./assets/convo4.jpg";
+import medal from "./assets/medal.jpg";
+import travel from "./assets/travel.jpg";
+import best from "./assets/best.jpg";
+import edge from "./assets/edge.jpg";
+import village from "./assets/village.jpg";
+import incentius from "./assets/incentius.png"
+import learnverselogo from "./assets/learnverselogo.jpg";
+import Lottie from "lottie-react";
+import animationData from "./assets/animation.json";
+import animationData2 from "./assets/edu.json";
+import animationData3 from "./assets/animation3.json";
+import SAP1 from "./assets/certi/SAP2.png";
+import SAP6 from "./assets/certi/SAP6.png";
+import SAP11 from "./assets/certi/SAP11.png";
+import { DiVisualstudio } from "react-icons/di";
+import placeholder from "./assets/placeholder.png";
+import { FaExternalLinkAlt, FaWhatsapp } from "react-icons/fa";
 // Import icons
+import { BiLogoPostgresql } from "react-icons/bi";
 import {
   SiReact,
   SiTailwindcss,
+  SiVuedotjs,
+  SiFlask,
+
+  SiQuasar,
   SiNodedotjs,
   SiExpress,
   SiMongodb,
@@ -60,10 +71,10 @@ import {
   SiAndroidstudio,
   SiCoursera,
   SiLinkedin,
-} from "react-icons/si"
+} from "react-icons/si";
 
-import { BiLogoVisualStudio } from "react-icons/bi"
-import { TbBrandCSharp } from "react-icons/tb"
+import { BiLogoVisualStudio } from "react-icons/bi";
+import { TbBrandCSharp } from "react-icons/tb";
 
 import {
   FaJava,
@@ -78,13 +89,26 @@ import {
   FaPaperPlane,
   FaExpand,
   FaTimes,
+  FaPython,
   FaPhone,
-} from "react-icons/fa"
+} from "react-icons/fa";
 
 // Technology icons for TechRow
-import { Atom, Type, Server, Database, Cloud, GitBranch, Figma, Palette, Layers, Package, Code } from "lucide-react"
+import {
+  Atom,
+  Type,
+  Server,
+  Database,
+  Cloud,
+  GitBranch,
+  Figma,
+  Palette,
+  Layers,
+  Package,
+  Code,
+} from "lucide-react";
 
-import { NavLink, useLocation } from "react-router-dom"
+import { NavLink, useLocation } from "react-router-dom";
 
 // Custom hook for animations
 const useAnimationVariants = () => {
@@ -116,8 +140,8 @@ const useAnimationVariants = () => {
         },
       },
     },
-  }
-}
+  };
+};
 
 // Education data
 const educationData = [
@@ -148,7 +172,7 @@ const educationData = [
     location: "Surat, India",
     details: "Percentage: 70%",
   },
-]
+];
 
 // Technology data for TechRow
 const technologies = [
@@ -242,7 +266,12 @@ const technologies = [
     color: "#777BB4",
     logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg",
   },
-  { name: "ASP.NET", icon: Code, color: "#512BD4", logo: "https://cdn.worldvectorlogo.com/logos/dot-net-core-7.svg" },
+  {
+    name: "ASP.NET",
+    icon: Code,
+    color: "#512BD4",
+    logo: "https://cdn.worldvectorlogo.com/logos/dot-net-core-7.svg",
+  },
   {
     name: "Clerk Auth",
     icon: Server,
@@ -279,18 +308,22 @@ const technologies = [
     color: "#A020F0",
     logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg",
   },
-]
+];
 
 // Education Item Component
 const EducationItem = ({ item, isLast, isActive }) => (
   <div className="relative pl-8">
     {/* Timeline Line */}
-    {!isLast && <div className="absolute top-2 left-[7px] w-px h-full bg-gray-600" />}
+    {!isLast && (
+      <div className="absolute top-2 left-[7px] w-px h-full bg-gray-600" />
+    )}
 
     {/* Timeline Dot */}
     <div className="absolute top-0 left-0">
       <motion.div
-        className={`w-4 h-4 rounded-full border-2 border-gray-600 z-10 ${isActive ? "bg-blue-500" : "bg-gray-400"}`}
+        className={`w-4 h-4 rounded-full border-2 border-gray-600 z-10 ${
+          isActive ? "bg-blue-500" : "bg-gray-400"
+        }`}
         whileHover={{ scale: 1.5, backgroundColor: "#60A5FA" }}
         transition={{ duration: 0.3 }}
       />
@@ -303,14 +336,22 @@ const EducationItem = ({ item, isLast, isActive }) => (
       animate={{ opacity: isActive ? 1 : 0.5, x: isActive ? 0 : 50 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
     >
-      <p className="text-xs sm:text-sm text-gray-400 mb-1 font-outfit">{item.period}</p>
-      <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-white font-outfit">{item.degree}</h3>
-      <p className="text-sm sm:text-base md:text-lg text-gray-300 font-outfit">{item.institution}</p>
+      <p className="text-xs sm:text-sm text-gray-400 mb-1 font-outfit">
+        {item.period}
+      </p>
+      <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-white font-outfit">
+        {item.degree}
+      </h3>
+      <p className="text-sm sm:text-base md:text-lg text-gray-300 font-outfit">
+        {item.institution}
+      </p>
       <p className="text-sm text-gray-400 font-outfit">{item.location}</p>
-      {item.details && <p className="text-sm text-gray-400 mt-2 font-outfit">{item.details}</p>}
+      {item.details && (
+        <p className="text-sm text-gray-400 mt-2 font-outfit">{item.details}</p>
+      )}
     </motion.div>
   </div>
-)
+);
 
 // Tech Item Component
 const TechItem = ({ tech }) => (
@@ -319,14 +360,16 @@ const TechItem = ({ tech }) => (
       <img
         src={tech.logo || placeholder}
         alt={`${tech.name} logo`}
-        className={`w-6 h-6 rounded-full ${tech.name === "Express.js" ? "bg-white p-1" : ""}`}
+        className={`w-6 h-6 rounded-full ${
+          tech.name === "Express.js" ? "bg-white p-1" : ""
+        }`}
       />
     )}
     <span className="whitespace-nowrap text-gray-200 text-sm font-bold uppercase font-poppins tracking-widest">
       {tech.name}
     </span>
   </div>
-)
+);
 
 // Tech Row Component
 const TechRow = () => (
@@ -335,7 +378,7 @@ const TechRow = () => (
       <TechItem key={index} tech={tech} />
     ))}
   </div>
-)
+);
 
 // Technology Strip Component
 const TechnologyStrip = () => {
@@ -366,31 +409,31 @@ const TechnologyStrip = () => {
 
 // Education Component
 const Education = () => {
-  const [activeIndex, setActiveIndex] = useState(0)
-  const refs = useRef([])
+  const [activeIndex, setActiveIndex] = useState(0);
+  const refs = useRef([]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setActiveIndex(Number.parseInt(entry.target.dataset.index, 10))
+            setActiveIndex(Number.parseInt(entry.target.dataset.index, 10));
           }
-        })
+        });
       },
-      { threshold: 0.8 },
-    )
+      { threshold: 0.8 }
+    );
 
     refs.current.forEach((ref) => {
-      if (ref) observer.observe(ref)
-    })
+      if (ref) observer.observe(ref);
+    });
 
     return () => {
       refs.current.forEach((ref) => {
-        if (ref) observer.unobserve(ref)
-      })
-    }
-  }, [])
+        if (ref) observer.unobserve(ref);
+      });
+    };
+  }, []);
 
   return (
     <section id="education" className="py-24 text-white relative z-10">
@@ -398,9 +441,13 @@ const Education = () => {
         <div className="relative">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             <div className="flex justify-center items-center">
-               <div className="relative w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl aspect-square">
-                    <Lottie animationData={animationData2} loop={true} className="w-full h-full" />
-                  </div>
+              <div className="relative w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl aspect-square">
+                <Lottie
+                  animationData={animationData2}
+                  loop={true}
+                  className="w-full h-full"
+                />
+              </div>
             </div>
             <div>
               <motion.h2
@@ -409,35 +456,39 @@ const Education = () => {
                 initial={{ opacity: 1, y: 0 }}
               >
                 <span
-                    className= "text-white"
-                    style={{
-                      textShadow:
-                        "0 0 20px rgba(255, 255, 255,0.5), 0 0 40px rgba(255, 255, 255, 0.3), 0 0 60px rgba(255, 255, 255, 0.2)",
-                    }}
-                  >
-                Education{" "}
+                  className="text-white"
+                  style={{
+                    textShadow:
+                      "0 0 20px rgba(255, 255, 255,0.5), 0 0 40px rgba(255, 255, 255, 0.3), 0 0 60px rgba(255, 255, 255, 0.2)",
+                  }}
+                >
+                  Education{" "}
                 </span>
                 <motion.span
-  className="bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent italic"
-  // animate={{
-  //   textShadow: [
-  //     "0 0 16px #a21caf, 0 0 32px #a21caf", // purple-700
-  //     "0 0 16px #db2777, 0 0 32px #db2777", // pink-600
-  //     "0 0 16px #a21caf, 0 0 32px #a21caf", // purple-700
-  //   ],
-  // }}
-  // transition={{
-  //   duration: 2,
-  //   repeat: Number.POSITIVE_INFINITY,
-  //   ease: "easeInOut",
-  // }}
->
-  Experience
-</motion.span>
+                  className="bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent italic"
+                  // animate={{
+                  //   textShadow: [
+                  //     "0 0 16px #a21caf, 0 0 32px #a21caf", // purple-700
+                  //     "0 0 16px #db2777, 0 0 32px #db2777", // pink-600
+                  //     "0 0 16px #a21caf, 0 0 32px #a21caf", // purple-700
+                  //   ],
+                  // }}
+                  // transition={{
+                  //   duration: 2,
+                  //   repeat: Number.POSITIVE_INFINITY,
+                  //   ease: "easeInOut",
+                  // }}
+                >
+                  Experience
+                </motion.span>
               </motion.h2>
 
               {educationData.map((item, index) => (
-                <div key={index} ref={(el) => (refs.current[index] = el)} data-index={index}>
+                <div
+                  key={index}
+                  ref={(el) => (refs.current[index] = el)}
+                  data-index={index}
+                >
                   <EducationItem
                     item={item}
                     isLast={index === educationData.length - 1}
@@ -450,8 +501,8 @@ const Education = () => {
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
 // Loader Component
 const Loader = () => (
@@ -463,13 +514,13 @@ const Loader = () => (
   >
     <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-purple-500"></div>
   </motion.div>
-)
+);
 
 const Intro = ({ onComplete }) => {
-  const [isDarkMode, setIsDarkMode] = useState(true)
+  const [isDarkMode, setIsDarkMode] = useState(true);
   const particlesInit = useCallback(async (engine) => {
-    await loadSlim(engine)
-  }, [])
+    await loadSlim(engine);
+  }, []);
 
   const particlesConfig = {
     background: { color: { value: "transparent" } },
@@ -488,7 +539,11 @@ const Intro = ({ onComplete }) => {
     },
     particles: {
       number: { value: 60, density: { enable: true, area: 800 } },
-      color: { value: isDarkMode ? ["#d946ef", "#06b6d4", "#facc15"] : ["#6366f1", "#ec4899", "#0ea5e9"] },
+      color: {
+        value: isDarkMode
+          ? ["#d946ef", "#06b6d4", "#facc15"]
+          : ["#6366f1", "#ec4899", "#0ea5e9"],
+      },
       shape: { type: ["circle", "triangle"] },
       size: {
         value: { min: 1, max: 4 },
@@ -515,7 +570,7 @@ const Intro = ({ onComplete }) => {
       },
     },
     detectRetina: true,
-  }
+  };
 
   return (
     <motion.div
@@ -529,7 +584,12 @@ const Intro = ({ onComplete }) => {
       style={{ minHeight: "100vh" }}
     >
       {/* Particles Background */}
-      <Particles id="intro-particles" init={particlesInit} options={particlesConfig} className="fixed inset-0 z-0" />
+      <Particles
+        id="intro-particles"
+        init={particlesInit}
+        options={particlesConfig}
+        className="fixed inset-0 z-0"
+      />
 
       {/* Centered animated intro text */}
       <div className="relative z-10 text-center px-4">
@@ -559,7 +619,7 @@ const Intro = ({ onComplete }) => {
             "",
             0,
             () => {
-              setTimeout(onComplete, 500)
+              setTimeout(onComplete, 500);
             },
           ]}
           wrapper="h2"
@@ -568,44 +628,47 @@ const Intro = ({ onComplete }) => {
           className="text-2xl sm:text-3xl md:text-4xl font-semibold bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent"
           style={{
             fontFamily: "'Lancelot', cursive",
-            textShadow: "0 0 20px rgba(168,85,247,0.3), 0 0 40px rgba(236,72,153,0.2)",
+            textShadow:
+              "0 0 20px rgba(168,85,247,0.3), 0 0 40px rgba(236,72,153,0.2)",
           }}
         />
       </div>
     </motion.div>
-  )
-}
+  );
+};
 
 const Portfolio = () => {
-  const location = useLocation()
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
-  const [currentTime, setCurrentTime] = useState("")
-    const [activeSection, setActiveSection] = useState("home")
-const [currentImageIndex, setCurrentImageIndex] = useState(0)
-  const [currentMedalIndex, setCurrentMedalIndex] = useState(0)
-  const [isDarkMode, setIsDarkMode] = useState(true)
-  const [selectedCertificate, setSelectedCertificate] = useState(null)
-  const [isImageExpanded, setIsImageExpanded] = useState(false)
-  const [expandedCertificate, setExpandedCertificate] = useState(null)
-  const [isLoading, setIsLoading] = useState(true)
-  const [isIntro, setIsIntro] = useState(false)
-  const [isContentVisible, setIsContentVisible] = useState(() => !!location.state?.fromProject)
+  const location = useLocation();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [currentTime, setCurrentTime] = useState("");
+  const [activeSection, setActiveSection] = useState("home");
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [currentMedalIndex, setCurrentMedalIndex] = useState(0);
+  const [isDarkMode, setIsDarkMode] = useState(true);
+  const [selectedCertificate, setSelectedCertificate] = useState(null);
+  const [isImageExpanded, setIsImageExpanded] = useState(false);
+  const [expandedCertificate, setExpandedCertificate] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isIntro, setIsIntro] = useState(false);
+  const [isContentVisible, setIsContentVisible] = useState(
+    () => !!location.state?.fromProject
+  );
 
-  const { scrollY } = useScroll()
-  const heroY = useTransform(scrollY, [0, 500], [0, -100])
-  const heroOpacity = useTransform(scrollY, [0, 300], [1, 0.3])
-  const variants = useAnimationVariants()
+  const { scrollY } = useScroll();
+  const heroY = useTransform(scrollY, [0, 500], [0, -100]);
+  const heroOpacity = useTransform(scrollY, [0, 300], [1, 0.3]);
+  const variants = useAnimationVariants();
   const navigate = useNavigate();
 
   useEffect(() => {
-      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
-    }, []); 
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, []);
 
   // Particles configuration
   const particlesInit = useCallback(async (engine) => {
-    await loadSlim(engine)
-  }, [])
+    await loadSlim(engine);
+  }, []);
 
   const particlesConfig = {
     background: { color: { value: "transparent" } },
@@ -624,7 +687,11 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
     },
     particles: {
       number: { value: 60, density: { enable: true, area: 800 } },
-      color: { value: isDarkMode ? ["#d946ef", "#06b6d4", "#facc15"] : ["#6366f1", "#ec4899", "#0ea5e9"] },
+      color: {
+        value: isDarkMode
+          ? ["#d946ef", "#06b6d4", "#facc15"]
+          : ["#6366f1", "#ec4899", "#0ea5e9"],
+      },
       shape: { type: ["circle", "triangle"] },
       size: {
         value: { min: 1, max: 4 },
@@ -651,7 +718,7 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
       },
     },
     detectRetina: true,
-  }
+  };
 
   const skills = [
     // 🌐 Frontend Frameworks & Libraries
@@ -689,8 +756,14 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
     // 🧩 Development Tools & IDEs
     { name: "VS Code", icon: <BiLogoVisualStudio size={24} color="#007ACC" /> },
-    { name: "Visual Studio", icon: <DiVisualstudio size={24} color="#5C2D91" /> },
-    { name: "Android Studio", icon: <SiAndroidstudio size={24} color="#3DDC84" /> },
+    {
+      name: "Visual Studio",
+      icon: <DiVisualstudio size={24} color="#5C2D91" />,
+    },
+    {
+      name: "Android Studio",
+      icon: <SiAndroidstudio size={24} color="#3DDC84" />,
+    },
     { name: "Postman", icon: <SiPostman size={24} color="#FF6C37" /> },
     { name: "Git", icon: <SiGit size={24} color="#F05032" /> },
     { name: "GitHub", icon: <SiGithub size={24} color="#38B2AC" /> },
@@ -703,7 +776,7 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
     // 🌐 Web Basics
     { name: "HTML5", icon: <SiHtml5 size={24} color="#E34F26" /> },
     { name: "CSS3", icon: <SiCss3 size={24} color="#1572B6" /> },
-  ]
+  ];
 
   // Image carousel data
   const imageCarousel = [
@@ -725,7 +798,7 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
       gradient: "from-emerald-500/20 to-teal-500/20",
       borderColor: "border-emerald-500/50",
     },
-  ]
+  ];
 
   // Medal carousel data for card slider
   const medalCards = [
@@ -750,7 +823,7 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
       gradient: "from-purple-400/20 to-pink-500/20",
       borderColor: "border-purple-500/50",
     },
-  ]
+  ];
 
   // Projects data
   const featuredProjects = [
@@ -758,7 +831,14 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
       title: "LearnVerse",
       description:
         "Full-stack MERN-based learning platform with user authentication, gamified badge rewards, animated UI, and responsive layout.",
-      stack: ["React", "Node.js", "MongoDB", "Express", "Zustand", "Tailwind CSS"],
+      stack: [
+        "React",
+        "Node.js",
+        "MongoDB",
+        "Express",
+        "Zustand",
+        "Tailwind CSS",
+      ],
       image: learnverselogo,
       emoji: "📘",
       gradient: "from-blue-500/20 to-cyan-500/20",
@@ -781,7 +861,7 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
       emoji: "📰",
       gradient: "from-green-500/20 to-emerald-500/20",
     },
-  ]
+  ];
 
   // Comprehensive certifications data
   const certifications = [
@@ -798,7 +878,12 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
       score: "84%",
       description:
         "Comprehensive certification covering ABAP Cloud development, RESTful services, and modern SAP development practices.",
-      skills: ["ABAP Cloud", "RESTful Services", "SAP BTP", "Core Data Services"],
+      skills: [
+        "ABAP Cloud",
+        "RESTful Services",
+        "SAP BTP",
+        "Core Data Services",
+      ],
     },
     {
       id: 6,
@@ -809,7 +894,8 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
       url: "https://www.coursera.org/account/accomplishments/records/KEAHX12H1LS0",
       icon: <SiCoursera size={24} color="#0056D3" />,
       date: "2025",
-      description: "Capstone project applying real-world SAP knowledge in a business context.",
+      description:
+        "Capstone project applying real-world SAP knowledge in a business context.",
       skills: ["SAP Practice", "Client Demo", "Project Simulation"],
     },
     {
@@ -821,106 +907,121 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
       url: "https://www.credly.com/badges/eea3c732-cc90-472d-972b-1dae4acec258/linked_in_profile",
       icon: <SiCoursera size={24} color="#0056D3" />,
       date: "2025",
-      description: "Covers Agile methodologies, Scrum ceremonies, and team roles.",
+      description:
+        "Covers Agile methodologies, Scrum ceremonies, and team roles.",
       skills: ["Agile", "Scrum", "Teamwork"],
     },
-  ]
+  ];
   // Auto-cycle images
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentImageIndex((prev) => (prev + 1) % imageCarousel.length)
-    }, 3000)
-    return () => clearInterval(interval)
-  }, [])
+      setCurrentImageIndex((prev) => (prev + 1) % imageCarousel.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
 
   // Auto-cycle medal cards
   useEffect(() => {
     const medalInterval = setInterval(() => {
-      setCurrentMedalIndex((prev) => (prev + 1) % medalCards.length)
-    }, 4000)
-    return () => clearInterval(medalInterval)
-  }, [])
+      setCurrentMedalIndex((prev) => (prev + 1) % medalCards.length);
+    }, 4000);
+    return () => clearInterval(medalInterval);
+  }, []);
 
   // Handle scroll effect for navigation
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50)
-    }
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   // Update current time for India
   useEffect(() => {
     const updateTime = () => {
-      const now = new Date()
+      const now = new Date();
       const indiaTime = new Intl.DateTimeFormat("en-IN", {
         timeZone: "Asia/Kolkata",
         hour: "2-digit",
         minute: "2-digit",
         hour12: false,
-      }).format(now)
-      setCurrentTime(`India — ${indiaTime} IST`)
-    }
+      }).format(now);
+      setCurrentTime(`India — ${indiaTime} IST`);
+    };
 
-    updateTime()
-    const interval = setInterval(updateTime, 60000)
-    return () => clearInterval(interval)
-  }, [])
+    updateTime();
+    const interval = setInterval(updateTime, 60000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     if (location.state?.fromProject) {
-      setIsLoading(false)
-      setIsIntro(false)
-      setIsContentVisible(true)
+      setIsLoading(false);
+      setIsIntro(false);
+      setIsContentVisible(true);
       setTimeout(() => {
-        document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })
-      }, 0)
+        document
+          .getElementById("projects")
+          ?.scrollIntoView({ behavior: "smooth" });
+      }, 0);
     } else if (location.state?.fromCert) {
-      setIsLoading(false)
-      setIsIntro(false)
-      setIsContentVisible(true)
+      setIsLoading(false);
+      setIsIntro(false);
+      setIsContentVisible(true);
       setTimeout(() => {
-        document.getElementById("achievements")?.scrollIntoView({ behavior: "smooth" })
-      }, 0)
+        document
+          .getElementById("achievements")
+          ?.scrollIntoView({ behavior: "smooth" });
+      }, 0);
     } else if (location.state?.section) {
-      setIsLoading(false)
-      setIsIntro(false)
-      setIsContentVisible(true)
+      setIsLoading(false);
+      setIsIntro(false);
+      setIsContentVisible(true);
       setTimeout(() => {
-        document.getElementById(location.state.section)?.scrollIntoView({ behavior: "smooth" })
-      }, 0)
+        document
+          .getElementById(location.state.section)
+          ?.scrollIntoView({ behavior: "smooth" });
+      }, 0);
     } else if (!isContentVisible) {
       const loadingTimer = setTimeout(() => {
-        setIsLoading(false)
-        setIsIntro(true)
-      }, 500)
-      return () => clearTimeout(loadingTimer)
+        setIsLoading(false);
+        setIsIntro(true);
+      }, 500);
+      return () => clearTimeout(loadingTimer);
     }
-  }, [location, isContentVisible])
+  }, [location, isContentVisible]);
 
   useEffect(() => {
     if (isLoading || isIntro) {
-      document.body.style.overflow = "hidden"
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = "auto"
+      document.body.style.overflow = "auto";
     }
-  }, [isLoading, isIntro])
+  }, [isLoading, isIntro]);
 
   const handleIntroComplete = () => {
-    setIsIntro(false)
-    setIsContentVisible(true)
-  }
+    setIsIntro(false);
+    setIsContentVisible(true);
+  };
 
-  const navItems = ["Home", "About", "Education", "Projects","Achievements","Internship", "Contact"]
+  const navItems = [
+    "Home",
+    "About",
+    "Education",
+    "Projects",
+    "Achievements",
+    "Internship",
+    "Contact",
+  ];
   // Handle navigation and scrolling
   const handleNavClick = (section) => {
-    const sectionId = section.toLowerCase()
-    const element = document.getElementById(sectionId)
+    const sectionId = section.toLowerCase();
+    const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({ behavior: "smooth" })
+      element.scrollIntoView({ behavior: "smooth" });
     }
-  }
+  };
 
   return (
     <>
@@ -933,163 +1034,197 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
           } overflow-x-hidden relative`}
         >
           {/* Particles Background */}
-          <Particles id="tsparticles" init={particlesInit} options={particlesConfig} className="fixed inset-0 z-0" />
+          <Particles
+            id="tsparticles"
+            init={particlesInit}
+            options={particlesConfig}
+            className="fixed inset-0 z-0"
+          />
 
           {/* Navigation */}
           <motion.nav
-  initial={{ y: -100 }}
-  animate={{ y: 0 }}
-  className={`fixed top-0 left-0 right-0 z-50 mt-0 transition-all duration-300 ${
-    scrolled ? `${isDarkMode ? "bg-slate-900/90" : "bg-white/90"} backdrop-blur-md` : "bg-transparent"
-  }`}
->
-  <div className="max-w-7xl mx-auto px-4 mt-3 sm:px-6 lg:px-8">
-    <div className="flex items-center justify-between h-16">
-      <motion.div
-        whileHover={{ scale: 1.05 }}
-        className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent font-iceland tracking-wide"
-      >
-        PARTHIV SHINGALA
-      </motion.div>
-
-      {/* Full Navigation Menu - Visible only on lg and above */}
-      <div
-        className={`hidden lg:flex items-center space-x-1 ${
-          isDarkMode ? "bg-slate-800/50" : "bg-white/50"
-        } backdrop-blur-sm rounded-full px-6 py-2`}
-      >
-        {navItems.map((item) => (
-          <motion.a
-            key={item}
-            href={`#${item.toLowerCase()}`}
-            whileHover={{
-              scale: 1.05,
-              boxShadow: "0 0 20px rgba(168, 85, 247, 0.3)",
-            }}
-            whileTap={{ scale: 0.95 }}
-            className={`px-4 py-2 rounded-full text-sm font-medium ${
-              isDarkMode
-                ? "text-gray-300 hover:text-white hover:bg-slate-700/50"
-                : "text-gray-600 hover:text-gray-900 hover:bg-gray-100/50"
-            } transition-all duration-200`}
-            style={{ fontFamily: "'Poppins', sans-serif" }}
-            onClick={(e) => {
-              e.preventDefault();
-              handleNavClick(item);
-            }}
+            initial={{ y: -100 }}
+            animate={{ y: 0 }}
+            className={`fixed top-0 left-0 right-0 z-50 mt-0 transition-all duration-300 ${
+              scrolled
+                ? `${
+                    isDarkMode ? "bg-slate-900/90" : "bg-white/90"
+                  } backdrop-blur-md`
+                : "bg-transparent"
+            }`}
           >
-            {item}
-          </motion.a>
-        ))}
-        <motion.button
-          whileHover={{
-            scale: 1.05,
-            boxShadow: "0 10px 30px rgba(168, 85, 247, 0.4)",
-          }}
-          whileTap={{ scale: 0.95 }}
-          className="ml-4 px-6 py-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full text-sm font-medium hover:from-purple-600 hover:to-pink-600 transition-all duration-200 text-white"
-          style={{ fontFamily: "'Poppins', sans-serif" }}
-          onClick={() => {
-            console.log("Connecting via WhatsApp");
-            toast('Opening WhatsApp...', {
-              icon: <FaWhatsapp color={isDarkMode ? '#3b82f6' : '#60a5fa'} />,
-              style: {
-                borderRadius: '10px',
-                background: isDarkMode ? '#1e293b' : '#f1f5f9',
-                color: isDarkMode ? '#f1f5f9' : '#1e293b'
-              }
-            });
-            setTimeout(() => {
-              window.open("https://wa.me/919727181143?text=Hi%20Parthiv!", "_blank");
-            }, 1000);
-          }}
-        >
-          Let's Connect
-        </motion.button>
-      </div>
+            <div className="max-w-7xl mx-auto px-4 mt-3 sm:px-6 lg:px-8">
+              <div className="flex items-center justify-between h-16">
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent font-iceland tracking-wide"
+                >
+                  PARTHIV SHINGALA
+                </motion.div>
 
-      {/* Hamburger Menu Button - Visible below lg */}
-      <button
-        onClick={() => setIsMenuOpen(!isMenuOpen)}
-        className={`lg:hidden p-2 rounded-lg ${
-          isDarkMode ? "hover:bg-slate-800" : "hover:bg-gray-100"
-        } transition-colors`}
-      >
-        <div className="w-6 h-6 flex flex-col justify-center items-center">
-          <span
-            className={`block w-5 h-0.5 ${
-              isDarkMode ? "bg-white" : "bg-gray-900"
-            } transition-all duration-300 ${isMenuOpen ? "rotate-45 translate-y-1" : ""}`}
-          />
-          <span
-            className={`block w-5 h-0.5 ${
-              isDarkMode ? "bg-white" : "bg-gray-900"
-            } mt-1 transition-all duration-300 ${isMenuOpen ? "opacity-0" : ""}`}
-          />
-          <span
-            className={`block w-5 h-0.5 ${
-              isDarkMode ? "bg-white" : "bg-gray-900"
-            } mt-1 transition-all duration-300 ${isMenuOpen ? "-rotate-45 -translate-y-1" : ""}`}
-          />
-        </div>
-      </button>
-    </div>
-  </div>
+                {/* Full Navigation Menu - Visible only on lg and above */}
+                <div
+                  className={`hidden lg:flex items-center space-x-1 ${
+                    isDarkMode ? "bg-slate-800/50" : "bg-white/50"
+                  } backdrop-blur-sm rounded-full px-6 py-2`}
+                >
+                  {navItems.map((item) => (
+                    <motion.a
+                      key={item}
+                      href={`#${item.toLowerCase()}`}
+                      whileHover={{
+                        scale: 1.05,
+                        boxShadow: "0 0 20px rgba(168, 85, 247, 0.3)",
+                      }}
+                      whileTap={{ scale: 0.95 }}
+                      className={`px-4 py-2 rounded-full text-sm font-medium ${
+                        isDarkMode
+                          ? "text-gray-300 hover:text-white hover:bg-slate-700/50"
+                          : "text-gray-600 hover:text-gray-900 hover:bg-gray-100/50"
+                      } transition-all duration-200`}
+                      style={{ fontFamily: "'Poppins', sans-serif" }}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleNavClick(item);
+                      }}
+                    >
+                      {item}
+                    </motion.a>
+                  ))}
+                  <motion.button
+                    whileHover={{
+                      scale: 1.05,
+                      boxShadow: "0 10px 30px rgba(168, 85, 247, 0.4)",
+                    }}
+                    whileTap={{ scale: 0.95 }}
+                    className="ml-4 px-6 py-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full text-sm font-medium hover:from-purple-600 hover:to-pink-600 transition-all duration-200 text-white"
+                    style={{ fontFamily: "'Poppins', sans-serif" }}
+                    onClick={() => {
+                      console.log("Connecting via WhatsApp");
+                      toast("Opening WhatsApp...", {
+                        icon: (
+                          <FaWhatsapp
+                            color={isDarkMode ? "#3b82f6" : "#60a5fa"}
+                          />
+                        ),
+                        style: {
+                          borderRadius: "10px",
+                          background: isDarkMode ? "#1e293b" : "#f1f5f9",
+                          color: isDarkMode ? "#f1f5f9" : "#1e293b",
+                        },
+                      });
+                      setTimeout(() => {
+                        window.open(
+                          "https://wa.me/919727181143?text=Hi%20Parthiv!",
+                          "_blank"
+                        );
+                      }, 1000);
+                    }}
+                  >
+                    Let's Connect
+                  </motion.button>
+                </div>
 
-  {/* Mobile Menu - Visible when hamburger is clicked */}
-  <AnimatePresence>
-    {isMenuOpen && (
-      <motion.div
-        initial={{ opacity: 0, height: 0 }}
-        animate={{ opacity: 1, height: "auto" }}
-        exit={{ opacity: 0, height: 0 }}
-        className={`lg:hidden ${isDarkMode ? "bg-slate-900/95" : "bg-white/95"} backdrop-blur-md border-t ${
-          isDarkMode ? "border-slate-800" : "border-gray-200"
-        }`}
-      >
-        <div className="px-4 py-4 space-y-2">
-          {navItems.map((item) => (
-            <motion.a
-              key={item}
-              href={`#${item.toLowerCase()}`}
-              className={`block px-4 py-2 rounded-lg ${
-                isDarkMode
-                  ? "text-gray-300 hover:text-white hover:bg-slate-800"
-                  : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
-              } transition-colors`}
-              style={{ fontFamily: "'Poppins', sans-serif" }}
-              onClick={() => setIsMenuOpen(false)}
-            >
-              {item}
-            </motion.a>
-          ))}
-          <button
-            className="w-full mt-4 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg font-medium text-white"
-            style={{ fontFamily: "'Poppins', sans-serif" }}
-            onClick={() => {
-              toast('Opening WhatsApp...', {
-                icon: <FaWhatsapp color={isDarkMode ? '#3b82f6' : '#60a5fa'} />,
-                style: {
-                  borderRadius: '10px',
-                  background: isDarkMode ? '#1e293b' : '#f1f5f9',
-                  color: isDarkMode ? '#f1f5f9' : '#1e293b'
-                }
-              });
-              setTimeout(() => {
-                window.open("https://wa.me/919727181143?text=Hi%20Parthiv!", "_blank");
-              }, 1000);
-            }}
-          >
-            Let's Connect
-          </button>
-        </div>
-      </motion.div>
-    )}
-  </AnimatePresence>
-</motion.nav>
+                {/* Hamburger Menu Button - Visible below lg */}
+                <button
+                  onClick={() => setIsMenuOpen(!isMenuOpen)}
+                  className={`lg:hidden p-2 rounded-lg ${
+                    isDarkMode ? "hover:bg-slate-800" : "hover:bg-gray-100"
+                  } transition-colors`}
+                >
+                  <div className="w-6 h-6 flex flex-col justify-center items-center">
+                    <span
+                      className={`block w-5 h-0.5 ${
+                        isDarkMode ? "bg-white" : "bg-gray-900"
+                      } transition-all duration-300 ${
+                        isMenuOpen ? "rotate-45 translate-y-1" : ""
+                      }`}
+                    />
+                    <span
+                      className={`block w-5 h-0.5 ${
+                        isDarkMode ? "bg-white" : "bg-gray-900"
+                      } mt-1 transition-all duration-300 ${
+                        isMenuOpen ? "opacity-0" : ""
+                      }`}
+                    />
+                    <span
+                      className={`block w-5 h-0.5 ${
+                        isDarkMode ? "bg-white" : "bg-gray-900"
+                      } mt-1 transition-all duration-300 ${
+                        isMenuOpen ? "-rotate-45 -translate-y-1" : ""
+                      }`}
+                    />
+                  </div>
+                </button>
+              </div>
+            </div>
+
+            {/* Mobile Menu - Visible when hamburger is clicked */}
+            <AnimatePresence>
+              {isMenuOpen && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className={`lg:hidden ${
+                    isDarkMode ? "bg-slate-900/95" : "bg-white/95"
+                  } backdrop-blur-md border-t ${
+                    isDarkMode ? "border-slate-800" : "border-gray-200"
+                  }`}
+                >
+                  <div className="px-4 py-4 space-y-2">
+                    {navItems.map((item) => (
+                      <motion.a
+                        key={item}
+                        href={`#${item.toLowerCase()}`}
+                        className={`block px-4 py-2 rounded-lg ${
+                          isDarkMode
+                            ? "text-gray-300 hover:text-white hover:bg-slate-800"
+                            : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                        } transition-colors`}
+                        style={{ fontFamily: "'Poppins', sans-serif" }}
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        {item}
+                      </motion.a>
+                    ))}
+                    <button
+                      className="w-full mt-4 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg font-medium text-white"
+                      style={{ fontFamily: "'Poppins', sans-serif" }}
+                      onClick={() => {
+                        toast("Opening WhatsApp...", {
+                          icon: (
+                            <FaWhatsapp
+                              color={isDarkMode ? "#3b82f6" : "#60a5fa"}
+                            />
+                          ),
+                          style: {
+                            borderRadius: "10px",
+                            background: isDarkMode ? "#1e293b" : "#f1f5f9",
+                            color: isDarkMode ? "#f1f5f9" : "#1e293b",
+                          },
+                        });
+                        setTimeout(() => {
+                          window.open(
+                            "https://wa.me/919727181143?text=Hi%20Parthiv!",
+                            "_blank"
+                          );
+                        }, 1000);
+                      }}
+                    >
+                      Let's Connect
+                    </button>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.nav>
 
           {/* Hero Section */}
-          <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-14 sm:pt-0">
+          <section
+            id="home"
+            className="relative min-h-screen flex items-center justify-center overflow-hidden pt-14 sm:pt-0"
+          >
             <motion.div
               style={{ y: heroY, opacity: heroOpacity }}
               className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center"
@@ -1132,10 +1267,18 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                 transition={{ delay: 0.6 }}
                 className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 mb-12 font-outfit"
               >
-                <span className={`text-xl sm:text-2xl ${isDarkMode ? "text-gray-300" : "text-gray-600"}`}>
+                <span
+                  className={`text-xl sm:text-2xl ${
+                    isDarkMode ? "text-gray-300" : "text-gray-600"
+                  }`}
+                >
                   Hello, I'm
                 </span>
-                <span className={`text-xl sm:text-2xl font-semibold ${isDarkMode ? "text-white" : "text-gray-900"}`}>
+                <span
+                  className={`text-xl sm:text-2xl font-semibold ${
+                    isDarkMode ? "text-white" : "text-gray-900"
+                  }`}
+                >
                   Parthiv Shingala
                 </span>
                 <div className="flex-shrink-0 min-w-0 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
@@ -1144,13 +1287,19 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                     alt="Parthiv Shingala"
                     className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full object-cover"
                     onError={(e) => {
-                      e.target.style.display = "none"
-                      e.target.nextSibling.style.display = "block"
+                      e.target.style.display = "none";
+                      e.target.nextSibling.style.display = "block";
                     }}
                   />
-                  <span className="text-white font-bold text-lg hidden">PS</span>
+                  <span className="text-white font-bold text-lg hidden">
+                    PS
+                  </span>
                 </div>
-                <span className={`text-xl sm:text-2xl ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>
+                <span
+                  className={`text-xl sm:text-2xl ${
+                    isDarkMode ? "text-gray-400" : "text-gray-500"
+                  }`}
+                >
                   Full‑Stack Developer
                 </span>
               </motion.div>
@@ -1162,7 +1311,8 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                   isDarkMode ? "text-gray-400" : "text-gray-600"
                 } mb-12 max-w-2xl mx-auto font-outfit`}
               >
-                MERN, PHP, SAP‑Certified • Transforming complex business requirements into elegant, scalable solutions
+                MERN, PHP, SAP‑Certified • Transforming complex business
+                requirements into elegant, scalable solutions
               </motion.p>
 
               {/* CTA Buttons */}
@@ -1179,70 +1329,97 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                   whileTap={{ scale: 0.95 }}
                   className="px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full font-semibold text-lg hover:from-purple-600 hover:to-pink-600 transition-all duration-300 shadow-lg text-white font-outfit"
                   onClick={() => {
-  toast('Opening WhatsApp...', {
-    icon: <FaWhatsapp color={isDarkMode ? '#3b82f6' : '#60a5fa'} />,
-    style: {
-      borderRadius: '10px',
-      background: isDarkMode ? '#1e293b' : '#f1f5f9',
-      color: isDarkMode ? '#f1f5f9' : '#1e293b'
-    }
-  });
-  setTimeout(() => {
-    window.open("https://wa.me/919727181143?text=Hi%20Parthiv!", "_blank");
-  }, 1000);
-}}
+                    toast("Opening WhatsApp...", {
+                      icon: (
+                        <FaWhatsapp
+                          color={isDarkMode ? "#3b82f6" : "#60a5fa"}
+                        />
+                      ),
+                      style: {
+                        borderRadius: "10px",
+                        background: isDarkMode ? "#1e293b" : "#f1f5f9",
+                        color: isDarkMode ? "#f1f5f9" : "#1e293b",
+                      },
+                    });
+                    setTimeout(() => {
+                      window.open(
+                        "https://wa.me/919727181143?text=Hi%20Parthiv!",
+                        "_blank"
+                      );
+                    }, 1000);
+                  }}
                 >
                   Let's Connect
-                  <svg className="inline-block ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  <svg
+                    className="inline-block ml-2 w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M17 8l4 4m0 0l-4 4m4-4H3"
+                    />
                   </svg>
                 </motion.button>
 
                 <motion.button
-  type="button"
-  whileHover={{
-    scale: 1.05,
-    boxShadow: "0 10px 25px rgba(168, 85, 247, 0.2)",
-  }}
-  whileTap={{ scale: 0.95 }}
-  className={`flex items-center px-6 py-3 border ${
-    isDarkMode
-      ? "border-gray-600 text-gray-300 hover:text-white hover:border-gray-500"
-      : "border-gray-300 text-gray-600 hover:text-gray-900 hover:border-gray-400"
-  } rounded-full transition-all duration-300 font-outfit`}
-  onClick={() => {
-    toast('Opening email...', {
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-          />
-        </svg>
-      ),
-      style: {
-        borderRadius: '10px',
-        background: isDarkMode ? '#1e293b' : '#f1f5f9',
-        color: isDarkMode ? '#f1f5f9' : '#1e293b'
-      }
-    });
-    setTimeout(() => {
-      window.open("mailto:parthivshingala@gmail.com", "_blank");
-    }, 1000);
-  }}
->
-  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-    />
-  </svg>
-  parthivshingala@gmail.com
-</motion.button>
+                  type="button"
+                  whileHover={{
+                    scale: 1.05,
+                    boxShadow: "0 10px 25px rgba(168, 85, 247, 0.2)",
+                  }}
+                  whileTap={{ scale: 0.95 }}
+                  className={`flex items-center px-6 py-3 border ${
+                    isDarkMode
+                      ? "border-gray-600 text-gray-300 hover:text-white hover:border-gray-500"
+                      : "border-gray-300 text-gray-600 hover:text-gray-900 hover:border-gray-400"
+                  } rounded-full transition-all duration-300 font-outfit`}
+                  onClick={() => {
+                    toast("Opening email...", {
+                      icon: (
+                        <svg
+                          className="w-5 h-5"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                          />
+                        </svg>
+                      ),
+                      style: {
+                        borderRadius: "10px",
+                        background: isDarkMode ? "#1e293b" : "#f1f5f9",
+                        color: isDarkMode ? "#f1f5f9" : "#1e293b",
+                      },
+                    });
+                    setTimeout(() => {
+                      window.open("mailto:parthivshingala@gmail.com", "_blank");
+                    }, 1000);
+                  }}
+                >
+                  <svg
+                    className="w-5 h-5 mr-2"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                    />
+                  </svg>
+                  parthivshingala@gmail.com
+                </motion.button>
               </motion.div>
             </motion.div>
           </section>
@@ -1252,7 +1429,11 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex flex-col lg:flex-row items-center gap-16">
                 {/* Left Side - Text Content */}
-                <motion.div {...variants.fadeInLeft} viewport={{ once: true }} className="flex-1 lg:pr-8">
+                <motion.div
+                  {...variants.fadeInLeft}
+                  viewport={{ once: true }}
+                  className="flex-1 lg:pr-8"
+                >
                   {/* Top Label */}
                   <motion.div
                     {...variants.fadeInUp}
@@ -1276,7 +1457,9 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                     style={{ fontFamily: "'Iceland', sans-serif" }}
                   >
                     <span
-                      className={`${isDarkMode ? "text-white" : "text-gray-900"}`}
+                      className={`${
+                        isDarkMode ? "text-white" : "text-gray-900"
+                      }`}
                       style={{
                         textShadow:
                           "0 0 20px rgba(255, 255, 255,0.5), 0 0 40px rgba(255, 255, 255, 0.3), 0 0 60px rgba(255, 255, 255, 0.2)",
@@ -1291,80 +1474,102 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
                   {/* Paragraphs */}
                   <div
-                    className={`space-y-6 ${isDarkMode ? "text-light-gray" : "text-gray-600"} text-lg leading-relaxed font-outfit`}
+                    className={`space-y-6 ${
+                      isDarkMode ? "text-light-gray" : "text-gray-600"
+                    } text-lg leading-relaxed font-outfit`}
                   >
-                    <motion.p {...variants.fadeInUp} viewport={{ once: true }} transition={{ delay: 0.4 }}>
-                      I'm Parthiv Shingala, a passionate full-stack developer turning complex ideas into powerful web
-                      applications. With a Gold Medal in BCA and SAP Certification, I specialize in creating scalable,
-                      user-focused solutions using MERN, PHP, and Firebase.
+                    <motion.p
+                      {...variants.fadeInUp}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.4 }}
+                    >
+                      I'm Parthiv Shingala, a passionate full-stack developer
+                      turning complex ideas into powerful web applications. With
+                      a Gold Medal in BCA and SAP Certification, I specialize in
+                      creating scalable, user-focused solutions using MERN, PHP,
+                      and Firebase.
                     </motion.p>
 
-                    <motion.p {...variants.fadeInUp} viewport={{ once: true }} transition={{ delay: 0.5 }}>
-                      Outside of code, I explore design, follow tech trends, and enjoy deep work sessions with music.
-                      I'm constantly curious and believe in evolving both professionally and personally.
+                    <motion.p
+                      {...variants.fadeInUp}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.5 }}
+                    >
+                      Outside of code, I explore design, follow tech trends, and
+                      enjoy deep work sessions with music. I'm constantly
+                      curious and believe in evolving both professionally and
+                      personally.
                     </motion.p>
 
                     <motion.p
                       {...variants.fadeInUp}
                       viewport={{ once: true }}
                       transition={{ delay: 0.6 }}
-                      className={`${isDarkMode ? "text-white" : "text-gray-900"} font-semibold font-outfit`}
+                      className={`${
+                        isDarkMode ? "text-white" : "text-gray-900"
+                      } font-semibold font-outfit`}
                     >
                       I wake up every day eager to build something meaningful.
                     </motion.p>
                   </div>
 
                   {/* Social Links */}
-<motion.div
-  {...variants.fadeInUp}
-  viewport={{ once: true }}
-  transition={{ delay: 0.7 }}
-  className="flex items-center space-x-4 mt-8"
->
-  {[
-    { href: "https://github.com/Parthiv30", icon: SiGithub, label: "GitHub" },
-    {
-      href: "https://www.linkedin.com/in/parthiv-shingala-933224322/",
-      icon: SiLinkedin,
-      label: "LinkedIn"
-    },
-  ].map((social, index) => (
-    <motion.button
-      key={index}
-      type="button"
-      onClick={() => {
-        toast(`Opening ${social.label}...`, {
-          icon: <social.icon className="w-5 h-5" />,
-          style: {
-            borderRadius: '10px',
-            background: isDarkMode ? '#1e293b' : '#f1f5f9',
-            color: isDarkMode ? '#f1f5f9' : '#1e293b'
-          }
-        });
-        setTimeout(() => {
-          window.open(social.href, "_blank");
-        }, 1000);
-      }}
-      whileHover={{
-        scale: 1.1,
-        y: -2,
-        boxShadow: "0 10px 25px rgba(168, 85, 247, 0.3)",
-      }}
-      whileTap={{ scale: 0.95 }}
-      className={`p-3 ${
-        isDarkMode
-          ? "bg-slate-800/50 border-slate-700/50 hover:border-purple-500/50 hover:bg-purple-500/10"
-          : "bg-white/50 border-gray-200/50 hover:border-purple-500/50 hover:bg-purple-500/10"
-      } backdrop-blur-sm rounded-full border transition-all duration-300`}
-    >
-      <social.icon
-        className={`w-6 h-6 ${
-          isDarkMode ? "text-gray-300 hover:text-purple-400" : "text-gray-600 hover:text-purple-500"
-        } transition-colors`}
-      />
-    </motion.button>
-  ))}
-</motion.div>
+                  <motion.div
+                    {...variants.fadeInUp}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.7 }}
+                    className="flex items-center space-x-4 mt-8"
+                  >
+                    {[
+                      {
+                        href: "https://github.com/Parthiv30",
+                        icon: SiGithub,
+                        label: "GitHub",
+                      },
+                      {
+                        href: "https://www.linkedin.com/in/parthiv-shingala-933224322/",
+                        icon: SiLinkedin,
+                        label: "LinkedIn",
+                      },
+                    ].map((social, index) => (
+                      <motion.button
+                        key={index}
+                        type="button"
+                        onClick={() => {
+                          toast(`Opening ${social.label}...`, {
+                            icon: <social.icon className="w-5 h-5" />,
+                            style: {
+                              borderRadius: "10px",
+                              background: isDarkMode ? "#1e293b" : "#f1f5f9",
+                              color: isDarkMode ? "#f1f5f9" : "#1e293b",
+                            },
+                          });
+                          setTimeout(() => {
+                            window.open(social.href, "_blank");
+                          }, 1000);
+                        }}
+                        whileHover={{
+                          scale: 1.1,
+                          y: -2,
+                          boxShadow: "0 10px 25px rgba(168, 85, 247, 0.3)",
+                        }}
+                        whileTap={{ scale: 0.95 }}
+                        className={`p-3 ${
+                          isDarkMode
+                            ? "bg-slate-800/50 border-slate-700/50 hover:border-purple-500/50 hover:bg-purple-500/10"
+                            : "bg-white/50 border-gray-200/50 hover:border-purple-500/50 hover:bg-purple-500/10"
+                        } backdrop-blur-sm rounded-full border transition-all duration-300`}
+                      >
+                        <social.icon
+                          className={`w-6 h-6 ${
+                            isDarkMode
+                              ? "text-gray-300 hover:text-purple-400"
+                              : "text-gray-600 hover:text-purple-500"
+                          } transition-colors`}
+                        />
+                      </motion.button>
+                    ))}
+                  </motion.div>
                 </motion.div>
 
                 {/* Right Side - Animated Image Carousel */}
@@ -1382,7 +1587,9 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                       className={`absolute inset-0 ${
                         isDarkMode ? "bg-slate-800/30" : "bg-white/30"
                       } backdrop-blur-sm rounded-xl border ${
-                        isDarkMode ? "border-slate-700/50" : "border-gray-200/50"
+                        isDarkMode
+                          ? "border-slate-700/50"
+                          : "border-gray-200/50"
                       } transform rotate-[-12deg] shadow-2xl`}
                     />
 
@@ -1477,7 +1684,11 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                         className={`w-3 h-3 rounded-full transition-all duration-300 ${
                           index === currentImageIndex
                             ? "bg-purple-500 scale-125"
-                            : `${isDarkMode ? "bg-gray-600 hover:bg-gray-500" : "bg-gray-300 hover:bg-gray-400"}`
+                            : `${
+                                isDarkMode
+                                  ? "bg-gray-600 hover:bg-gray-500"
+                                  : "bg-gray-300 hover:bg-gray-400"
+                              }`
                         }`}
                         whileHover={{ scale: 1.2 }}
                         whileTap={{ scale: 0.9 }}
@@ -1499,7 +1710,11 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
           <section id="skills" className="py-20 relative z-10">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               {/* Section Header */}
-              <motion.div {...variants.fadeInUp} viewport={{ once: true }} className="text-center mb-16">
+              <motion.div
+                {...variants.fadeInUp}
+                viewport={{ once: true }}
+                className="text-center mb-16"
+              >
                 <motion.div
                   {...variants.fadeInUp}
                   viewport={{ once: true }}
@@ -1562,7 +1777,9 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                         : "bg-white border-gray-200 text-gray-900 hover:border-purple-500 hover:bg-gradient-to-r hover:from-purple-500/10 hover:to-pink-500/10"
                     } border px-3 py-2 rounded-xl shadow-md hover:shadow-purple-500/30 transition-all duration-300 text-center font-medium cursor-pointer flex items-center justify-center font-outfit`}
                   >
-                    <div className="mr-2 group-hover:scale-110 transition-transform duration-300">{skill.icon}</div>
+                    <div className="mr-2 group-hover:scale-110 transition-transform duration-300">
+                      {skill.icon}
+                    </div>
                     <span className="text-sm sm:text-base">{skill.name}</span>
                   </motion.div>
                 ))}
@@ -1574,7 +1791,11 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
           <section id="projects" className="py-20 relative z-10">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               {/* Section Header */}
-              <motion.div {...variants.fadeInUp} viewport={{ once: true }} className="text-center mb-16">
+              <motion.div
+                {...variants.fadeInUp}
+                viewport={{ once: true }}
+                className="text-center mb-16"
+              >
                 <motion.div
                   {...variants.fadeInUp}
                   viewport={{ once: true }}
@@ -1614,10 +1835,13 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                   {...variants.fadeInUp}
                   viewport={{ once: true }}
                   transition={{ delay: 0.4 }}
-                  className={`text-lg ${isDarkMode ? "text-gray-300" : "text-gray-600"} max-w-2xl mx-auto font-outfit`}
+                  className={`text-lg ${
+                    isDarkMode ? "text-gray-300" : "text-gray-600"
+                  } max-w-2xl mx-auto font-outfit`}
                 >
-                  Here are some of the projects I've worked on, showcasing my skills in full-stack development, mobile
-                  applications, and enterprise solutions.
+                  Here are some of the projects I've worked on, showcasing my
+                  skills in full-stack development, mobile applications, and
+                  enterprise solutions.
                 </motion.p>
               </motion.div>
 
@@ -1668,7 +1892,9 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                       </motion.h3>
 
                       <p
-                        className={`${isDarkMode ? "text-gray-300" : "text-gray-600"} mb-4 leading-relaxed font-outfit`}
+                        className={`${
+                          isDarkMode ? "text-gray-300" : "text-gray-600"
+                        } mb-4 leading-relaxed font-outfit`}
                       >
                         {project.description}
                       </p>
@@ -1697,47 +1923,61 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
                       {/* View Project Button */}
                       <motion.button
-  whileHover={{
-    scale: 1.02,
-    boxShadow: "0 10px 25px rgba(168, 85, 247, 0.3)",
-  }}
-  whileTap={{ scale: 0.98 }}
-  className="w-full py-3 bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30 rounded-lg text-white font-medium hover:from-purple-500/30 hover:to-pink-500/30 hover:border-purple-500/50 transition-all duration-300 group-hover:shadow-lg font-outfit"
-  onClick={() => {
-    toast(`Opening ${project.title}`, {
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-        </svg>
-      ),
-      style: {
-        borderRadius: '10px',
-        background: '#1e293b',
-        color: '#f1f5f9'
-      }
-    });
-    setTimeout(() => {
-      navigate(`/ProjectShowcase/${project.title.toLowerCase().replace(/\s+/g, "-")}`);
-    }, 1000);
-  }}
->
-  <span className="flex items-center justify-center">
-    View Project
-    <svg
-      className="ml-2 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M17 8l4 4m0 0l-4 4m4-4H3"
-      />
-    </svg>
-  </span>
-</motion.button>
+                        whileHover={{
+                          scale: 1.02,
+                          boxShadow: "0 10px 25px rgba(168, 85, 247, 0.3)",
+                        }}
+                        whileTap={{ scale: 0.98 }}
+                        className="w-full py-3 bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30 rounded-lg text-white font-medium hover:from-purple-500/30 hover:to-pink-500/30 hover:border-purple-500/50 transition-all duration-300 group-hover:shadow-lg font-outfit"
+                        onClick={() => {
+                          toast(`Opening ${project.title}`, {
+                            icon: (
+                              <svg
+                                className="w-5 h-5"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M17 8l4 4m0 0l-4 4m4-4H3"
+                                />
+                              </svg>
+                            ),
+                            style: {
+                              borderRadius: "10px",
+                              background: "#1e293b",
+                              color: "#f1f5f9",
+                            },
+                          });
+                          setTimeout(() => {
+                            navigate(
+                              `/ProjectShowcase/${project.title
+                                .toLowerCase()
+                                .replace(/\s+/g, "-")}`
+                            );
+                          }, 1000);
+                        }}
+                      >
+                        <span className="flex items-center justify-center">
+                          View Project
+                          <svg
+                            className="ml-2 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M17 8l4 4m0 0l-4 4m4-4H3"
+                            />
+                          </svg>
+                        </span>
+                      </motion.button>
                     </div>
                   </motion.div>
                 ))}
@@ -1746,7 +1986,10 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
           </section>
 
           {/* Excellence & Recognition Section */}
-          <section id="achievements" className="py-20 px-6 sm:px-8 lg:px-16 bg-transparent relative overflow-hidden">
+          <section
+            id="achievements"
+            className="py-20 px-6 sm:px-8 lg:px-16 bg-transparent relative overflow-hidden"
+          >
             <div className="max-w-7xl mx-auto relative z-10">
               {/* Section Header */}
               <motion.div
@@ -1776,7 +2019,7 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.3 }}
-                 className="text-[50px] sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-8"
+                  className="text-[50px] sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-8"
                   style={{ fontFamily: "'Iceland', sans-serif" }}
                 >
                   <span
@@ -1834,13 +2077,17 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
                       {/* Carousel Images */}
                       {medalCards.map((medal, index) => {
-                        const leftIndex = (currentMedalIndex - 1 + medalCards.length) % medalCards.length
-                        const rightIndex = (currentMedalIndex + 1) % medalCards.length
-                        let variant
-                        if (index === leftIndex) variant = "left"
-                        else if (index === currentMedalIndex) variant = "center"
-                        else if (index === rightIndex) variant = "right"
-                        else variant = "hidden"
+                        const leftIndex =
+                          (currentMedalIndex - 1 + medalCards.length) %
+                          medalCards.length;
+                        const rightIndex =
+                          (currentMedalIndex + 1) % medalCards.length;
+                        let variant;
+                        if (index === leftIndex) variant = "left";
+                        else if (index === currentMedalIndex)
+                          variant = "center";
+                        else if (index === rightIndex) variant = "right";
+                        else variant = "hidden";
 
                         return (
                           <motion.div
@@ -1872,15 +2119,18 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                               alt={medal.title}
                               className="w-full h-full object-cover"
                               onError={(e) => {
-                                e.target.style.display = "none"
-                                e.target.nextSibling.style.display = "flex"
+                                e.target.style.display = "none";
+                                e.target.nextSibling.style.display = "flex";
                               }}
                             />
                             <div className="w-full h-full bg-gradient-to-br from-yellow-400 via-orange-500 to-yellow-600 hidden items-center justify-center">
-                              <FaMedal size={80} className="text-white drop-shadow-2xl" />
+                              <FaMedal
+                                size={80}
+                                className="text-white drop-shadow-2xl"
+                              />
                             </div>
                           </motion.div>
-                        )
+                        );
                       })}
 
                       {/* Medal Indicators */}
@@ -1892,7 +2142,11 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                             className={`w-3 h-3 rounded-full transition-all duration-300 ${
                               index === currentMedalIndex
                                 ? "bg-yellow-500 scale-125 shadow-lg"
-                                : `${isDarkMode ? "bg-gray-600 hover:bg-gray-500" : "bg-gray-300 hover:bg-gray-400"}`
+                                : `${
+                                    isDarkMode
+                                      ? "bg-gray-600 hover:bg-gray-500"
+                                      : "bg-gray-300 hover:bg-gray-400"
+                                  }`
                             }`}
                             whileHover={{ scale: 1.2 }}
                             whileTap={{ scale: 0.9 }}
@@ -1929,14 +2183,23 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
                       transition={{ delay: 1, duration: 0.6 }}
-                      className={`text-lg ${isDarkMode ? "text-gray-300" : "text-gray-600"} leading-relaxed max-w-lg font-outfit`}
+                      className={`text-lg ${
+                        isDarkMode ? "text-gray-300" : "text-gray-600"
+                      } leading-relaxed max-w-lg font-outfit`}
                     >
                       Received from{" "}
-                      <span className={`${isDarkMode ? "text-white" : "text-gray-900"} font-semibold`}>
+                      <span
+                        className={`${
+                          isDarkMode ? "text-white" : "text-gray-900"
+                        } font-semibold`}
+                      >
                         Bhagwan Mahavir University
                       </span>{" "}
-                      for achieving 1st Rank in Bachelor of Computer Applications with a{" "}
-                      <span className="text-yellow-400 font-bold">CGPA of 9.06</span>
+                      for achieving 1st Rank in Bachelor of Computer
+                      Applications with a{" "}
+                      <span className="text-yellow-400 font-bold">
+                        CGPA of 9.06
+                      </span>
                     </motion.p>
 
                     {/* Achievement Stats */}
@@ -1952,9 +2215,13 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                           isDarkMode ? "bg-slate-800/50" : "bg-white/50"
                         } backdrop-blur-sm rounded-lg px-4 py-2 border border-yellow-500/30`}
                       >
-                        <span className="text-yellow-400 font-bold text-lg font-outfit">9.06</span>
+                        <span className="text-yellow-400 font-bold text-lg font-outfit">
+                          9.06
+                        </span>
                         <p
-                          className={`${isDarkMode ? "text-gray-400" : "text-gray-500"} text-sm font-outfit`}
+                          className={`${
+                            isDarkMode ? "text-gray-400" : "text-gray-500"
+                          } text-sm font-outfit`}
                         >
                           CGPA
                         </p>
@@ -1964,9 +2231,13 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                           isDarkMode ? "bg-slate-800/50" : "bg-white/50"
                         } backdrop-blur-sm rounded-lg px-4 py-2 border border-yellow-500/30`}
                       >
-                        <span className="text-yellow-400 font-bold text-lg font-outfit">1st</span>
+                        <span className="text-yellow-400 font-bold text-lg font-outfit">
+                          1st
+                        </span>
                         <p
-                          className={`${isDarkMode ? "text-gray-400" : "text-gray-500"} text-sm font-outfit`}
+                          className={`${
+                            isDarkMode ? "text-gray-400" : "text-gray-500"
+                          } text-sm font-outfit`}
                         >
                           Rank
                         </p>
@@ -1976,9 +2247,13 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                           isDarkMode ? "bg-slate-800/50" : "bg-white/50"
                         } backdrop-blur-sm rounded-lg px-4 py-2 border border-yellow-500/30`}
                       >
-                        <span className="text-yellow-400 font-bold text-lg font-outfit">BCA</span>
+                        <span className="text-yellow-400 font-bold text-lg font-outfit">
+                          BCA
+                        </span>
                         <p
-                          className={`${isDarkMode ? "text-gray-400" : "text-gray-500"} text-sm font-outfit`}
+                          className={`${
+                            isDarkMode ? "text-gray-400" : "text-gray-500"
+                          } text-sm font-outfit`}
                         >
                           Degree
                         </p>
@@ -2045,12 +2320,15 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                           alt={cert.title}
                           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                           onError={(e) => {
-                            e.target.style.display = "none"
-                            e.target.nextSibling.style.display = "flex"
+                            e.target.style.display = "none";
+                            e.target.nextSibling.style.display = "flex";
                           }}
                         />
                         <div className="w-full h-full bg-gradient-to-br from-purple-500/20 to-pink-500/20 hidden items-center justify-center">
-                          <FaCertificate size={80} className="text-purple-400" />
+                          <FaCertificate
+                            size={80}
+                            className="text-purple-400"
+                          />
                         </div>
 
                         {/* Category Tag */}
@@ -2099,11 +2377,21 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                                 </div>
                                 <div>
                                   <p
-                                    className={`${isDarkMode ? "text-gray-300" : "text-gray-600"} text-sm font-medium font-outfit`}
+                                    className={`${
+                                      isDarkMode
+                                        ? "text-gray-300"
+                                        : "text-gray-600"
+                                    } text-sm font-medium font-outfit`}
                                   >
                                     {cert.issuer}
                                   </p>
-                                  <p className={`${isDarkMode ? "text-gray-400" : "text-gray-500"} text-xs font-outfit`}>
+                                  <p
+                                    className={`${
+                                      isDarkMode
+                                        ? "text-gray-400"
+                                        : "text-gray-500"
+                                    } text-xs font-outfit`}
+                                  >
                                     {cert.date}
                                   </p>
                                 </div>
@@ -2114,14 +2402,16 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                           {/* Skills Tags */}
                           {cert.skills && (
                             <div className="flex flex-wrap gap-2 mb-4">
-                              {cert.skills.slice(0, 3).map((skill, skillIndex) => (
-                                <span
-                                  key={skillIndex}
-                                  className="px-2 py-1 bg-purple-500/10 text-purple-300 rounded-md text-xs font-medium border border-purple-500/20 font-outfit"
-                                >
-                                  {skill}
-                                </span>
-                              ))}
+                              {cert.skills
+                                .slice(0, 3)
+                                .map((skill, skillIndex) => (
+                                  <span
+                                    key={skillIndex}
+                                    className="px-2 py-1 bg-purple-500/10 text-purple-300 rounded-md text-xs font-medium border border-purple-500/20 font-outfit"
+                                  >
+                                    {skill}
+                                  </span>
+                                ))}
                               {cert.skills.length > 3 && (
                                 <span className="px-2 py-1 bg-gray-500/10 text-gray-400 rounded-md text-xs font-medium font-outfit">
                                   +{cert.skills.length - 3} more
@@ -2157,285 +2447,436 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
               {/* View All Certificates Button */}
               <motion.div
-  initial={{ opacity: 0, y: 30 }}
-  whileInView={{ opacity: 1, y: 0 }}
-  viewport={{ once: true }}
-  transition={{ delay: 1, duration: 0.6 }}
-  className="text-center"
->
-  <motion.button
-    whileHover={{
-      scale: 1.05,
-      boxShadow: "0 20px 40px rgba(168, 85, 247, 0.3)",
-    }}
-    whileTap={{ scale: 0.95 }}
-    className="px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full font-semibold text-lg hover:from-purple-600 hover:to-pink-600 transition-all duration-300 shadow-lg text-white font-outfit"
-    onClick={() => {
-      toast('Navigating to All Certifications...', {
-        icon: "🎓",
-        style: {
-          borderRadius: '10px',
-          background: isDarkMode ? '#1e293b' : '#f1f5f9',
-          color: isDarkMode ? '#f1f5f9' : '#1e293b'
-        }
-      });
-      setTimeout(() => {
-        navigate("/AllCertifications");
-      }, 1000);
-    }}
-  >
-    <span>View All Certifications →</span>
-  </motion.button>
-</motion.div>
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 1, duration: 0.6 }}
+                className="text-center"
+              >
+                <motion.button
+                  whileHover={{
+                    scale: 1.05,
+                    boxShadow: "0 20px 40px rgba(168, 85, 247, 0.3)",
+                  }}
+                  whileTap={{ scale: 0.95 }}
+                  className="px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full font-semibold text-lg hover:from-purple-600 hover:to-pink-600 transition-all duration-300 shadow-lg text-white font-outfit"
+                  onClick={() => {
+                    toast("Navigating to All Certifications...", {
+                      icon: "🎓",
+                      style: {
+                        borderRadius: "10px",
+                        background: isDarkMode ? "#1e293b" : "#f1f5f9",
+                        color: isDarkMode ? "#f1f5f9" : "#1e293b",
+                      },
+                    });
+                    setTimeout(() => {
+                      navigate("/AllCertifications");
+                    }, 1000);
+                  }}
+                >
+                  <span>View All Certifications →</span>
+                </motion.button>
+              </motion.div>
             </div>
           </section>
 
           {/* SAP x EduNet Internship Section */}
           <section id="internship" className="py-20 relative z-10">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              {/* Section Header */}
-              <motion.div {...variants.fadeInUp} viewport={{ once: true }} className="text-center mb-16">
-                <motion.div
-                  {...variants.fadeInUp}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.2 }}
-                  className={`inline-flex items-center px-4 py-2 rounded-full ${
-                    isDarkMode
-                      ? "bg-blue-500/10 border-blue-500/20 text-blue-400"
-                      : "bg-blue-100 border-blue-200 text-blue-600"
-                  } text-sm font-medium mb-8 tracking-widest uppercase border`}
-                  style={{ fontFamily: "'Poppins', sans-serif" }}
-                >
-                  Professional Experience
-                </motion.div>
+  {/* Outer Container for both internships */}
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-20">
+    
+    {/* --------- Incentius Internship --------- */}
+    <div>
+      {/* Header */}
+      <motion.div
+        {...variants.fadeInUp}
+        viewport={{ once: true }}
+        className="text-center mb-10"
+      >
+        <motion.div
+          {...variants.fadeInUp}
+          viewport={{ once: true }}
+          transition={{ delay: 0.2 }}
+          className={`inline-flex items-center px-4 py-2 rounded-full ${
+            isDarkMode
+              ? "bg-blue-500/10 border-blue-500/20 text-blue-400"
+              : "bg-blue-100 border-blue-200 text-blue-600"
+          } text-sm font-medium mb-8 tracking-widest uppercase border`}
+          style={{ fontFamily: "'Poppins', sans-serif" }}
+        >
+          Professional Experience
+        </motion.div>
+        <motion.h2
+          {...variants.fadeInUp}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3 }}
+          className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4"
+          style={{ fontFamily: "'Iceland', sans-serif" }}
+        >
+        
+          <span className="bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent italic">
+            Incentius
+          </span>
+          <span className={isDarkMode ? "text-white" : "text-gray-900"}
+            style={{
+              textShadow:
+                "0 0 20px rgba(255,255,255,0.5), 0 0 40px rgba(255,255,255,0.3), 0 0 60px rgba(255,255,255,0.2)",
+            }}>
+            {" "}Internship
+          </span>
+        </motion.h2>
+        <motion.p
+          {...variants.fadeInUp}
+          viewport={{ once: true }}
+          transition={{ delay: 0.4 }}
+          className="text-lg sm:text-xl text-blue-300 font-medium font-outfit"
+        >
+          Solution Developer Internship (On-site, Pune)
+        </motion.p>
+      </motion.div>
 
-                <motion.h2
-                  {...variants.fadeInUp}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.3 }}
-                  className="text-[50px] sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-8"
-                  style={{ fontFamily: "'Iceland', sans-serif" }}
-                >
-                  <span
-                    className={`${isDarkMode ? "text-white" : "text-gray-900"}`}
-                    style={{
-                      textShadow:
-                        "0 0 20px rgba(255, 255, 255,0.5), 0 0 40px rgba(255, 255, 255, 0.3), 0 0 60px rgba(255, 255, 255, 0.2)",
-                    }}
-                  >
-                    SAP x{" "}
-                  </span>
-                  <span className="bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent italic">
-                    EduNet
-                  </span>
-                  <span
-                    className={`${isDarkMode ? "text-white" : "text-gray-900"}`}
-                    style={{
-                      textShadow:
-                        "0 0 20px rgba(255, 255, 255,0.5), 0 0 40px rgba(255, 255, 255, 0.3), 0 0 60px rgba(255, 255, 255, 0.2)",
-                    }}
-                  >
-                    {" "}
-                    Internship
-                  </span>
-                </motion.h2>
-
-                <motion.p
-                  {...variants.fadeInUp}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.4 }}
-                  className="text-xl text-blue-300 font-medium font-outfit"
-                >
-                  Empowered by the Educate to Employ (E2E) Program
-                </motion.p>
-              </motion.div>
-
-              {/* Main Content */}
-              <div className="flex flex-col lg:flex-row items-center gap-16">
-                {/* Left Side - Description */}
-                <motion.div
-                  {...variants.fadeInLeft}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.6 }}
-                  className="flex-1 text-center lg:text-left"
-                >
-                  <motion.h3
-                    {...variants.fadeInUp}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.8 }}
-                    className={`text-2xl sm:text-3xl font-bold ${isDarkMode ? "text-white" : "text-gray-900"} mb-6 font-outfit`}
-                  >
-                    Enterprise Learning Experience
-                  </motion.h3>
-
-                  <div
-                    className={`space-y-6 font-outfit ${isDarkMode ? "text-gray-300" : "text-gray-600"} text-lg leading-relaxed`}
-                  >
-                    <motion.p {...variants.fadeInUp} viewport={{ once: true }} transition={{ delay: 1 }}>
-                      I got an internship opportunity through the{" "}
-                      <span className="text-blue-400 font-semibold">SAP-backed Educate to Employ (E2E) initiative</span>
-                      , facilitated by <span className="text-purple-400 font-semibold">EduNet Foundation</span>. During
-                      this internship, I gained hands-on experience with industry-relevant skills such as business
-                      process understanding, professional communication, and workplace readiness.
-                    </motion.p>
-
-                    <motion.p {...variants.fadeInUp} viewport={{ once: true }} transition={{ delay: 1.2 }}>
-                      Gained hands-on training in{" "}
-                      <span className={`${isDarkMode ? "text-white" : "text-gray-900"} font-semibold`}>
-                        SAP backend fundamentals
-                      </span>
-                      , business process understanding, and software integration methodologies.
-                    </motion.p>
-
-                    <motion.p
-                      {...variants.fadeInUp}
-                      viewport={{ once: true }}
-                      transition={{ delay: 1.4 }}
-                      className={`${isDarkMode ? "text-white" : "text-gray-900"} font-semibold`}
-                    >
-                      Successfully cleared the{" "}
-                      <span className="text-blue-400 font-semibold">
-                        SAP Certified Associate – Back-End Developer – ABAP Cloud
-                      </span>{" "}
-                      exam with an overall score of <span className="text-green-400 font-semibold">84%</span>.
-                    </motion.p>
-                  </div>
-
-                  {/* Success Badge */}
-                  <motion.div
-                    {...variants.scaleIn}
-                    viewport={{ once: true }}
-                    transition={{ delay: 1.6 }}
-                    className="mt-8"
-                  >
-                    <motion.div
-                      whileHover={{
-                        scale: 1.05,
-                        boxShadow: "0 10px 30px rgba(34, 197, 94, 0.3)",
-                      }}
-                      className="inline-flex items-center px-6 py-3 bg-green-500/10 border border-green-500/30 rounded-full text-green-300 font-semibold font-outfit"
-                    >
-                      <FaCheckCircle size={20} className="mr-3 text-green-400" />
-                      SAP Certified Associate – Back-End Developer
-                    </motion.div>
-                  </motion.div>
-                </motion.div>
-
-                {/* Right Side - Logo Cards */}
-                <motion.div
-                  {...variants.fadeInRight}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.8 }}
-                  className="flex-1 flex flex-col sm:flex-row gap-8 justify-center items-center"
-                >
-                  {/* SAP Logo Card */}
-                  <a href="https://www.sap.com/" target="_blank" rel="noreferrer">
-                    <motion.div
-                      {...variants.scaleIn}
-                      viewport={{ once: true }}
-                      transition={{ delay: 1 }}
-                      whileHover={{
-                        scale: 1.05,
-                        rotate: 2,
-                        boxShadow: "0 25px 50px rgba(15, 170, 255, 0.3)",
-                      }}
-                      className={`group ${
-                        isDarkMode
-                          ? "bg-slate-800/40 border-slate-700/50 hover:border-blue-500/50"
-                          : "bg-white/40 border-gray-200/50 hover:border-blue-500/50"
-                      } backdrop-blur-sm rounded-xl p-8 border transition-all duration-300 cursor-pointer`}
-                    >
-                      <div className="flex flex-col items-center text-center">
-                        <div className="w-24 h-24 mb-4 flex items-center justify-center">
-                            <SiSap size={48} className="text-blue-400" />
-                        
-                        </div>
-                        <h4
-                          className={`text-xl font-bold ${
-                            isDarkMode ? "text-white" : "text-gray-900"
-                          } mb-2 group-hover:text-blue-400 transition-colors font-outfit`}
-                        >
-                          SAP
-                        </h4>
-                        <p
-                          className={`${isDarkMode ? "text-gray-400" : "text-gray-500"} text-sm font-outfit`}
-                        >
-                          Enterprise Solutions
-                        </p>
-                      </div>
-                    </motion.div>
-                  </a>
-
-                  <motion.h2
-                    {...variants.fadeInUp}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.3 }}
-                    className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-8"
-                    style={{ fontFamily: "'Tangerine', cursive" }}
-                  >
-                    <p
-                      className="text-white-500"
-                      style={{
-                        textShadow:
-                          "0 0 20px rgba(255, 255, 255,0.5), 0 0 40px rgba(255, 255, 255, 0.3), 0 0 60px rgba(255, 255, 255, 0.2)",
-                      }}
-                    >
-                      {" "}
-                      X
-                    </p>
-                  </motion.h2>
-
-                  {/* EduNet Logo Card */}
-                  <a href="https://edunetfoundation.org/" target="_blank" rel="noreferrer">
-                    <motion.div
-                      {...variants.scaleIn}
-                      viewport={{ once: true }}
-                      transition={{ delay: 1.2 }}
-                      whileHover={{
-                        scale: 1.05,
-                        rotate: -2,
-                        boxShadow: "0 25px 50px rgba(168, 85, 247, 0.3)",
-                      }}
-                      className={`group ${
-                        isDarkMode
-                          ? "bg-slate-800/40 border-slate-700/50 hover:border-purple-500/50"
-                          : "bg-white/40 border-gray-200/50 hover:border-purple-500/50"
-                      } backdrop-blur-sm rounded-xl p-8 border transition-all duration-300 cursor-pointer`}
-                    >
-                      <div className="flex flex-col items-center text-center">
-                        <div className="w-24 h-24 mb-4 flex items-center justify-center">
-                            <FaGraduationCap size={48} className="text-purple-400" />
-                        </div>
-                        <h4
-                          className={`text-xl font-bold ${
-                            isDarkMode ? "text-white" : "text-gray-900"
-                          } mb-2 group-hover:text-purple-400 transition-colors font-outfit`}
-                        >
-                          EduNet Foundation
-                        </h4>
-                        <p
-                          className={`${isDarkMode ? "text-gray-400" : "text-gray-500"} text-sm font-outfit`}
-                        >
-                          Education Partner
-                        </p>
-                      </div>
-                    </motion.div>
-                  </a>
-                </motion.div>
+      {/* Main Flex Content */}
+      <div className="flex flex-col lg:flex-row gap-12 lg:gap-24 items-center">
+        {/* Left: Logo and Tech Stack */}
+        <motion.div
+          {...variants.fadeInLeft}
+          viewport={{ once: true }}
+          transition={{ delay: 0.6 }}
+          className="flex-1 flex flex-col items-center lg:items-start gap-10 justify-center"
+        >
+          {/* Company Logo Card */}
+          <a
+            href="https://www.incentius.com/"
+            target="_blank"
+            rel="noreferrer"
+            className="flex-1 min-w-[160px] max-w-[240px] mx-auto"
+          >
+            <motion.div
+              {...variants.scaleIn}
+              viewport={{ once: true }}
+              transition={{ delay: 1 }}
+              whileHover={{
+                scale: 1.05,
+                rotate: 2,
+                boxShadow: "0 25px 50px rgba(163, 190, 58, 0.3)",
+              }}
+              className={`group ${isDarkMode
+                ? "bg-slate-800/40 border-slate-700/50 hover:border-green-500/50"
+                : "bg-white/40 border-gray-200/50 hover:border-green-500/50"
+              } backdrop-blur-sm rounded-xl p-8 border transition-all duration-300 cursor-pointer`}
+            >
+              <div className="flex flex-col items-center text-center">
+                <div className="w-20 h-20 sm:w-24 sm:h-24 mb-4 flex items-center justify-center">
+                  <img src={incentius} alt="" />
+                </div>
+                <h4 className={`text-xl font-bold ${isDarkMode ? "text-white" : "text-gray-900"} mb-2 group-hover:text-[#a3be3a] font-outfit`}>
+                  Incentius
+                </h4>
+                <p className={isDarkMode ? "text-gray-400" : "text-gray-500" + " text-sm font-outfit"}>
+                  AI Innovators & Big Data Experts
+                </p>
               </div>
+            </motion.div>
+          </a>
+
+          {/* Tech Stack Icons */}
+          <div className="w-full grid grid-cols-2 sm:grid-cols-3 gap-4 mt-6">
+            <div className="flex items-center gap-3 text-blue-400 font-outfit">
+              <SiVuedotjs size={28} /> <span>Vue.js</span>
             </div>
-          </section>
+            <div className="flex items-center gap-3 text-indigo-400 font-outfit">
+              <SiQuasar size={28} /> <span>Quasar</span>
+            </div>
+            <div className="flex items-center gap-3 text-yellow-400 font-outfit">
+              <FaPython size={28} /> <span>Python</span>
+            </div>
+            <div className="flex items-center gap-3 text-red-400 font-outfit">
+              <SiFlask size={28} /> <span>Flask</span>
+            </div>
+            <div className="flex items-center gap-3 text-blue-400 font-outfit">
+              <BiLogoPostgresql size={28} /> <span>PostGre</span>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Right: Internship Details */}
+        <motion.div
+          {...variants.fadeInRight}
+          viewport={{ once: true }}
+          transition={{ delay: 0.8 }}
+          className="flex-1 w-full text-center lg:text-left"
+        >
+          <motion.h3
+            {...variants.fadeInUp}
+            viewport={{ once: true }}
+            transition={{ delay: 1 }}
+            className={`text-2xl sm:text-3xl font-bold ${isDarkMode ? "text-white" : "text-gray-900"} mb-6 font-outfit`}
+          >
+            Solution Developer – Full Stack Development
+          </motion.h3>
+          <div className={`space-y-6 font-outfit ${isDarkMode ? "text-gray-300" : "text-gray-600"} text-lg leading-relaxed`}>
+            <motion.p {...variants.fadeInUp} viewport={{ once: true }} transition={{ delay: 1.2 }}>
+             <span className="text-blue-400 font-semibold">Duration :-</span> July-2025 to Present
+            </motion.p>
+            <motion.p {...variants.fadeInUp} viewport={{ once: true }} transition={{ delay: 1.2 }}>
+              Joined <span className="text-blue-400 font-semibold">Incentius</span> as a Solution Developer through on-campus placement, contributing to core platform features and internal tooling.
+            </motion.p>
+            <motion.p {...variants.fadeInUp} viewport={{ once: true }} transition={{ delay: 1.4 }}>
+              Worked on building and integrating full-stack modules using{" "}
+              <span className="text-green-400 font-semibold">Vue.js</span> with the{" "}
+              <span className="text-indigo-400 font-semibold">Quasar Framework</span>, alongside Python and Flask-based backend services.
+            </motion.p>
+            <motion.p {...variants.fadeInUp} viewport={{ once: true }} transition={{ delay: 1.6 }}>
+              Gained experience in API consumption, UI logic structuring, component communication, and dynamic rendering with Quasar.
+            </motion.p>
+            <motion.p {...variants.fadeInUp} viewport={{ once: true }} transition={{ delay: 1.8 }}>
+              Involved in agile sprint cycles, real-time debugging, and collaborative Git-based version control.
+            </motion.p>
+          </div>
+          <motion.div
+            {...variants.scaleIn}
+            viewport={{ once: true }}
+            transition={{ delay: 2 }}
+            className="mt-8"
+          >
+            <motion.div
+              whileHover={{
+                scale: 1.05,
+                boxShadow: "0 10px 30px rgba(59, 130, 246, 0.3)",
+              }}
+              className="inline-flex items-center px-6 py-3 bg-blue-500/10 border border-blue-500/30 rounded-full text-blue-300 font-semibold font-outfit"
+            >
+              <FaCheckCircle size={20} className="mr-3 text-blue-400" />
+              Solution Developer – Intern
+            </motion.div>
+          </motion.div>
+        </motion.div>
+      </div>
+    </div>
+
+    {/* --------- SAP x EduNet Internship --------- */}
+    <div>
+      <motion.div
+        {...variants.fadeInUp}
+        viewport={{ once: true }}
+        className="text-center mb-10"
+      >
+        <motion.h2
+          {...variants.fadeInUp}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3 }}
+          className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4"
+          style={{ fontFamily: "'Iceland', sans-serif" }}
+        >
+          <span className={isDarkMode ? "text-white" : "text-gray-900"}
+            style={{
+              textShadow:
+                "0 0 20px rgba(255,255,255,0.5), 0 0 40px rgba(255,255,255,0.3), 0 0 60px rgba(255,255,255,0.2)",
+            }}
+          >
+            SAP x{" "}
+          </span>
+          <span className="bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent italic">
+            EduNet
+          </span>
+          <span className={isDarkMode ? "text-white" : "text-gray-900"}
+            style={{
+              textShadow:
+                "0 0 20px rgba(255,255,255,0.5), 0 0 40px rgba(255,255,255,0.3), 0 0 60px rgba(255,255,255,0.2)",
+            }}>
+            {" "}Internship
+          </span>
+        </motion.h2>
+        <motion.p
+          {...variants.fadeInUp}
+          viewport={{ once: true }}
+          transition={{ delay: 0.4 }}
+          className="text-lg sm:text-xl text-blue-300 font-medium font-outfit"
+        >
+          Empowered by the Educate to Employ (E2E) Program (Remote)
+        </motion.p>
+      </motion.div>
+
+      {/* SAP-EduNet Content */}
+      <div className="flex flex-col lg:flex-row gap-12 lg:gap-24 items-center">
+        {/* Left: Description */}
+        <motion.div
+          {...variants.fadeInLeft}
+          viewport={{ once: true }}
+          transition={{ delay: 0.6 }}
+          className="flex-1 text-center lg:text-left"
+        >
+          <motion.h3
+            {...variants.fadeInUp}
+            viewport={{ once: true }}
+            transition={{ delay: 0.8 }}
+            className={`text-2xl sm:text-3xl font-bold ${isDarkMode ? "text-white" : "text-gray-900"} mb-6 font-outfit`}
+          >
+            Enterprise Learning Experience
+          </motion.h3>
+          <div className={`space-y-6 font-outfit ${isDarkMode ? "text-gray-300" : "text-gray-600"} text-lg leading-relaxed`}>
+            <motion.p {...variants.fadeInUp} viewport={{ once: true }} transition={{ delay: 1.2 }}>
+             <span className="text-blue-400 font-semibold">Duration :-</span> Nov-2024 to Present
+            </motion.p>
+            <motion.p {...variants.fadeInUp} viewport={{ once: true }} transition={{ delay: 1 }}>
+              I got an internship opportunity through the{" "}
+              <span className="text-blue-400 font-semibold">
+                SAP-backed Educate to Employ (E2E) initiative
+              </span>
+              , facilitated by{" "}
+              <span className="text-purple-400 font-semibold">
+                EduNet Foundation
+              </span>.
+              During this internship, I gained hands-on experience with industry-relevant skills such as business process understanding, professional communication, and workplace readiness.
+            </motion.p>
+            <motion.p {...variants.fadeInUp} viewport={{ once: true }} transition={{ delay: 1.2 }}>
+              Gained hands-on training in{" "}
+              <span className={isDarkMode ? "text-white" : "text-gray-900" + " font-semibold"}>
+                SAP backend fundamentals
+              </span>
+              , business process understanding, and software integration methodologies.
+            </motion.p>
+            <motion.p {...variants.fadeInUp} viewport={{ once: true }} transition={{ delay: 1.4 }}
+              className={isDarkMode ? "text-white font-semibold" : "text-gray-900 font-semibold"}>
+              Successfully cleared the{" "}
+              <span className="text-blue-400 font-semibold">
+                SAP Certified Associate – Back-End Developer – ABAP Cloud
+              </span>{" "}exam with an overall score of{" "}
+              <span className="text-green-400 font-semibold">84%</span>.
+            </motion.p>
+          </div>
+          <motion.div
+            {...variants.scaleIn}
+            viewport={{ once: true }}
+            transition={{ delay: 1.6 }}
+            className="mt-8"
+          >
+            <motion.div
+              whileHover={{
+                scale: 1.05,
+                boxShadow: "0 10px 30px rgba(34,197,94,0.3)",
+              }}
+              className="inline-flex items-center px-6 py-3 bg-green-500/10 border border-green-500/30 rounded-full text-green-300 font-semibold font-outfit"
+            >
+              <FaCheckCircle size={20} className="mr-3 text-green-400" />
+              SAP Certified Associate – Back-End Developer
+            </motion.div>
+          </motion.div>
+        </motion.div>
+
+        {/* Right: Logos, Responsive */}
+        <motion.div
+          {...variants.fadeInRight}
+          viewport={{ once: true }}
+          transition={{ delay: 0.8 }}
+          className="flex-1 flex flex-row gap-4 sm:gap-8 justify-center items-center flex-wrap"
+        >
+          {/* SAP Logo Card */}
+          <a
+            href="https://www.sap.com/"
+            target="_blank"
+            rel="noreferrer"
+            className="flex-1 min-w-[160px] max-w-[240px]"
+          >
+            <motion.div
+              {...variants.scaleIn}
+              viewport={{ once: true }}
+              transition={{ delay: 1 }}
+              whileHover={{
+                scale: 1.05,
+                rotate: 2,
+                boxShadow: "0 25px 50px rgba(15, 170, 255, 0.3)",
+              }}
+              className={`group ${isDarkMode
+                ? "bg-slate-800/40 border-slate-700/50 hover:border-blue-500/50"
+                : "bg-white/40 border-gray-200/50 hover:border-blue-500/50"
+              } backdrop-blur-sm rounded-xl p-8 border transition-all duration-300 cursor-pointer`}
+            >
+              <div className="flex flex-col items-center text-center">
+                <div className="w-20 h-20 sm:w-24 sm:h-24 mb-4 flex items-center justify-center">
+                  <SiSap size={48} className="text-blue-400" />
+                </div>
+                <h4 className={`text-xl font-bold ${isDarkMode ? "text-white" : "text-gray-900"} mb-2 group-hover:text-blue-400 font-outfit`}>
+                  SAP
+                </h4>
+                <p className={isDarkMode ? "text-gray-400" : "text-gray-500" + " text-sm font-outfit"}>
+                  Enterprise Solutions
+                </p>
+              </div>
+            </motion.div>
+          </a>
+
+          {/* "X" Center Visual */}
+          <motion.h2
+            {...variants.fadeInUp}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3 }}
+            className="text-3xl sm:text-4xl lg:text-6xl font-bold mb-0 px-2"
+            style={{ fontFamily: "'Tangerine', cursive" }}>
+            <span
+              className="text-white-500"
+              style={{
+                textShadow:
+                  "0 0 20px rgba(255,255,255,0.5), 0 0 40px rgba(255,255,255,0.3), 0 0 60px rgba(255,255,255,0.2)",
+              }}>
+              X
+            </span>
+          </motion.h2>
+
+          {/* EduNet Logo Card */}
+          <a
+            href="https://edunetfoundation.org/"
+            target="_blank"
+            rel="noreferrer"
+            className="flex-1 min-w-[160px] max-w-[240px]"
+          >
+            <motion.div
+              {...variants.scaleIn}
+              viewport={{ once: true }}
+              transition={{ delay: 1.2 }}
+              whileHover={{
+                scale: 1.05,
+                rotate: -2,
+                boxShadow: "0 25px 50px rgba(168, 85, 247, 0.3)",
+              }}
+              className={`group ${isDarkMode
+                ? "bg-slate-800/40 border-slate-700/50 hover:border-purple-500/50"
+                : "bg-white/40 border-gray-200/50 hover:border-purple-500/50"
+              } backdrop-blur-sm rounded-xl p-8 border transition-all duration-300 cursor-pointer`}
+            >
+              <div className="flex flex-col items-center text-center">
+                <div className="w-20 h-20 sm:w-24 sm:h-24 mb-4 flex items-center justify-center">
+                  <FaGraduationCap size={48} className="text-purple-400" />
+                </div>
+                <h4 className={`text-xl font-bold ${isDarkMode ? "text-white" : "text-gray-900"} mb-2 group-hover:text-purple-400 font-outfit`}>
+                  EduNet Foundation
+                </h4>
+                <p className={isDarkMode ? "text-gray-400" : "text-gray-500" + " text-sm font-outfit"}>
+                  Education Partner
+                </p>
+              </div>
+            </motion.div>
+          </a>
+        </motion.div>
+      </div>
+    </div>
+  </div>
+</section>
+
 
           {/* Contact Section */}
           <section id="contact" className="py-20 relative z-10">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               {/* Section Header */}
-              <motion.div {...variants.fadeInUp} viewport={{ once: true }} className="text-center mb-16">
+              <motion.div
+                {...variants.fadeInUp}
+                viewport={{ once: true }}
+                className="text-center mb-16"
+              >
                 <motion.div
                   {...variants.fadeInUp}
                   viewport={{ once: true }}
                   transition={{ delay: 0.2 }}
-                  
                   className={`inline-flex items-center px-4 py-2 rounded-full ${
                     isDarkMode
                       ? "bg-purple-500/10 border-purple-500/20 text-purple-400"
@@ -2470,7 +2911,9 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                   {...variants.fadeInUp}
                   viewport={{ once: true }}
                   transition={{ delay: 0.4 }}
-                  className={`text-xl ${isDarkMode ? "text-gray-300" : "text-gray-600"} max-w-2xl mx-auto mb-4 font-outfit`}
+                  className={`text-xl ${
+                    isDarkMode ? "text-gray-300" : "text-gray-600"
+                  } max-w-2xl mx-auto mb-4 font-outfit`}
                 >
                   I'd love to hear about your next project or opportunity
                 </motion.p>
@@ -2481,7 +2924,8 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                   transition={{ delay: 0.5 }}
                   className="text-lg text-purple-300 font-medium italic font-outfit"
                 >
-                  "Open for job opportunities, collaborations, or just a friendly chat."
+                  "Open for job opportunities, collaborations, or just a
+                  friendly chat."
                 </motion.p>
               </motion.div>
 
@@ -2495,7 +2939,11 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                   className="flex-1 flex justify-center lg:justify-start"
                 >
                   <div className="relative w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl aspect-square">
-                    <Lottie animationData={animationData3} loop={true} className="w-full h-full" />
+                    <Lottie
+                      animationData={animationData3}
+                      loop={true}
+                      className="w-full h-full"
+                    />
                   </div>
                 </motion.div>
 
@@ -2538,7 +2986,9 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                           Email
                         </h3>
                         <p
-                          className={`${isDarkMode ? "text-gray-300" : "text-gray-600"}  font-outfit`}
+                          className={`${
+                            isDarkMode ? "text-gray-300" : "text-gray-600"
+                          }  font-outfit`}
                         >
                           parthivshingala@gmail.com
                         </p>
@@ -2575,7 +3025,9 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                           Location
                         </h3>
                         <p
-                          className={`${isDarkMode ? "text-gray-300" : "text-gray-600"} font-outfit`}
+                          className={`${
+                            isDarkMode ? "text-gray-300" : "text-gray-600"
+                          } font-outfit`}
                         >
                           India
                         </p>
@@ -2612,7 +3064,9 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                           Timezone
                         </h3>
                         <p
-                          className={`${isDarkMode ? "text-gray-300" : "text-gray-600"} font-outfit`}
+                          className={`${
+                            isDarkMode ? "text-gray-300" : "text-gray-600"
+                          } font-outfit`}
                         >
                           {currentTime}
                         </p>
@@ -2636,48 +3090,54 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                     </h3>
                     <div className="flex justify-center lg:justify-start space-x-4">
                       {[
-    { href: "https://github.com/Parthiv30", icon: SiGithub, label: "GitHub" },
-    {
-      href: "https://www.linkedin.com/in/parthiv-shingala-933224322/",
-      icon: SiLinkedin,
-      label: "LinkedIn"
-    },
-  ].map((social, index) => (
-    <motion.button
-      key={index}
-      type="button"
-      onClick={() => {
-        toast(`Opening ${social.label}...`, {
-          icon: <social.icon className="w-5 h-5" />,
-          style: {
-            borderRadius: '10px',
-            background: isDarkMode ? '#1e293b' : '#f1f5f9',
-            color: isDarkMode ? '#f1f5f9' : '#1e293b'
-          }
-        });
-        setTimeout(() => {
-          window.open(social.href, "_blank");
-        }, 1000);
-      }}
-      whileHover={{
-        scale: 1.1,
-        y: -2,
-        boxShadow: "0 10px 25px rgba(168, 85, 247, 0.3)",
-      }}
-      whileTap={{ scale: 0.95 }}
-      className={`p-3 ${
-        isDarkMode
-          ? "bg-slate-800/50 border-slate-700/50 hover:border-purple-500/50 hover:bg-purple-500/10"
-          : "bg-white/50 border-gray-200/50 hover:border-purple-500/50 hover:bg-purple-500/10"
-      } backdrop-blur-sm rounded-full border transition-all duration-300`}
-    >
-      <social.icon
-        className={`w-6 h-6 ${
-          isDarkMode ? "text-gray-300 hover:text-purple-400" : "text-gray-600 hover:text-purple-500"
-        } transition-colors`}
-      />
-    </motion.button>
-  ))}
+                        {
+                          href: "https://github.com/Parthiv30",
+                          icon: SiGithub,
+                          label: "GitHub",
+                        },
+                        {
+                          href: "https://www.linkedin.com/in/parthiv-shingala-933224322/",
+                          icon: SiLinkedin,
+                          label: "LinkedIn",
+                        },
+                      ].map((social, index) => (
+                        <motion.button
+                          key={index}
+                          type="button"
+                          onClick={() => {
+                            toast(`Opening ${social.label}...`, {
+                              icon: <social.icon className="w-5 h-5" />,
+                              style: {
+                                borderRadius: "10px",
+                                background: isDarkMode ? "#1e293b" : "#f1f5f9",
+                                color: isDarkMode ? "#f1f5f9" : "#1e293b",
+                              },
+                            });
+                            setTimeout(() => {
+                              window.open(social.href, "_blank");
+                            }, 1000);
+                          }}
+                          whileHover={{
+                            scale: 1.1,
+                            y: -2,
+                            boxShadow: "0 10px 25px rgba(168, 85, 247, 0.3)",
+                          }}
+                          whileTap={{ scale: 0.95 }}
+                          className={`p-3 ${
+                            isDarkMode
+                              ? "bg-slate-800/50 border-slate-700/50 hover:border-purple-500/50 hover:bg-purple-500/10"
+                              : "bg-white/50 border-gray-200/50 hover:border-purple-500/50 hover:bg-purple-500/10"
+                          } backdrop-blur-sm rounded-full border transition-all duration-300`}
+                        >
+                          <social.icon
+                            className={`w-6 h-6 ${
+                              isDarkMode
+                                ? "text-gray-300 hover:text-purple-400"
+                                : "text-gray-600 hover:text-purple-500"
+                            } transition-colors`}
+                          />
+                        </motion.button>
+                      ))}
                     </div>
                   </motion.div>
 
@@ -2695,18 +3155,21 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                       }}
                       whileTap={{ scale: 0.95 }}
                       onClick={() => {
-  toast('Opening Email...', {
-    icon: <FaEnvelope color="#EA4335" />,
-    style: {
-      borderRadius: '10px',
-      background: isDarkMode ? '#1e293b' : '#f1f5f9',
-      color: isDarkMode ? '#f1f5f9' : '#1e293b'
-    }
-  });
-  setTimeout(() => {
-    window.open("mailto:parthivshingala@gmail.com", "_blank");
-  }, 1000);
-}}
+                        toast("Opening Email...", {
+                          icon: <FaEnvelope color="#EA4335" />,
+                          style: {
+                            borderRadius: "10px",
+                            background: isDarkMode ? "#1e293b" : "#f1f5f9",
+                            color: isDarkMode ? "#f1f5f9" : "#1e293b",
+                          },
+                        });
+                        setTimeout(() => {
+                          window.open(
+                            "mailto:parthivshingala@gmail.com",
+                            "_blank"
+                          );
+                        }, 1000);
+                      }}
                       className="w-full lg:w-auto px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full font-semibold text-lg hover:from-purple-600 hover:to-pink-600 transition-all duration-300 shadow-lg flex items-center justify-center group text-white font-outfit"
                     >
                       <FaPaperPlane
@@ -2721,24 +3184,28 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
             </div>
           </section>
 
-          
-
           {/* Footer */}
           <footer
             className={`py-16 border-t ${
-              isDarkMode ? "border-slate-800 bg-slate-900/80" : "border-gray-200 bg-gray-50/80"
+              isDarkMode
+                ? "border-slate-800 bg-slate-900/80"
+                : "border-gray-200 bg-gray-50/80"
             } backdrop-blur-sm relative z-10`}
           >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex flex-col md:flex-row items-center justify-between">
                 <div className="mb-8 md:mb-0">
                   <h3
-                    className={`text-2xl font-outfit font-bold mb-2 ${isDarkMode ? "text-white" : "text-gray-900"}`}
+                    className={`text-2xl font-outfit font-bold mb-2 ${
+                      isDarkMode ? "text-white" : "text-gray-900"
+                    }`}
                   >
                     Let's work together
                   </h3>
                   <p
-                    className={`${isDarkMode ? "text-gray-400" : "text-gray-600"} font-outfit`}
+                    className={`${
+                      isDarkMode ? "text-gray-400" : "text-gray-600"
+                    } font-outfit`}
                   >
                     Ready to bring your ideas to life?
                   </p>
@@ -2752,67 +3219,108 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                 </div>
 
                 <div className="flex items-center space-x-6">
-  {[
-    {
-      href: "mailto:parthivshingala@gmail.com",
-      icon: "M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z",
-      label: "Email",
-    },
-    {
-      href: "https://github.com/Parthiv30",
-      icon: "M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z",
-      label: "GitHub",
-    },
-    {
-      href: "https://www.linkedin.com/in/parthiv-shingala-933224322",
-      icon: "M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z",
-      label: "LinkedIn",
-    },
-  ].map((social, index) => (
-    <motion.button
-      key={index}
-      type="button"
-      onClick={() => {
-        toast(`Opening ${social.label}...`, {
-          icon: (
-            <svg className="w-5 h-5" fill={social.href.includes("mailto") ? "none" : "currentColor"} stroke={social.href.includes("mailto") ? "currentColor" : "none"} viewBox="0 0 24 24">
-              <path
-                strokeLinecap={social.href.includes("mailto") ? "round" : undefined}
-                strokeLinejoin={social.href.includes("mailto") ? "round" : undefined}
-                strokeWidth={social.href.includes("mailto") ? 2 : undefined}
-                d={social.icon}
-              />
-            </svg>
-          ),
-          style: {
-            borderRadius: '10px',
-            background: isDarkMode ? '#1e293b' : '#f1f5f9',
-            color: isDarkMode ? '#f1f5f9' : '#1e293b'
-          }
-        });
-        setTimeout(() => {
-          window.open(social.href, "_blank");
-        }, 1000);
-      }}
-      whileHover={{ scale: 1.05 }}
-      className={`p-3 ${isDarkMode ? "bg-slate-800 hover:bg-slate-700" : "bg-white hover:bg-gray-100"} rounded-full transition-colors`}
-    >
-      <svg
-        className="w-6 h-6"
-        fill={social.href.includes("mailto") ? "none" : "currentColor"}
-        stroke={social.href.includes("mailto") ? "currentColor" : "none"}
-        viewBox="0 0 24 24"
-      >
-        <path
-          strokeLinecap={social.href.includes("mailto") ? "round" : undefined}
-          strokeLinejoin={social.href.includes("mailto") ? "round" : undefined}
-          strokeWidth={social.href.includes("mailto") ? 2 : undefined}
-          d={social.icon}
-        />
-      </svg>
-    </motion.button>
-  ))}
-</div>
+                  {[
+                    {
+                      href: "mailto:parthivshingala@gmail.com",
+                      icon: "M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z",
+                      label: "Email",
+                    },
+                    {
+                      href: "https://github.com/Parthiv30",
+                      icon: "M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z",
+                      label: "GitHub",
+                    },
+                    {
+                      href: "https://www.linkedin.com/in/parthiv-shingala-933224322",
+                      icon: "M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z",
+                      label: "LinkedIn",
+                    },
+                  ].map((social, index) => (
+                    <motion.button
+                      key={index}
+                      type="button"
+                      onClick={() => {
+                        toast(`Opening ${social.label}...`, {
+                          icon: (
+                            <svg
+                              className="w-5 h-5"
+                              fill={
+                                social.href.includes("mailto")
+                                  ? "none"
+                                  : "currentColor"
+                              }
+                              stroke={
+                                social.href.includes("mailto")
+                                  ? "currentColor"
+                                  : "none"
+                              }
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap={
+                                  social.href.includes("mailto")
+                                    ? "round"
+                                    : undefined
+                                }
+                                strokeLinejoin={
+                                  social.href.includes("mailto")
+                                    ? "round"
+                                    : undefined
+                                }
+                                strokeWidth={
+                                  social.href.includes("mailto") ? 2 : undefined
+                                }
+                                d={social.icon}
+                              />
+                            </svg>
+                          ),
+                          style: {
+                            borderRadius: "10px",
+                            background: isDarkMode ? "#1e293b" : "#f1f5f9",
+                            color: isDarkMode ? "#f1f5f9" : "#1e293b",
+                          },
+                        });
+                        setTimeout(() => {
+                          window.open(social.href, "_blank");
+                        }, 1000);
+                      }}
+                      whileHover={{ scale: 1.05 }}
+                      className={`p-3 ${
+                        isDarkMode
+                          ? "bg-slate-800 hover:bg-slate-700"
+                          : "bg-white hover:bg-gray-100"
+                      } rounded-full transition-colors`}
+                    >
+                      <svg
+                        className="w-6 h-6"
+                        fill={
+                          social.href.includes("mailto")
+                            ? "none"
+                            : "currentColor"
+                        }
+                        stroke={
+                          social.href.includes("mailto")
+                            ? "currentColor"
+                            : "none"
+                        }
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap={
+                            social.href.includes("mailto") ? "round" : undefined
+                          }
+                          strokeLinejoin={
+                            social.href.includes("mailto") ? "round" : undefined
+                          }
+                          strokeWidth={
+                            social.href.includes("mailto") ? 2 : undefined
+                          }
+                          d={social.icon}
+                        />
+                      </svg>
+                    </motion.button>
+                  ))}
+                </div>
               </div>
 
               <div
@@ -2821,12 +3329,16 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                 } flex flex-col md:flex-row items-center justify-between`}
               >
                 <p
-                  className={`${isDarkMode ? "text-gray-400" : "text-gray-500"} text-sm font-outfit`}
+                  className={`${
+                    isDarkMode ? "text-gray-400" : "text-gray-500"
+                  } text-sm font-outfit`}
                 >
                   © 2024 Parthiv Shingala. All rights reserved.
                 </p>
                 <p
-                  className={`${isDarkMode ? "text-gray-400" : "text-gray-500"} text-sm mt-4 md:mt-0 font-outfit`}
+                  className={`${
+                    isDarkMode ? "text-gray-400" : "text-gray-500"
+                  } text-sm mt-4 md:mt-0 font-outfit`}
                 >
                   {currentTime}
                 </p>
@@ -2843,8 +3355,8 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                 exit={{ opacity: 0 }}
                 className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
                 onClick={() => {
-                  setSelectedCertificate(null)
-                  setIsImageExpanded(false)
+                  setSelectedCertificate(null);
+                  setIsImageExpanded(false);
                 }}
               >
                 <motion.div
@@ -2862,9 +3374,9 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                     <div
                       className="h-64 bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center cursor-pointer group"
                       onClick={() => {
-                        setExpandedCertificate(selectedCertificate)
-                        setSelectedCertificate(null)
-                        setIsImageExpanded(true)
+                        setExpandedCertificate(selectedCertificate);
+                        setSelectedCertificate(null);
+                        setIsImageExpanded(true);
                       }}
                     >
                       <img
@@ -2872,8 +3384,8 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                         alt={selectedCertificate.title}
                         className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                         onError={(e) => {
-                          e.target.style.display = "none"
-                          e.target.nextSibling.style.display = "flex"
+                          e.target.style.display = "none";
+                          e.target.nextSibling.style.display = "flex";
                         }}
                       />
                       <div className="w-full h-full bg-gradient-to-br from-purple-500/20 to-pink-500/20 hidden items-center justify-center">
@@ -2897,8 +3409,8 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                       whileHover={{ scale: 1.1, rotate: 90 }}
                       whileTap={{ scale: 0.9 }}
                       onClick={() => {
-                        setSelectedCertificate(null)
-                        setIsImageExpanded(false)
+                        setSelectedCertificate(null);
+                        setIsImageExpanded(false);
                       }}
                       className="absolute top-4 right-4 w-10 h-10 bg-black/50 backdrop-blur-sm text-white rounded-full flex items-center justify-center hover:bg-black/70 transition-colors z-10"
                     >
@@ -2921,11 +3433,17 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                           <div className="mr-4">{selectedCertificate.icon}</div>
                           <div>
                             <p
-                              className={`${isDarkMode ? "text-gray-300" : "text-gray-600"} text-lg font-medium font-outfit`}
+                              className={`${
+                                isDarkMode ? "text-gray-300" : "text-gray-600"
+                              } text-lg font-medium font-outfit`}
                             >
                               {selectedCertificate.issuer}
                             </p>
-                            <p className={`${isDarkMode ? "text-gray-400" : "text-gray-500"} text-sm font-outfit`}>
+                            <p
+                              className={`${
+                                isDarkMode ? "text-gray-400" : "text-gray-500"
+                              } text-sm font-outfit`}
+                            >
                               Issued in {selectedCertificate.date}
                             </p>
                           </div>
@@ -2934,8 +3452,16 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
                       {selectedCertificate.score && (
                         <div className="text-center">
-                          <div className="text-3xl font-bold text-green-400 mb-1">{selectedCertificate.score}</div>
-                          <div className={`text-sm ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>Score</div>
+                          <div className="text-3xl font-bold text-green-400 mb-1">
+                            {selectedCertificate.score}
+                          </div>
+                          <div
+                            className={`text-sm ${
+                              isDarkMode ? "text-gray-400" : "text-gray-500"
+                            }`}
+                          >
+                            Score
+                          </div>
                         </div>
                       )}
                     </div>
@@ -2950,12 +3476,16 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                     {/* Description */}
                     <div className="mb-8">
                       <h3
-                        className={`text-lg font-semibold ${isDarkMode ? "text-white" : "text-gray-900"} mb-3 font-outfit`}
+                        className={`text-lg font-semibold ${
+                          isDarkMode ? "text-white" : "text-gray-900"
+                        } mb-3 font-outfit`}
                       >
                         About this Certification
                       </h3>
                       <p
-                        className={`${isDarkMode ? "text-gray-300" : "text-gray-600"} leading-relaxed font-outfit`}
+                        className={`${
+                          isDarkMode ? "text-gray-300" : "text-gray-600"
+                        } leading-relaxed font-outfit`}
                       >
                         {selectedCertificate.description}
                       </p>
@@ -2965,7 +3495,9 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                     {selectedCertificate.skills && (
                       <div className="mb-8">
                         <h3
-                          className={`text-lg font-semibold ${isDarkMode ? "text-white" : "text-gray-900"} mb-4 font-outfit`}
+                          className={`text-lg font-semibold ${
+                            isDarkMode ? "text-white" : "text-gray-900"
+                          } mb-4 font-outfit`}
                         >
                           Skills Covered
                         </h3>
@@ -2988,32 +3520,34 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                     {/* Action Buttons */}
                     <div className="flex flex-col sm:flex-row gap-4">
                       <motion.button
-  type="button"
-  whileHover={{
-    scale: 1.02,
-    boxShadow: "0 20px 40px rgba(168, 85, 247, 0.4)",
-  }}
-  whileTap={{ scale: 0.98 }}
-  className="flex-1 px-6 py-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl font-semibold text-lg hover:from-purple-600 hover:to-pink-600 transition-all duration-300 shadow-lg text-white text-center font-outfit"
-  onClick={() => {
-    toast('Opening certificate...', {
-      icon: <FaExternalLinkAlt className="mr-2" size={18} />,
-      style: {
-        borderRadius: '10px',
-        background: isDarkMode ? '#1e293b' : '#f1f5f9',
-        color: isDarkMode ? '#f1f5f9' : '#1e293b'
-      }
-    });
-    setTimeout(() => {
-      window.open(selectedCertificate.url, "_blank");
-    }, 1000);
-  }}
->
-  <span className="flex items-center justify-center">
-    <FaExternalLinkAlt className="mr-3" size={18} />
-    View Certificate
-  </span>
-</motion.button>
+                        type="button"
+                        whileHover={{
+                          scale: 1.02,
+                          boxShadow: "0 20px 40px rgba(168, 85, 247, 0.4)",
+                        }}
+                        whileTap={{ scale: 0.98 }}
+                        className="flex-1 px-6 py-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl font-semibold text-lg hover:from-purple-600 hover:to-pink-600 transition-all duration-300 shadow-lg text-white text-center font-outfit"
+                        onClick={() => {
+                          toast("Opening certificate...", {
+                            icon: (
+                              <FaExternalLinkAlt className="mr-2" size={18} />
+                            ),
+                            style: {
+                              borderRadius: "10px",
+                              background: isDarkMode ? "#1e293b" : "#f1f5f9",
+                              color: isDarkMode ? "#f1f5f9" : "#1e293b",
+                            },
+                          });
+                          setTimeout(() => {
+                            window.open(selectedCertificate.url, "_blank");
+                          }, 1000);
+                        }}
+                      >
+                        <span className="flex items-center justify-center">
+                          <FaExternalLinkAlt className="mr-3" size={18} />
+                          View Certificate
+                        </span>
+                      </motion.button>
 
                       <motion.button
                         whileHover={{
@@ -3022,8 +3556,8 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                         }}
                         whileTap={{ scale: 0.98 }}
                         onClick={() => {
-                          setSelectedCertificate(null)
-                          setIsImageExpanded(false)
+                          setSelectedCertificate(null);
+                          setIsImageExpanded(false);
                         }}
                         className={`px-6 py-4 ${
                           isDarkMode
@@ -3049,8 +3583,8 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                 exit={{ opacity: 0 }}
                 className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/95 backdrop-blur-sm"
                 onClick={() => {
-                  setIsImageExpanded(false)
-                  setExpandedCertificate(null)
+                  setIsImageExpanded(false);
+                  setExpandedCertificate(null);
                 }}
               >
                 <motion.div
@@ -3072,8 +3606,8 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
                     whileHover={{ scale: 1.1, rotate: 90 }}
                     whileTap={{ scale: 0.9 }}
                     onClick={() => {
-                      setIsImageExpanded(false)
-                      setExpandedCertificate(null)
+                      setIsImageExpanded(false);
+                      setExpandedCertificate(null);
                     }}
                     className="absolute top-4 right-4 w-12 h-12 bg-black/50 backdrop-blur-sm text-white rounded-full flex items-center justify-center hover:bg-black/70 transition-colors"
                   >
@@ -3082,7 +3616,9 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
                   {/* Image Info */}
                   <div className="absolute bottom-4 left-4 right-4 bg-black/50 backdrop-blur-sm rounded-lg p-4">
-                    <h3 className="text-white font-semibold text-lg mb-1">{expandedCertificate.title}</h3>
+                    <h3 className="text-white font-semibold text-lg mb-1">
+                      {expandedCertificate.title}
+                    </h3>
                     <p className="text-gray-300 text-sm">
                       {expandedCertificate.issuer} • {expandedCertificate.date}
                     </p>
@@ -3095,7 +3631,7 @@ const [currentImageIndex, setCurrentImageIndex] = useState(0)
         </div>
       )}
     </>
-  )
-}
+  );
+};
 
-export default Portfolio
+export default Portfolio;

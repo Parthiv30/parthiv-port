@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useMemo,useRef } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import {
   motion,
   AnimatePresence,
@@ -13,11 +13,16 @@ import { SiSap, SiCoursera, SiGoogle, SiBmcsoftware } from "react-icons/si";
 import { FaMicrosoft } from "react-icons/fa";
 import { BsTelephoneOutboundFill } from "react-icons/bs";
 import { FaGreaterThan } from "react-icons/fa";
-import { FaLinkedin, FaGithub, FaTwitter, FaInstagram,FaWhatsapp } from "react-icons/fa";
+import {
+  FaLinkedin,
+  FaGithub,
+  FaTwitter,
+  FaInstagram,
+  FaWhatsapp,
+} from "react-icons/fa";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 
 import {
   FaCertificate,
@@ -55,6 +60,9 @@ import SAP21 from "./assets/certi/SAP21.png";
 import SAP22 from "./assets/certi/SAP22.png";
 import SAP23 from "./assets/certi/SAP23.png";
 import SAP24 from "./assets/certi/SAP24.png";
+import AI from "./assets/certi/AI.png";
+import AI2 from "./assets/certi/AI2.png";
+import AI3 from "./assets/certi/AI3.png";
 import { NavLink, useParams, useNavigate } from "react-router-dom";
 
 // Custom hook for animations (matching your portfolio)
@@ -93,17 +101,41 @@ const useAnimationVariants = () => {
 // Skeleton Loader Component
 const CertificationSkeleton = ({ isDarkMode }) => (
   <div className="animate-pulse">
-    <div className={`h-56 ${isDarkMode ? "bg-slate-700" : "bg-gray-200"} rounded-t-xl`}></div>
+    <div
+      className={`h-56 ${
+        isDarkMode ? "bg-slate-700" : "bg-gray-200"
+      } rounded-t-xl`}
+    ></div>
     <div className="p-6">
-      <div className={`h-6 ${isDarkMode ? "bg-slate-700" : "bg-gray-200"} rounded w-3/4 mb-4`}></div>
+      <div
+        className={`h-6 ${
+          isDarkMode ? "bg-slate-700" : "bg-gray-200"
+        } rounded w-3/4 mb-4`}
+      ></div>
       <div className="flex items-center mb-4">
-        <div className={`w-6 h-6 ${isDarkMode ? "bg-slate-700" : "bg-gray-200"} rounded-full mr-3`}></div>
+        <div
+          className={`w-6 h-6 ${
+            isDarkMode ? "bg-slate-700" : "bg-gray-200"
+          } rounded-full mr-3`}
+        ></div>
         <div>
-          <div className={`h-4 ${isDarkMode ? "bg-slate-700" : "bg-gray-200"} rounded w-24 mb-2`}></div>
-          <div className={`h-3 ${isDarkMode ? "bg-slate-700" : "bg-gray-200"} rounded w-16`}></div>
+          <div
+            className={`h-4 ${
+              isDarkMode ? "bg-slate-700" : "bg-gray-200"
+            } rounded w-24 mb-2`}
+          ></div>
+          <div
+            className={`h-3 ${
+              isDarkMode ? "bg-slate-700" : "bg-gray-200"
+            } rounded w-16`}
+          ></div>
         </div>
       </div>
-      <div className={`h-10 ${isDarkMode ? "bg-slate-700" : "bg-gray-200"} rounded-lg`}></div>
+      <div
+        className={`h-10 ${
+          isDarkMode ? "bg-slate-700" : "bg-gray-200"
+        } rounded-lg`}
+      ></div>
     </div>
   </div>
 );
@@ -129,8 +161,8 @@ const AllCertifications = () => {
   const variants = useAnimationVariants();
 
   useEffect(() => {
-  window.scrollTo({ top: 0, left: 0, behavior: "auto" });
-}, []);
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, []);
 
   // Particles configuration (matching your portfolio)
   const particlesInit = useCallback(async (engine) => {
@@ -178,7 +210,7 @@ const AllCertifications = () => {
         enable: true,
         distance: 120,
         color: isDarkMode ? "#f472b6" : "#8b5cf6",
-        opacity:0.5,
+        opacity: 0.5,
         width: 1,
       },
       move: {
@@ -207,7 +239,12 @@ const AllCertifications = () => {
       score: "84%",
       description:
         "Comprehensive certification covering ABAP Cloud development, RESTful services, and modern SAP development practices.",
-      skills: ["ABAP Cloud", "RESTful Services", "SAP BTP", "Core Data Services"],
+      skills: [
+        "ABAP Cloud",
+        "RESTful Services",
+        "SAP BTP",
+        "Core Data Services",
+      ],
     },
     {
       id: 2,
@@ -521,9 +558,56 @@ const AllCertifications = () => {
         "Certification for completing an online non-credit course on Emotional and Social Intelligence.",
       skills: ["Emotional Intelligence", "Social Intelligence"],
     },
+    {
+      id: 34,
+      title: "Ethics, Technology and Engineering",
+      issuer: "Eindhoven University of Technology & 4TU.Ethics",
+      category: "Professional & Soft Skills",
+      image: AI3,
+      url: "https://coursera.org/verify/X27Q37L3RNNT",
+      icon: <SiCoursera size={24} color="#0056D3" />,
+      date: "2025",
+      description:
+        "Certification for completing an online non-credit course on Ethics, Technology and Engineering, offered by Eindhoven University of Technology and 4TU.Ethics.",
+      skills: ["Ethical Reasoning", "Technology Ethics", "Engineering Ethics"],
+    },
+    {
+      id: 35,
+      title: "Generative AI: Prompt Engineering Basics",
+      issuer: "IBM",
+      category: "Software Development & Engineering",
+      image: AI,
+      url: "https://coursera.org/verify/1G1QO4VBFGE2",
+      icon: <SiCoursera size={24} color="#0056D3" />,
+      date: "2025",
+      description:
+        "Certification for completing an online non-credit course on Generative AI and Prompt Engineering Basics, authorized by IBM.",
+      skills: ["Prompt Engineering", "Generative AI", "AI Tools"],
+    },
+    {
+      id: 36,
+      title: "Software Developer Career Guide and Interview Preparation",
+      issuer: "IBM",
+      category: "Professional & Soft Skills",
+      image: AI2,
+      url: "https://coursera.org/verify/IL0RCWW2L4QN",
+      icon: <SiCoursera size={24} color="#0056D3" />,
+      date: "2025",
+      description:
+        "Certification for completing an online non-credit course on Software Developer Career Guide and Interview Preparation, authorized by IBM.",
+      skills: [
+        "Career Planning",
+        "Interview Preparation",
+        "Software Development",
+      ],
+    },
   ];
 
-  const featuredCerts = [certifications[0], certifications[4], certifications[10]];
+  const featuredCerts = [
+    certifications[0],
+    certifications[4],
+    certifications[10],
+  ];
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -539,10 +623,18 @@ const AllCertifications = () => {
     "Professional & Soft Skills",
   ];
 
-  const navItems = ["Home", "About", "Education", "Projects","Achievements","Internship", "Contact"]
+  const navItems = [
+    "Home",
+    "About",
+    "Education",
+    "Projects",
+    "Achievements",
+    "Internship",
+    "Contact",
+  ];
 
   // Handle navigation and scrolling
- const handleNavClick = (section) => {
+  const handleNavClick = (section) => {
     navigate("/", { state: { section: section.toLowerCase() } });
   };
 
@@ -648,162 +740,186 @@ const AllCertifications = () => {
         className="fixed inset-0 z-0"
       />
 
-       {/* Navigation */}
-        <motion.nav
-  initial={{ y: -100 }}
-  animate={{ y: 0 }}
-  className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-    scrolled ? `${isDarkMode ? "bg-slate-900/90" : "bg-white/90"} backdrop-blur-md` : "bg-transparent"
-  }`}
->
-  <div className="max-w-7xl mx-auto px-4 mt-3 sm:px-6 lg:px-8">
-    <div className="flex items-center justify-between h-16">
-      <motion.div
-        whileHover={{ scale: 1.05 }}
-        className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent font-iceland tracking-wide"
-      >
-        PARTHIV SHINGALA
-      </motion.div>
-
-      {/* Full Navigation Menu - Visible only on lg and above */}
-      <div
-        className={`hidden lg:flex items-center space-x-1 ${
-          isDarkMode ? "bg-slate-800/50" : "bg-white/50"
-        } backdrop-blur-sm rounded-full px-6 py-2`}
-      >
-        {navItems.map((item) => (
-          <motion.a
-            key={item}
-            href={`#${item.toLowerCase()}`}
-            whileHover={{
-              scale: 1.05,
-              boxShadow: "0 0 20px rgba(168, 85, 247, 0.3)",
-            }}
-            whileTap={{ scale: 0.95 }}
-            className={`px-4 py-2 rounded-full text-sm font-medium ${
-              isDarkMode
-                ? "text-gray-300 hover:text-white hover:bg-slate-700/50"
-                : "text-gray-600 hover:text-gray-900 hover:bg-gray-100/50"
-            } transition-all duration-200`}
-            style={{ fontFamily: "'Poppins', sans-serif" }}
-            onClick={(e) => {
-              e.preventDefault();
-              handleNavClick(item);
-            }}
-          >
-            {item}
-          </motion.a>
-        ))}
-        <motion.button
-          whileHover={{
-            scale: 1.05,
-            boxShadow: "0 10px 30px rgba(168, 85, 247, 0.4)",
-          }}
-          whileTap={{ scale: 0.95 }}
-          className="ml-4 px-6 py-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full text-sm font-medium hover:from-purple-600 hover:to-pink-600 transition-all duration-200 text-white"
-          style={{ fontFamily: "'Poppins', sans-serif" }}
-          onClick={() => {
-            console.log("Connecting via WhatsApp");
-            toast('Opening WhatsApp...', {
-              icon: <FaWhatsapp color={isDarkMode ? '#3b82f6' : '#60a5fa'} />,
-              style: {
-                borderRadius: '10px',
-                background: isDarkMode ? '#1e293b' : '#f1f5f9',
-                color: isDarkMode ? '#f1f5f9' : '#1e293b'
-              }
-            });
-            setTimeout(() => {
-              window.open("https://wa.me/919727181143?text=Hi%20Parthiv!", "_blank");
-            }, 1000);
-          }}
-        >
-          Let's Connect
-        </motion.button>
-      </div>
-
-      {/* Hamburger Menu Button - Visible below lg */}
-      <button
-        onClick={() => setIsMenuOpen(!isMenuOpen)}
-        className={`lg:hidden p-2 rounded-lg ${
-          isDarkMode ? "hover:bg-slate-800" : "hover:bg-gray-100"
-        } transition-colors`}
-      >
-        <div className="w-6 h-6 flex flex-col justify-center items-center">
-          <span
-            className={`block w-5 h-0.5 ${
-              isDarkMode ? "bg-white" : "bg-gray-900"
-            } transition-all duration-300 ${isMenuOpen ? "rotate-45 translate-y-1" : ""}`}
-          />
-          <span
-            className={`block w-5 h-0.5 ${
-              isDarkMode ? "bg-white" : "bg-gray-900"
-            } mt-1 transition-all duration-300 ${isMenuOpen ? "opacity-0" : ""}`}
-          />
-          <span
-            className={`block w-5 h-0.5 ${
-              isDarkMode ? "bg-white" : "bg-gray-900"
-            } mt-1 transition-all duration-300 ${isMenuOpen ? "-rotate-45 -translate-y-1" : ""}`}
-          />
-        </div>
-      </button>
-    </div>
-  </div>
-
-  {/* Mobile Menu - Visible when hamburger is clicked */}
-  <AnimatePresence>
-    {isMenuOpen && (
-      <motion.div
-        initial={{ opacity: 0, height: 0 }}
-        animate={{ opacity: 1, height: "auto" }}
-        exit={{ opacity: 0, height: 0 }}
-        className={`lg:hidden ${isDarkMode ? "bg-slate-900/95" : "bg-white/95"} backdrop-blur-md border-t ${
-          isDarkMode ? "border-slate-800" : "border-gray-200"
+      {/* Navigation */}
+      <motion.nav
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          scrolled
+            ? `${
+                isDarkMode ? "bg-slate-900/90" : "bg-white/90"
+              } backdrop-blur-md`
+            : "bg-transparent"
         }`}
       >
-        <div className="px-4 py-4 space-y-2">
-          {navItems.map((item) => (
-  <motion.a
-    key={item}
-    href={`#${item.toLowerCase()}`}
-    className={`block px-4 py-2 rounded-lg ${
-      isDarkMode
-        ? "text-gray-300 hover:text-white hover:bg-slate-800"
-        : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
-    } transition-colors`}
-    style={{ fontFamily: "'Poppins', sans-serif" }}
-    onClick={(e) => {
-      e.preventDefault();
-      handleNavClick(item);
-      setIsMenuOpen(false);
-    }}
-  >
-    {item}
-  </motion.a>
-))}
-          <button
-            className="w-full mt-4 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg font-medium text-white"
-            style={{ fontFamily: "'Poppins', sans-serif" }}
-            onClick={() => {
-              toast('Opening WhatsApp...', {
-                icon: <FaWhatsapp color={isDarkMode ? '#3b82f6' : '#60a5fa'} />,
-                style: {
-                  borderRadius: '10px',
-                  background: isDarkMode ? '#1e293b' : '#f1f5f9',
-                  color: isDarkMode ? '#f1f5f9' : '#1e293b'
-                }
-              });
-              setTimeout(() => {
-                window.open("https://wa.me/919727181143?text=Hi%20Parthiv!", "_blank");
-              }, 1000);
-            }}
-          >
-            Let's Connect
-          </button>
+        <div className="max-w-7xl mx-auto px-4 mt-3 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent font-iceland tracking-wide"
+            >
+              PARTHIV SHINGALA
+            </motion.div>
+
+            {/* Full Navigation Menu - Visible only on lg and above */}
+            <div
+              className={`hidden lg:flex items-center space-x-1 ${
+                isDarkMode ? "bg-slate-800/50" : "bg-white/50"
+              } backdrop-blur-sm rounded-full px-6 py-2`}
+            >
+              {navItems.map((item) => (
+                <motion.a
+                  key={item}
+                  href={`#${item.toLowerCase()}`}
+                  whileHover={{
+                    scale: 1.05,
+                    boxShadow: "0 0 20px rgba(168, 85, 247, 0.3)",
+                  }}
+                  whileTap={{ scale: 0.95 }}
+                  className={`px-4 py-2 rounded-full text-sm font-medium ${
+                    isDarkMode
+                      ? "text-gray-300 hover:text-white hover:bg-slate-700/50"
+                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-100/50"
+                  } transition-all duration-200`}
+                  style={{ fontFamily: "'Poppins', sans-serif" }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavClick(item);
+                  }}
+                >
+                  {item}
+                </motion.a>
+              ))}
+              <motion.button
+                whileHover={{
+                  scale: 1.05,
+                  boxShadow: "0 10px 30px rgba(168, 85, 247, 0.4)",
+                }}
+                whileTap={{ scale: 0.95 }}
+                className="ml-4 px-6 py-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full text-sm font-medium hover:from-purple-600 hover:to-pink-600 transition-all duration-200 text-white"
+                style={{ fontFamily: "'Poppins', sans-serif" }}
+                onClick={() => {
+                  console.log("Connecting via WhatsApp");
+                  toast("Opening WhatsApp...", {
+                    icon: (
+                      <FaWhatsapp color={isDarkMode ? "#3b82f6" : "#60a5fa"} />
+                    ),
+                    style: {
+                      borderRadius: "10px",
+                      background: isDarkMode ? "#1e293b" : "#f1f5f9",
+                      color: isDarkMode ? "#f1f5f9" : "#1e293b",
+                    },
+                  });
+                  setTimeout(() => {
+                    window.open(
+                      "https://wa.me/919727181143?text=Hi%20Parthiv!",
+                      "_blank"
+                    );
+                  }, 1000);
+                }}
+              >
+                Let's Connect
+              </motion.button>
+            </div>
+
+            {/* Hamburger Menu Button - Visible below lg */}
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className={`lg:hidden p-2 rounded-lg ${
+                isDarkMode ? "hover:bg-slate-800" : "hover:bg-gray-100"
+              } transition-colors`}
+            >
+              <div className="w-6 h-6 flex flex-col justify-center items-center">
+                <span
+                  className={`block w-5 h-0.5 ${
+                    isDarkMode ? "bg-white" : "bg-gray-900"
+                  } transition-all duration-300 ${
+                    isMenuOpen ? "rotate-45 translate-y-1" : ""
+                  }`}
+                />
+                <span
+                  className={`block w-5 h-0.5 ${
+                    isDarkMode ? "bg-white" : "bg-gray-900"
+                  } mt-1 transition-all duration-300 ${
+                    isMenuOpen ? "opacity-0" : ""
+                  }`}
+                />
+                <span
+                  className={`block w-5 h-0.5 ${
+                    isDarkMode ? "bg-white" : "bg-gray-900"
+                  } mt-1 transition-all duration-300 ${
+                    isMenuOpen ? "-rotate-45 -translate-y-1" : ""
+                  }`}
+                />
+              </div>
+            </button>
+          </div>
         </div>
-      </motion.div>
-    )}
-  </AnimatePresence>
-</motion.nav>
+
+        {/* Mobile Menu - Visible when hamburger is clicked */}
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className={`lg:hidden ${
+                isDarkMode ? "bg-slate-900/95" : "bg-white/95"
+              } backdrop-blur-md border-t ${
+                isDarkMode ? "border-slate-800" : "border-gray-200"
+              }`}
+            >
+              <div className="px-4 py-4 space-y-2">
+                {navItems.map((item) => (
+                  <motion.a
+                    key={item}
+                    href={`#${item.toLowerCase()}`}
+                    className={`block px-4 py-2 rounded-lg ${
+                      isDarkMode
+                        ? "text-gray-300 hover:text-white hover:bg-slate-800"
+                        : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                    } transition-colors`}
+                    style={{ fontFamily: "'Poppins', sans-serif" }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleNavClick(item);
+                      setIsMenuOpen(false);
+                    }}
+                  >
+                    {item}
+                  </motion.a>
+                ))}
+                <button
+                  className="w-full mt-4 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg font-medium text-white"
+                  style={{ fontFamily: "'Poppins', sans-serif" }}
+                  onClick={() => {
+                    toast("Opening WhatsApp...", {
+                      icon: (
+                        <FaWhatsapp
+                          color={isDarkMode ? "#3b82f6" : "#60a5fa"}
+                        />
+                      ),
+                      style: {
+                        borderRadius: "10px",
+                        background: isDarkMode ? "#1e293b" : "#f1f5f9",
+                        color: isDarkMode ? "#f1f5f9" : "#1e293b",
+                      },
+                    });
+                    setTimeout(() => {
+                      window.open(
+                        "https://wa.me/919727181143?text=Hi%20Parthiv!",
+                        "_blank"
+                      );
+                    }, 1000);
+                  }}
+                >
+                  Let's Connect
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.nav>
 
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center overflow-hidden">
@@ -881,15 +997,17 @@ const AllCertifications = () => {
                     </div>
                   </div>
                   <div className="p-6 pt-2">
-                    <h3
-                      className="text-lg font-bold mb-2 line-clamp-2 font-outfit"
-                    >
+                    <h3 className="text-lg font-bold mb-2 line-clamp-2 font-outfit">
                       {featuredCerts[featuredIndex].title}
                     </h3>
                     <div className="flex items-center text-sm font-outfit">
-                      <div className="mr-2">{featuredCerts[featuredIndex].icon}</div>
+                      <div className="mr-2">
+                        {featuredCerts[featuredIndex].icon}
+                      </div>
                       <span
-                        className={isDarkMode ? "text-gray-300" : "text-gray-600"}
+                        className={
+                          isDarkMode ? "text-gray-300" : "text-gray-600"
+                        }
                       >
                         {featuredCerts[featuredIndex].issuer}
                       </span>
@@ -903,7 +1021,11 @@ const AllCertifications = () => {
       </section>
 
       {/* Certifications Grid Section */}
-      <section id="certifications-grid" className="py-24 relative z-10" ref={certificationsGridRef}>
+      <section
+        id="certifications-grid"
+        className="py-24 relative z-10"
+        ref={certificationsGridRef}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             variants={variants.staggerContainer}
@@ -913,9 +1035,7 @@ const AllCertifications = () => {
             className="mb-16"
           >
             <motion.div {...variants.fadeInUp} className="text-center mb-12">
-              <h2
-                className="text-3xl md:text-4xl font-bold mb-3 font-outfit"
-              >
+              <h2 className="text-3xl md:text-4xl font-bold mb-3 font-outfit">
                 Filter & Search Credentials
               </h2>
               <p className="text-lg text-gray-400 font-outfit">
@@ -952,26 +1072,26 @@ const AllCertifications = () => {
                 />
               </div>
               <div className="flex flex-wrap w-full justify-center lg:justify-start gap-3">
-  {filterCategories.map((category) => (
-    <motion.button
-      key={category}
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-      onClick={() => setSelectedFilter(category)}
-      className={`px-5 font-outfit py-3 rounded-full font-medium transition-all duration-300 text-sm ${
-        selectedFilter === category
-          ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg"
-          : `${
-              isDarkMode
-                ? "bg-slate-700/50 text-gray-300 hover:text-white hover:bg-slate-700"
-                : "bg-white/80 text-gray-600 hover:text-gray-900 hover:bg-white"
-            } border border-transparent`
-      }`}
-    >
-      {category}
-    </motion.button>
-  ))}
-</div>
+                {filterCategories.map((category) => (
+                  <motion.button
+                    key={category}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => setSelectedFilter(category)}
+                    className={`px-5 font-outfit py-3 rounded-full font-medium transition-all duration-300 text-sm ${
+                      selectedFilter === category
+                        ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg"
+                        : `${
+                            isDarkMode
+                              ? "bg-slate-700/50 text-gray-300 hover:text-white hover:bg-slate-700"
+                              : "bg-white/80 text-gray-600 hover:text-gray-900 hover:bg-white"
+                          } border border-transparent`
+                    }`}
+                  >
+                    {category}
+                  </motion.button>
+                ))}
+              </div>
             </motion.div>
           </motion.div>
 
@@ -1103,7 +1223,9 @@ const AllCertifications = () => {
               >
                 No certifications found
               </h3>
-              <p className={`${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>
+              <p
+                className={`${isDarkMode ? "text-gray-400" : "text-gray-500"}`}
+              >
                 Try adjusting your search terms or filters
               </p>
             </motion.div>
@@ -1168,28 +1290,20 @@ const AllCertifications = () => {
               <div className="p-8 overflow-y-auto custom-scrollbar">
                 <div className="grid lg:grid-cols-3 gap-8">
                   <div className="lg:col-span-2">
-                    <h2
-                      className="text-2xl sm:text-3xl font-bold mb-6 font-outfit"
-                    >
+                    <h2 className="text-2xl sm:text-3xl font-bold mb-6 font-outfit">
                       {selectedCertificate.title}
                     </h2>
                     <div className="mb-8">
-                      <h3
-                        className="text-lg font-semibold mb-3 font-outfit"
-                      >
+                      <h3 className="text-lg font-semibold mb-3 font-outfit">
                         About this Certification
                       </h3>
-                      <p
-                        className="leading-relaxed text-gray-300 font-outfit"
-                      >
+                      <p className="leading-relaxed text-gray-300 font-outfit">
                         {selectedCertificate.description}
                       </p>
                     </div>
                     {selectedCertificate.skills && (
                       <div className="mb-8">
-                        <h3
-                          className="text-lg font-semibold mb-4 font-outfit"
-                        >
+                        <h3 className="text-lg font-semibold mb-4 font-outfit">
                           Skills Covered
                         </h3>
                         <div className="flex flex-wrap gap-3">
@@ -1214,9 +1328,7 @@ const AllCertifications = () => {
                         isDarkMode ? "border-slate-600/50" : "border-gray-200"
                       }`}
                     >
-                      <h3
-                        className="text-lg font-semibold mb-4 font-outfit"
-                      >
+                      <h3 className="text-lg font-semibold mb-4 font-outfit">
                         Details
                       </h3>
                       <div className="space-y-4 text-sm">
@@ -1235,7 +1347,9 @@ const AllCertifications = () => {
                             <p className="font-medium text-gray-200 font-outfit">
                               {selectedCertificate.category}
                             </p>
-                            <p className="text-gray-400 font-outfit">Category</p>
+                            <p className="text-gray-400 font-outfit">
+                              Category
+                            </p>
                           </div>
                         </div>
                         {selectedCertificate.score && (
@@ -1252,27 +1366,27 @@ const AllCertifications = () => {
                       </div>
                       <div className="mt-6 pt-6 border-t border-slate-600/50 flex flex-col gap-3">
                         <motion.button
-  type="button"
-  whileHover={{ scale: 1.02 }}
-  whileTap={{ scale: 0.98 }}
-  className="w-full px-4 py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg font-semibold text-white text-center flex items-center justify-center gap-2 font-outfit"
-  onClick={() => {
-    toast('Opening credential...', {
-      icon: <FaExternalLinkAlt size={14} />,
-      style: {
-        borderRadius: '10px',
-        background: isDarkMode ? '#1e293b' : '#f1f5f9',
-        color: isDarkMode ? '#f1f5f9' : '#1e293b'
-      }
-    });
-    setTimeout(() => {
-      window.open(selectedCertificate.url, "_blank");
-    }, 1000);
-  }}
->
-  <FaExternalLinkAlt size={14} />
-  View Credential
-</motion.button>
+                          type="button"
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          className="w-full px-4 py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg font-semibold text-white text-center flex items-center justify-center gap-2 font-outfit"
+                          onClick={() => {
+                            toast("Opening credential...", {
+                              icon: <FaExternalLinkAlt size={14} />,
+                              style: {
+                                borderRadius: "10px",
+                                background: isDarkMode ? "#1e293b" : "#f1f5f9",
+                                color: isDarkMode ? "#f1f5f9" : "#1e293b",
+                              },
+                            });
+                            setTimeout(() => {
+                              window.open(selectedCertificate.url, "_blank");
+                            }, 1000);
+                          }}
+                        >
+                          <FaExternalLinkAlt size={14} />
+                          View Credential
+                        </motion.button>
                         <motion.button
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
@@ -1337,151 +1451,206 @@ const AllCertifications = () => {
           viewport={{ once: true }}
           className="inline-block"
         >
-          <h3
-            className="text-2xl font-bold mb-4 font-outfit"
-          >
+          <h3 className="text-2xl font-bold mb-4 font-outfit">
             Finished Exploring?
           </h3>
-         <motion.button
-  whileHover={{
-    scale: 1.05,
-    boxShadow: "0 10px 25px rgba(168, 85, 247, 0.3)",
-  }}
-  whileTap={{ scale: 0.95 }}
-  className="flex items-center px-6 py-3 bg-slate-800/50 border border-slate-700/50 hover:border-purple-500/50 rounded-full transition-all duration-300 font-outfit text-white"
-  onClick={() => {
-    toast("Returning to Portfolio.", {
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-        </svg>
-      ),
-      style: {
-        borderRadius: '10px',
-        background: '#1e293b',
-        color: '#f1f5f9'
-      }
-    });
-    setTimeout(() => {
-      navigate("/", { state: { fromCert: true } });
-    }, 1000);
-  }}
->
-  <FaArrowLeft className="mr-3 text-purple-400" />
-  Return to Main Portfolio
-</motion.button>
+          <motion.button
+            whileHover={{
+              scale: 1.05,
+              boxShadow: "0 10px 25px rgba(168, 85, 247, 0.3)",
+            }}
+            whileTap={{ scale: 0.95 }}
+            className="flex items-center px-6 py-3 bg-slate-800/50 border border-slate-700/50 hover:border-purple-500/50 rounded-full transition-all duration-300 font-outfit text-white"
+            onClick={() => {
+              toast("Returning to Portfolio.", {
+                icon: (
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15 19l-7-7 7-7"
+                    />
+                  </svg>
+                ),
+                style: {
+                  borderRadius: "10px",
+                  background: "#1e293b",
+                  color: "#f1f5f9",
+                },
+              });
+              setTimeout(() => {
+                navigate("/", { state: { fromCert: true } });
+              }, 1000);
+            }}
+          >
+            <FaArrowLeft className="mr-3 text-purple-400" />
+            Return to Main Portfolio
+          </motion.button>
         </motion.div>
       </section>
 
       <footer
-            className={`py-16 border-t ${
-              isDarkMode ? "border-slate-800 bg-slate-900/80" : "border-gray-200 bg-gray-50/80"
-            } backdrop-blur-sm relative z-10`}
-          >
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="flex flex-col md:flex-row items-center justify-between">
-                <div className="mb-8 md:mb-0">
-                  <h3
-                    className={`text-2xl font-outfit font-bold mb-2 ${isDarkMode ? "text-white" : "text-gray-900"}`}
-                  >
-                    Let's work together
-                  </h3>
-                  <p
-                    className={`${isDarkMode ? "text-gray-400" : "text-gray-600"} font-outfit`}
-                  >
-                    Ready to bring your ideas to life?
-                  </p>
-                  <a
-                    href="tel:+919727181143"
-                    className="mt-2 flex items-center space-x-2 text-lg font-medium text-gray-300 hover:text-purple-400 transition-colors font-outfit"
-                  >
-                    <FaPhone className="text-purple-400 -scale-x-100" />
-                    <span>+91 97271 81143</span>
-                  </a>
-                </div>
-
-                <div className="flex items-center space-x-6">
-  {[
-    {
-      href: "mailto:parthivshingala@gmail.com",
-      icon: "M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z",
-      label: "Email",
-    },
-    {
-      href: "https://github.com/Parthiv30",
-      icon: "M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z",
-      label: "GitHub",
-    },
-    {
-      href: "https://www.linkedin.com/in/parthiv-shingala-933224322",
-      icon: "M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z",
-      label: "LinkedIn",
-    },
-  ].map((social, index) => (
-    <motion.button
-      key={index}
-      type="button"
-      onClick={() => {
-        toast(`Opening ${social.label}...`, {
-          icon: (
-            <svg className="w-5 h-5" fill={social.href.includes("mailto") ? "none" : "currentColor"} stroke={social.href.includes("mailto") ? "currentColor" : "none"} viewBox="0 0 24 24">
-              <path
-                strokeLinecap={social.href.includes("mailto") ? "round" : undefined}
-                strokeLinejoin={social.href.includes("mailto") ? "round" : undefined}
-                strokeWidth={social.href.includes("mailto") ? 2 : undefined}
-                d={social.icon}
-              />
-            </svg>
-          ),
-          style: {
-            borderRadius: '10px',
-            background: isDarkMode ? '#1e293b' : '#f1f5f9',
-            color: isDarkMode ? '#f1f5f9' : '#1e293b'
-          }
-        });
-        setTimeout(() => {
-          window.open(social.href, "_blank");
-        }, 1000);
-      }}
-      whileHover={{ scale: 1.05 }}
-      className={`p-3 ${isDarkMode ? "bg-slate-800 hover:bg-slate-700" : "bg-white hover:bg-gray-100"} rounded-full transition-colors`}
-    >
-      <svg
-        className="w-6 h-6"
-        fill={social.href.includes("mailto") ? "none" : "currentColor"}
-        stroke={social.href.includes("mailto") ? "currentColor" : "none"}
-        viewBox="0 0 24 24"
+        className={`py-16 border-t ${
+          isDarkMode
+            ? "border-slate-800 bg-slate-900/80"
+            : "border-gray-200 bg-gray-50/80"
+        } backdrop-blur-sm relative z-10`}
       >
-        <path
-          strokeLinecap={social.href.includes("mailto") ? "round" : undefined}
-          strokeLinejoin={social.href.includes("mailto") ? "round" : undefined}
-          strokeWidth={social.href.includes("mailto") ? 2 : undefined}
-          d={social.icon}
-        />
-      </svg>
-    </motion.button>
-  ))}
-</div>
-              </div>
-
-              <div
-                className={`mt-12 pt-8 border-t ${
-                  isDarkMode ? "border-slate-800" : "border-gray-200"
-                } flex flex-col md:flex-row items-center justify-between`}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row items-center justify-between">
+            <div className="mb-8 md:mb-0">
+              <h3
+                className={`text-2xl font-outfit font-bold mb-2 ${
+                  isDarkMode ? "text-white" : "text-gray-900"
+                }`}
               >
-                <p
-                  className={`${isDarkMode ? "text-gray-400" : "text-gray-500"} text-sm font-outfit`}
-                >
-                  © 2024 Parthiv Shingala. All rights reserved.
-                </p>
-                <p
-                  className={`${isDarkMode ? "text-gray-400" : "text-gray-500"} text-sm mt-4 md:mt-0 font-outfit`}
-                >
-                  {currentTime}
-                </p>
-              </div>
+                Let's work together
+              </h3>
+              <p
+                className={`${
+                  isDarkMode ? "text-gray-400" : "text-gray-600"
+                } font-outfit`}
+              >
+                Ready to bring your ideas to life?
+              </p>
+              <a
+                href="tel:+919727181143"
+                className="mt-2 flex items-center space-x-2 text-lg font-medium text-gray-300 hover:text-purple-400 transition-colors font-outfit"
+              >
+                <FaPhone className="text-purple-400 -scale-x-100" />
+                <span>+91 97271 81143</span>
+              </a>
             </div>
-          </footer>
+
+            <div className="flex items-center space-x-6">
+              {[
+                {
+                  href: "mailto:parthivshingala@gmail.com",
+                  icon: "M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z",
+                  label: "Email",
+                },
+                {
+                  href: "https://github.com/Parthiv30",
+                  icon: "M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z",
+                  label: "GitHub",
+                },
+                {
+                  href: "https://www.linkedin.com/in/parthiv-shingala-933224322",
+                  icon: "M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z",
+                  label: "LinkedIn",
+                },
+              ].map((social, index) => (
+                <motion.button
+                  key={index}
+                  type="button"
+                  onClick={() => {
+                    toast(`Opening ${social.label}...`, {
+                      icon: (
+                        <svg
+                          className="w-5 h-5"
+                          fill={
+                            social.href.includes("mailto")
+                              ? "none"
+                              : "currentColor"
+                          }
+                          stroke={
+                            social.href.includes("mailto")
+                              ? "currentColor"
+                              : "none"
+                          }
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap={
+                              social.href.includes("mailto")
+                                ? "round"
+                                : undefined
+                            }
+                            strokeLinejoin={
+                              social.href.includes("mailto")
+                                ? "round"
+                                : undefined
+                            }
+                            strokeWidth={
+                              social.href.includes("mailto") ? 2 : undefined
+                            }
+                            d={social.icon}
+                          />
+                        </svg>
+                      ),
+                      style: {
+                        borderRadius: "10px",
+                        background: isDarkMode ? "#1e293b" : "#f1f5f9",
+                        color: isDarkMode ? "#f1f5f9" : "#1e293b",
+                      },
+                    });
+                    setTimeout(() => {
+                      window.open(social.href, "_blank");
+                    }, 1000);
+                  }}
+                  whileHover={{ scale: 1.05 }}
+                  className={`p-3 ${
+                    isDarkMode
+                      ? "bg-slate-800 hover:bg-slate-700"
+                      : "bg-white hover:bg-gray-100"
+                  } rounded-full transition-colors`}
+                >
+                  <svg
+                    className="w-6 h-6"
+                    fill={
+                      social.href.includes("mailto") ? "none" : "currentColor"
+                    }
+                    stroke={
+                      social.href.includes("mailto") ? "currentColor" : "none"
+                    }
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap={
+                        social.href.includes("mailto") ? "round" : undefined
+                      }
+                      strokeLinejoin={
+                        social.href.includes("mailto") ? "round" : undefined
+                      }
+                      strokeWidth={
+                        social.href.includes("mailto") ? 2 : undefined
+                      }
+                      d={social.icon}
+                    />
+                  </svg>
+                </motion.button>
+              ))}
+            </div>
+          </div>
+
+          <div
+            className={`mt-12 pt-8 border-t ${
+              isDarkMode ? "border-slate-800" : "border-gray-200"
+            } flex flex-col md:flex-row items-center justify-between`}
+          >
+            <p
+              className={`${
+                isDarkMode ? "text-gray-400" : "text-gray-500"
+              } text-sm font-outfit`}
+            >
+              © 2024 Parthiv Shingala. All rights reserved.
+            </p>
+            <p
+              className={`${
+                isDarkMode ? "text-gray-400" : "text-gray-500"
+              } text-sm mt-4 md:mt-0 font-outfit`}
+            >
+              {currentTime}
+            </p>
+          </div>
+        </div>
+      </footer>
       <ToastContainer position="bottom-center" autoClose={1000} />
     </div>
   );
