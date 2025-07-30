@@ -2594,7 +2594,7 @@ const Portfolio = () => {
               <SiFlask size={28} /> <span>Flask</span>
             </div>
             <div className="flex items-center gap-3 text-blue-400 font-outfit">
-              <BiLogoPostgresql size={28} /> <span>PostGre</span>
+              <BiLogoPostgresql size={28} /> <span>PostGreSQL</span>
             </div>
           </div>
         </motion.div>
