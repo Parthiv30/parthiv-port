@@ -215,7 +215,7 @@ export const projects = [
 
   {
     id: "edge-e-bulletin",
-    repo: "",
+    repo: "https://github.com/Parthiv30/Edge-e-Bulletin",
     live: "",
     title: "Edge e-Bulletin",
     slogan: "Your Campus News, On the Go",
