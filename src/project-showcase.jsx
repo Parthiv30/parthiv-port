@@ -1275,35 +1275,36 @@ const ProjectShowcase = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4"
+            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm overflow-y-auto"
             onClick={closeLightbox}
           >
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.8, opacity: 0 }}
-              className="relative max-w-6xl max-h-[90vh] w-full"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <img
-                src={
-                  currentProject.images[lightboxImageIndex]?.src ||
-                  "./assets/placeholder.png"
-                }
-                alt={
-                  currentProject.images[lightboxImageIndex]?.alt ||
-                  "Project Image"
-                }
-                className="w-full h-full object-contain rounded-lg"
-              />
-
-              {/* Close button */}
-              <button
-                onClick={closeLightbox}
-                className="absolute top-4 right-4 w-10 h-10 bg-slate-800/80 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-slate-700/80 transition-all duration-300"
+            <div className="min-h-screen flex items-start justify-center p-4 py-8">
+              <motion.div
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.8, opacity: 0 }}
+                className="relative max-w-6xl w-full"
+                onClick={(e) => e.stopPropagation()}
               >
-                <IoClose size={24} />
-              </button>
+                <img
+                  src={
+                    currentProject.images[lightboxImageIndex]?.src ||
+                    "./assets/placeholder.png"
+                  }
+                  alt={
+                    currentProject.images[lightboxImageIndex]?.alt ||
+                    "Project Image"
+                  }
+                  className="w-full h-auto object-contain rounded-lg shadow-2xl"
+                />
+
+                {/* Close button */}
+                <button
+                  onClick={closeLightbox}
+                  className="absolute top-4 right-4 w-10 h-10 bg-slate-800/80 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-slate-700/80 transition-all duration-300"
+                >
+                  <IoClose size={24} />
+                </button>
 
               {/* Navigation - only show if multiple images */}
               {currentProject.images.length > 1 && (
@@ -1334,6 +1335,7 @@ const ProjectShowcase = () => {
                 </p>
               </div>
             </motion.div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

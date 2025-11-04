@@ -11,6 +11,18 @@ import learnverseProfileDark from "./assets/LearnVerse/learnverseProfileDark.png
 import learnverseProfileLight from "./assets/LearnVerse/learnverseProfileLight.png";
 import mobile from "./assets/LearnVerse/mobile.jpg";
 
+import adminAll from "./assets/GadgetBuddy/adminAll.png";
+import adminDash from "./assets/GadgetBuddy/adminDash.png"
+import adminDash2 from "./assets/GadgetBuddy/adminDash2.png";
+import adminHomeContentMan from "./assets/GadgetBuddy/adminHomeContentMan.png";
+import custCheckout from "./assets/GadgetBuddy/custCheckout.png";
+import custHome from "./assets/GadgetBuddy/custHome.png";
+import customerAll from "./assets/GadgetBuddy/customerAll.png";
+import custProduct from "./assets/GadgetBuddy/custProduct.png";
+import reportsAll from "./assets/GadgetBuddy/reportsAll.png";
+
+
+
 import Ad from "./assets/village/Ad.png";
 import Ao from "./assets/village/Ao.png";
 import Ausers from "./assets/village/Ausers.png";
@@ -31,6 +43,7 @@ import allReaders from "./assets/edge/allReaders.png";
 import mobile1 from "./assets/edge/mobile1.png";
 import mobile2 from "./assets/edge/mobile2.png";
 import mobileShowcaseBookmark from "./assets/edge/mobileShowcaseBookmark.png";
+import { caption } from "framer-motion/client";
 
 export const projects = [
   {
@@ -526,5 +539,87 @@ export const projects = [
       "Integrating and securing the Razorpay payment gateway, setting up OTP email verification for secure password recovery, and ensuring real-time dashboard updates without performance lag.",
     outcome:
       "Village Chef resulted in a responsive and scalable web solution that streamlined the entire online food ordering process and restaurant backend management. It offers an intuitive UI for customers and a powerful, insight-rich admin dashboard for restaurant operators.",
+  },
+  {
+    id: "gadgetbuddy",
+    repo: "",
+    live: "",
+    title: "GadgetBuddy",
+    slogan: "Your Ultimate Destination for Electronic Gadgets & Accessories",
+    overview:
+      "GadgetBuddy is a comprehensive full-stack e-commerce platform built for selling electronic gadgets and accessories. The platform features a robust admin panel for complete store management and a modern customer-facing storefront with advanced shopping features. Built with PHP backend and MySQL database, it includes secure payment processing, inventory management, email notifications, and a powerful content management system for dynamic homepage control.",
+    images: [
+      { src: adminAll, alt: "Admin Panel", caption: "Admin Panel" },
+      { src: customerAll, alt: "Customer Panel", caption: "Customer Panel" },
+      { src: adminDash, alt: "Admin Dashboard", caption: "Admin Dashboard" },
+      { src: adminDash2, alt: "Admin Dashboard", caption: "Admin Dashboard" },
+      { src: adminHomeContentMan, alt: "Admin Home Content Management", caption: "Admin Home Content Management" },
+      { src: custCheckout, alt: "Customer Checkout", caption: "Customer Checkout" },
+      { src: custHome, alt: "Customer Home", caption: "Customer Home" },
+      { src: custProduct, alt: "Customer Product", caption: "Customer Product" },
+      { src: reportsAll, alt: "Reports", caption: "Reports" },
+    ],
+    techStack: [
+      { name: "PHP", icon: "SiPhp", color: "#777BB4", category: "Backend" },
+      { name: "MySQL", icon: "SiMysql", color: "#4479A1", category: "Database" },
+      { name: "HTML5", icon: "SiHtml5", color: "#E34F26", category: "Frontend" },
+      { name: "CSS3", icon: "SiCss3", color: "#1572B6", category: "Styling" },
+      { name: "JavaScript", icon: "SiJavascript", color: "#F7DF1E", category: "Frontend" },
+      { name: "Bootstrap", icon: "SiBootstrap", color: "#7952B3", category: "Styling" },
+      { name: "Tailwind CSS", icon: "SiTailwindcss", color: "#38B2AC", category: "Styling" },
+      { name: "jQuery", icon: "SiJquery", color: "#0769AD", category: "Frontend" },
+      { name: "PHPMailer", icon: "SiGmail", color: "#D14836", category: "Email" },
+      { name: "mPDF", icon: "SiAdobeacrobatreader", color: "#B72126", category: "PDF Generation" },
+      { name: "Font Awesome", icon: "SiFontawesome", color: "#339AF0", category: "Icons" },
+      { name: "SweetAlert2", icon: "SiJavascript", color: "#F27474", category: "Notifications" }
+    ],
+    keyFeatures: [
+      {
+        title: "Excel Export & Bulk Upload System",
+        description:
+          "Download comprehensive sales insights, inventory reports, and analytics as Excel files using PhpSpreadsheet. Support for bulk product uploads and data management for efficient store operations.",
+        icon: "FaFileExcel",
+      },
+      {
+        title: "Smart Stock Notifications & Inventory Alerts",
+        description:
+          "Real-time inventory tracking with automated low-stock alerts, out-of-stock notifications, and inventory adjustment capabilities to prevent stockouts and optimize supply chain management.",
+        icon: "FaBell",
+      },
+      {
+        title: "Advanced Analytics Dashboard",
+        description:
+          "Sales analytics with revenue charts, top-selling products insights, order statistics, user registration trends, and performance metrics using Chart.js for data visualization and business intelligence.",
+        icon: "FaChartLine",
+      },
+      {
+        title: "Multi-variant Product Management",
+        description:
+          "Complete product catalog with size, color, and custom variants, dynamic pricing, discount management, coupon system, and tag-based filtering for enhanced product discovery and inventory control.",
+        icon: "FaTags",
+      },
+      {
+        title: "Automated PDF & Email System",
+        description:
+          "mPDF integration for invoice generation, automated email notifications via PHPMailer with SMTP, order confirmations, payment receipts, welcome emails, and promotional campaigns with HTML templates.",
+        icon: "FaFilePdf",
+      },
+      {
+        title: "Dynamic Content Management System",
+        description:
+          "Complete homepage control where admins can dynamically add, remove, and reposition announcements, banners, testimonials, sliders, and video gallery content in real-time without code changes, providing full customization of customer-facing interface.",
+        icon: "FaCog",
+      },
+      {
+        title: "Role-based Admin Control & Security",
+        description:
+          "Hierarchical admin permissions, secure authentication with password hashing, CSRF protection, SQL injection prevention, session management, and comprehensive security measures against web vulnerabilities.",
+        icon: "FaUserShield",
+      },
+    ],
+    challenges:
+      "Implementing secure payment gateway integration, building a scalable admin panel with role-based access control, managing complex product variants and inventory tracking, and ensuring optimal performance with large product catalogs while maintaining security against common web vulnerabilities.",
+    outcome:
+      "GadgetBuddy resulted in a modern, feature-rich e-commerce platform that provides merchants with a complete online store solution. The platform successfully handles product management, order processing, payment integration, and customer engagement with a responsive design and robust security measures, making it ready for production deployment.",
   },
 ];

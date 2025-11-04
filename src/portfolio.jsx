@@ -33,6 +33,7 @@ import SAP6 from "./assets/certi/SAP6.png";
 import SAP11 from "./assets/certi/SAP11.png";
 import { DiVisualstudio } from "react-icons/di";
 import placeholder from "./assets/placeholder.png";
+import gadgetbuddy from "./assets/gadgetbuddy.png";
 import { FaExternalLinkAlt, FaWhatsapp } from "react-icons/fa";
 // Import icons
 import { BiLogoPostgresql } from "react-icons/bi";
@@ -109,6 +110,7 @@ import {
 } from "lucide-react";
 
 import { NavLink, useLocation } from "react-router-dom";
+import { projects } from "./projectsData.js";
 
 // Custom hook for animations
 const useAnimationVariants = () => {
@@ -842,6 +844,15 @@ const Portfolio = () => {
       image: learnverselogo,
       emoji: "📘",
       gradient: "from-blue-500/20 to-cyan-500/20",
+    },
+    {
+      title: "GadgetBuddy",
+      description:
+        "Comprehensive e-commerce platform for electronic gadgets with admin panel, payment integration, inventory management, and dynamic content system.",
+      stack: ["PHP", "MySQL", "JavaScript", "Bootstrap", "PHPMailer", "mPDF"],
+      image: gadgetbuddy, // Will be updated when images are added
+      emoji: "🛒",
+      gradient: "from-purple-500/20 to-indigo-500/20",
     },
     {
       title: "Village Chef",
