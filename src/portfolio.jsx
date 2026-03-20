@@ -2727,7 +2727,7 @@ const Portfolio = () => {
           </motion.h3>
           <div className={`space-y-6 font-outfit ${isDarkMode ? "text-gray-300" : "text-gray-600"} text-lg leading-relaxed`}>
             <motion.p {...variants.fadeInUp} viewport={{ once: true }} transition={{ delay: 1.2 }}>
-             <span className="text-blue-400 font-semibold">Duration :-</span> Nov-2024 to Present
+             <span className="text-blue-400 font-semibold">Duration :-</span> Nov-2024 to Sep-2025
             </motion.p>
             <motion.p {...variants.fadeInUp} viewport={{ once: true }} transition={{ delay: 1 }}>
               I got an internship opportunity through the{" "}
