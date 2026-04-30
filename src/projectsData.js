@@ -11,6 +11,14 @@ import learnverseProfileDark from "./assets/LearnVerse/learnverseProfileDark.png
 import learnverseProfileLight from "./assets/LearnVerse/learnverseProfileLight.png";
 import mobile from "./assets/LearnVerse/mobile.jpg";
 
+import allSS from "./assets/studentWise/allSS.png";
+import goal from "./assets/studentWise/goal.png";
+import market from "./assets/studentWise/market.png";
+import paper from "./assets/studentWise/paper.png";
+import paper2 from "./assets/studentWise/paper-2.png";
+import risk from "./assets/studentWise/risk-s.png";
+import portfolio from "./assets/studentWise/portfolio.png";
+
 import adminAll from "./assets/GadgetBuddy/adminAll.png";
 import adminDash from "./assets/GadgetBuddy/adminDash.png"
 import adminDash2 from "./assets/GadgetBuddy/adminDash2.png";
@@ -622,4 +630,87 @@ export const projects = [
     outcome:
       "GadgetBuddy resulted in a modern, feature-rich e-commerce platform that provides merchants with a complete online store solution. The platform successfully handles product management, order processing, payment integration, and customer engagement with a responsive design and robust security measures, making it ready for production deployment.",
   },
+  {
+  id: "studentwise",
+  repo: "",
+  live: "",
+  title: "StudentWise",
+  slogan: "Smart Investing for Students",
+
+  overview:
+    "StudentWise is an AI-powered financial learning and investment simulation platform designed specifically for students. It provides a safe and interactive environment where users can understand financial concepts, assess their risk profile, and practice investing without real money. The platform combines machine learning, simulation models, and behavioral analytics to deliver personalized investment guidance and improve financial decision-making skills.",
+
+  images: [
+    { src: allSS, alt: "AllSS", caption: "AllSS Page" },
+    { src: paper2, alt: "Paper2", caption: "Paper2 Page" },
+    { src: market, alt: "Market", caption: "Market Page" },
+    { src: risk, alt: "Risk", caption: "Risk Page" },
+    { src: portfolio, alt: "Portfolio", caption: "Portfolio Page" },
+    { src: goal, alt: "Goal", caption: "Goal Page" },
+    { src: paper, alt: "Paper", caption: "Paper Page" },
+  ],
+
+  techStack: [
+    { name: "Python", icon: "SiPython", color: "#3776AB", category: "Backend" },
+    { name: "FastAPI", icon: "SiFastapi", color: "#009688", category: "Backend" },
+    { name: "Streamlit", icon: "SiStreamlit", color: "#FF4B4B", category: "Frontend" },
+    { name: "Firebase Firestore", icon: "SiFirebase", color: "#FFCA28", category: "Database" },
+    { name: "TensorFlow", icon: "SiTensorflow", color: "#FF6F00", category: "Machine Learning" },
+    { name: "Scikit-learn", icon: "SiScikitlearn", color: "#F7931E", category: "ML Tools" },
+    { name: "NumPy", icon: "SiNumpy", color: "#013243", category: "Computation" },
+    { name: "Pandas", icon: "SiPandas", color: "#150458", category: "Data Processing" },
+    { name: "Plotly", icon: "SiPlotly", color: "#3F4F75", category: "Visualization" }
+  ],
+
+  keyFeatures: [
+    {
+      title: "AI-Based Risk Assessment",
+      description:
+        "Uses a machine learning model to classify users into Low, Medium, or High risk categories based on financial inputs.",
+      icon: "FaChartLine",
+    },
+    {
+      title: "Personalized Investment Recommendations",
+      description:
+        "Provides tailored investment strategies based on user risk profile using a rule-based recommendation engine.",
+      icon: "FaLightbulb",
+    },
+    {
+      title: "Paper Trading Simulator",
+      description:
+        "Allows users to practice stock trading in a risk-free virtual environment without using real money.",
+      icon: "FaRocket",
+    },
+    {
+      title: "Portfolio Risk Simulation",
+      description:
+        "Implements Monte Carlo simulation to predict future portfolio outcomes and visualize risk scenarios.",
+      icon: "FaProjectDiagram",
+    },
+    {
+      title: "Behavioral Finance Analysis",
+      description:
+        "Detects user trading patterns such as overtrading and emotional decisions to improve investment behavior.",
+      icon: "FaUserCheck",
+    },
+    {
+      title: "Market Sentiment Analysis",
+      description:
+        "Analyzes financial news and classifies sentiment to help users understand market trends.",
+      icon: "FaNewspaper",
+    },
+    {
+      title: "AI Investment Advisor",
+      description:
+        "Provides smart, data-driven financial insights by combining risk, portfolio, and market analysis.",
+      icon: "FaRobot",
+    }
+  ],
+
+  challenges:
+    "Integrating machine learning models into a real-time web system, implementing Monte Carlo simulation efficiently, maintaining consistent data preprocessing, and combining multiple modules like trading, analytics, and behavioral detection into a single scalable architecture.",
+
+  outcome:
+    "StudentWise successfully delivers a modern fintech learning platform that helps students understand investing concepts, practice safely, and make informed financial decisions. It improves financial literacy and provides a strong foundation for real-world investment platforms.",
+}
 ];

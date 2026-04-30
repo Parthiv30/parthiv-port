@@ -20,7 +20,9 @@ import convo4 from "./assets/convo4.jpg";
 import medal from "./assets/medal.jpg";
 import travel from "./assets/travel.jpg";
 import best from "./assets/best.jpg";
+import main from "./assets/main.jpg";
 import edge from "./assets/edge.jpg";
+import studentWise from "./assets/studentWise.png"
 import village from "./assets/village.jpg";
 import incentius from "./assets/incentius.png"
 import learnverselogo from "./assets/learnverselogo.jpg";
@@ -783,13 +785,13 @@ const Portfolio = () => {
   // Image carousel data
   const imageCarousel = [
     {
-      image: convo,
+      image: main,
       text: "I Code",
       gradient: "from-blue-500/20 to-cyan-500/20",
       borderColor: "border-blue-500/50",
     },
     {
-      image: best,
+      image: convo,
       text: "I Learn",
       gradient: "from-purple-500/20 to-pink-500/20",
       borderColor: "border-purple-500/50",
@@ -872,6 +874,14 @@ const Portfolio = () => {
       emoji: "📰",
       gradient: "from-green-500/20 to-emerald-500/20",
     },
+    {
+      title: "StudentWise",
+      description: "A full-stack fintech learning platform with AI-powered risk assessment, paper trading, portfolio simulation, and market sentiment analysis.",
+      stack: ["Python", "FastAPI", "Streamlit", "Firebase", "Scikit-learn", "TensorFlow"],
+      image: studentWise,
+      emoji: "🎓",
+      gradient: "from-purple-500/20 to-pink-500/20",
+    }
   ];
 
   // Comprehensive certifications data
@@ -1294,7 +1304,7 @@ const Portfolio = () => {
                 </span>
                 <div className="flex-shrink-0 min-w-0 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
                   <img
-                    src={best}
+                    src={convo}
                     alt="Parthiv Shingala"
                     className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full object-cover"
                     onError={(e) => {
