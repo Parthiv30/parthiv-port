@@ -11,13 +11,13 @@ import learnverseProfileDark from "./assets/LearnVerse/learnverseProfileDark.png
 import learnverseProfileLight from "./assets/LearnVerse/learnverseProfileLight.png";
 import mobile from "./assets/LearnVerse/mobile.jpg";
 
-import allSS from "./assets/studentWise/allSS.png";
-import goal from "./assets/studentWise/goal.png";
-import market from "./assets/studentWise/market.png";
-import paper from "./assets/studentWise/paper.png";
-import paper2 from "./assets/studentWise/paper-2.png";
-import risk from "./assets/studentWise/risk-s.png";
-import portfolio from "./assets/studentWise/portfolio.png";
+import allSS from "./assets/StudentWise/allSS.png";
+import goal from "./assets/StudentWise/goal.png";
+import market from "./assets/StudentWise/market.png";
+import paper from "./assets/StudentWise/paper.png";
+import paper2 from "./assets/StudentWise/paper-2.png";
+import risk from "./assets/StudentWise/risk-s.png";
+import portfolio from "./assets/StudentWise/portfolio.png";
 
 import adminAll from "./assets/GadgetBuddy/adminAll.png";
 import adminDash from "./assets/GadgetBuddy/adminDash.png"
