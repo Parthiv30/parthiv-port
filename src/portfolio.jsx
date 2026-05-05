@@ -3050,7 +3050,7 @@ const Portfolio = () => {
                             isDarkMode ? "text-gray-300" : "text-gray-600"
                           } font-outfit`}
                         >
-                          India
+                         Pune, India
                         </p>
                       </div>
                     </motion.div>
